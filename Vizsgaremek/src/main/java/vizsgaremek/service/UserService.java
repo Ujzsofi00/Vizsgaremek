@@ -2,8 +2,9 @@ package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import vizsgaremek.entity.Appointment;
 import vizsgaremek.entity.User;
+import vizsgaremek.repository.AppointmentRepository;
 import vizsgaremek.repository.UserRepository;
 
 import java.util.List;
@@ -14,12 +15,38 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    public List<User> findAll() { return userRepository.findAll(); }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-    public Optional<User> findById(int id) { return userRepository.findById(id); }
+    public Optional<User> getUserById(Integer id) {
+        return userRepository.findById(id);
+    }
 
-    public User save(User user) { return userRepository.save(user); }
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 
-    public void deleteById(int id) { userRepository.deleteById(id); }
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
+    }
+
+    public User addAppointmentToUser(Integer userId, Appointment appointment) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        appointment.setUser(user);
+        appointmentRepository.save(appointment);
+        return user;
+    }
+
+    public void removeAppointmentFromUser(Integer userId, Integer appointmentId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        user.removeAppointment(appointment);
+        appointmentRepository.delete(appointment);
+    }
 }

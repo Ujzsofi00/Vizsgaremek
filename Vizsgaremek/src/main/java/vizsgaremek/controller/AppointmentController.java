@@ -1,12 +1,12 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.Appointment;
 import vizsgaremek.service.AppointmentService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/appointments")
@@ -17,21 +17,24 @@ public class AppointmentController {
 
     @GetMapping
     public List<Appointment> getAllAppointments() {
-        return appointmentService.findAll();
+        return appointmentService.getAllAppointments();
     }
 
     @GetMapping("/{id}")
-    public Optional<Appointment> getAppointmentById(@PathVariable int id) {
-        return appointmentService.findById(id);
+    public ResponseEntity<Appointment> getAppointmentById(@PathVariable Integer id) {
+        return appointmentService.getAppointmentById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.save(appointment);
+        return appointmentService.saveAppointment(appointment);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAppointment(@PathVariable int id) {
-        appointmentService.deleteById(id);
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Integer id) {
+        appointmentService.deleteAppointment(id);
+        return ResponseEntity.noContent().build();
     }
 }

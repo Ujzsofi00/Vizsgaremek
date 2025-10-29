@@ -1,0 +1,11 @@
+INSERT INTO teachers (name, email, subject)
+VALUES ('John Doe', 'john@example.com', 'Mathematics');
+
+INSERT INTO courses (name, description, teacher_id)
+VALUES ('Algebra 101', 'Basic Algebra Concepts', 1);
+
+INSERT INTO students (name, age, email)
+VALUES ('Alice', 20, 'alice@example.com');
+
+INSERT INTO student_courses (student_id, course_id)
+VALUES (1, 1);

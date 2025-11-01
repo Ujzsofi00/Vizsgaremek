@@ -1,57 +1,39 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import vizsgaremek.entity.Appointment;
 import vizsgaremek.entity.User;
-import vizsgaremek.service.UserService;
-
-import java.util.List;
+import vizsgaremek.repository.UserRepository;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping("/register")
+    public User registerUser(@RequestBody User user) {
+        System.out.println("Register endpoint hit for: " + user.getEmail());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
+        return userRepository.save(user);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{userId}/appointments")
-    public ResponseEntity<User> addAppointmentToUser(
-            @PathVariable Integer userId,
-            @RequestBody Appointment appointment) {
-        User user = userService.addAppointmentToUser(userId, appointment);
-        return ResponseEntity.ok(user);
-    }
-
-    @DeleteMapping("/{userId}/appointments/{appointmentId}")
-    public ResponseEntity<Void> removeAppointmentFromUser(
-            @PathVariable Integer userId,
-            @PathVariable Integer appointmentId) {
-        userService.removeAppointmentFromUser(userId, appointmentId);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/login")
+    public String login(@RequestBody User loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "Login successful for " + loginRequest.getEmail();
     }
 }

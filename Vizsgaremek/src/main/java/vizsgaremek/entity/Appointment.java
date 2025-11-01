@@ -3,14 +3,16 @@ package vizsgaremek.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.*;
 
 @Entity
-@Table(name = "appointment")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "appointment")
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,11 +21,10 @@ public class Appointment {
     private Integer capacity;
     private Boolean isFull;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "worker_id")
     private Worker worker;
 }

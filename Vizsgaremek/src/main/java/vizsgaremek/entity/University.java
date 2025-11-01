@@ -2,27 +2,23 @@ package vizsgaremek.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "university")
 public class University {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
     private String location;
 
-    @ManyToMany
-    @JoinTable(
-            name = "university_faculty",
-            joinColumns = @JoinColumn(name = "university_id"),
-            inverseJoinColumns = @JoinColumn(name = "faculty_id")
-    )
+    @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
     private List<Faculty> faculties = new ArrayList<>();
 }

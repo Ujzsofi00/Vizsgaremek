@@ -46,7 +46,6 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
-        user.removeAppointment(appointment);
         appointmentRepository.delete(appointment);
     }
 }

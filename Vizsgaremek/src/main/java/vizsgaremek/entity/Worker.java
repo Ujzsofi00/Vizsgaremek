@@ -2,6 +2,8 @@ package vizsgaremek.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "worker")
@@ -10,26 +12,20 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Worker {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer workerId;
+    private Integer id;
 
-    @Column(length = 50, nullable = false)
     private String userName;
-
-    @Column(length = 50, nullable = false)
     private String firstName;
-
-    @Column(length = 50, nullable = false)
     private String lastName;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(length = 20, nullable = false)
     private String password;
-
-    @Column(length = 15)
     private String phone;
+
+    @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
+    private List<Appointment> appointments = new ArrayList<>();
 }

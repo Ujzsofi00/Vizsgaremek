@@ -2,6 +2,8 @@ package vizsgaremek.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,4 +17,7 @@ public class Faculty {
 
     private String name;
     private String description;
+
+    @ManyToMany(mappedBy = "faculties")
+    private List<University> universities = new ArrayList<>();
 }

@@ -2,8 +2,6 @@ package vizsgaremek.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,18 +11,19 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Appointment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    private Integer id;
 
     private LocalDate date;
     private Integer capacity;
     private Boolean isFull;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "worker_id")
+    private Worker worker;
 }

@@ -36,7 +36,8 @@ public class UserService {
     public User addAppointmentToUser(Integer userId, Appointment appointment) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        appointment.setUser(user);
+        appointment.getUsers().add(user);
+        user.setAppointment(appointment);
         appointmentRepository.save(appointment);
         return user;
     }

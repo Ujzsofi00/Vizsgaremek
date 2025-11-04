@@ -1,4 +1,7 @@
 package vizsgaremek.repository;
 
-public class WorkerXAppointmentRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import vizsgaremek.entity.WorkerXAppointment;
+
+public interface WorkerXAppointmentRepository extends JpaRepository<WorkerXAppointment, Integer> {
 }

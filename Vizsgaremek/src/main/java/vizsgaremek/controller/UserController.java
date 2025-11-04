@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.User;
 import vizsgaremek.repository.UserRepository;
+import vizsgaremek.security.JwtUtil;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -16,17 +18,16 @@ import vizsgaremek.repository.UserRepository;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        System.out.println("Register endpoint hit for: " + user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         return userRepository.save(user);
     }
-
 
     @PostMapping("/login")
     public String login(@RequestBody User loginRequest) {
@@ -34,6 +35,22 @@ public class UserController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "Login successful for " + loginRequest.getEmail();
+        String token = jwtUtil.generateToken(loginRequest.getEmail());
+        return "Bearer " + token;
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Integer id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Integer id) {
+        userRepository.deleteById(id);
     }
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users") // ✅ changed to plural
+@Table(name = "user")
 public class User {
 
     @Id

@@ -3,35 +3,34 @@ package vizsgaremek.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.Worker;
-import vizsgaremek.service.WorkerService;
+import vizsgaremek.repository.WorkerRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/workers")
 @RequiredArgsConstructor
 public class WorkerController {
 
-    private final WorkerService workerService;
+    private final WorkerRepository workerRepository;
 
     @GetMapping
     public List<Worker> getAllWorkers() {
-        return workerService.findAll();
+        return workerRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Worker> getWorkerById(@PathVariable int id) {
-        return workerService.findById(id);
+    public Worker getWorker(@PathVariable Integer id) {
+        return workerRepository.findById(id).orElse(null);
     }
 
     @PostMapping
-    public Worker createWorker(@RequestBody Worker worker) {
-        return workerService.save(worker);
+    public Worker setWorker(@RequestBody Worker worker) {
+        return workerRepository.save(worker);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWorker(@PathVariable int id) {
-        workerService.deleteById(id);
+    public void deleteWorker(@PathVariable Integer id) {
+        workerRepository.deleteById(id);
     }
 }

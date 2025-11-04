@@ -1,4 +1,7 @@
 package vizsgaremek.repository;
 
-public class UniversityXFacultyRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import vizsgaremek.entity.UniversityXFaculty;
+
+public interface UniversityXFacultyRepository extends JpaRepository<UniversityXFaculty, Integer> {
 }

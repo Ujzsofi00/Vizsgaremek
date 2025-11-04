@@ -3,35 +3,34 @@ package vizsgaremek.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.Faculty;
-import vizsgaremek.service.FacultyService;
+import vizsgaremek.repository.FacultyRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/faculties")
 @RequiredArgsConstructor
 public class FacultyController {
 
-    private final FacultyService facultyService;
+    private final FacultyRepository facultyRepository;
 
     @GetMapping
-    public List<Faculty> getAll() {
-        return facultyService.findAll();
+    public List<Faculty> getAllFaculties() {
+        return facultyRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Faculty> getById(@PathVariable int id) {
-        return facultyService.findById(id);
+    public Faculty getFaculty(@PathVariable Integer id) {
+        return facultyRepository.findById(id).orElse(null);
     }
 
     @PostMapping
-    public Faculty create(@RequestBody Faculty faculty) {
-        return facultyService.save(faculty);
+    public Faculty setFaculty(@RequestBody Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
-        facultyService.deleteById(id);
+    public void deleteFaculty(@PathVariable Integer id) {
+        facultyRepository.deleteById(id);
     }
 }

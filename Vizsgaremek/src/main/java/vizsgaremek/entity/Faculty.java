@@ -9,7 +9,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "faculty")
+@Table(name = "faculties")
 public class Faculty {
 
     @Id

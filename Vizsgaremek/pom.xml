@@ -22,7 +22,7 @@
         <java.version>21</java.version>
     </properties>
 
-    <!-- ✅ Needed for 3.5.x versions (not yet on Maven Central) -->
+    <!-- Needed for 3.5.x versions (not yet on Maven Central) -->
     <repositories>
         <repository>
             <id>spring-milestone</id>
@@ -94,11 +94,30 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- JSON Web Token (JJWT) library -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- ✅ This plugin enables mvn spring-boot:run -->
+            <!-- This plugin enables mvn spring-boot:run -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

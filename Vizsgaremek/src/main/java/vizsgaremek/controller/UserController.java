@@ -1,6 +1,7 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.User;
 import vizsgaremek.repository.UserRepository;
 import vizsgaremek.security.JwtUtil;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserRepository userRepository;
@@ -24,33 +25,35 @@ public class UserController {
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
-        return userRepository.save(user);
+        log.info("Register request received for email: {}", user.getEmail());
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole("ROLE_USER");
+            User savedUser = userRepository.save(user);
+            log.info("User saved successfully: {}", savedUser.getEmail());
+            return savedUser;
+        } catch (Exception e) {
+            log.error("Error registering user: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @PostMapping("/login")
     public String login(@RequestBody User loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtil.generateToken(loginRequest.getEmail());
-        return "Bearer " + token;
-    }
+        log.info("Login attempt for email: {}", loginRequest.getEmail());
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+            );
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtUtil.generateToken(loginRequest.getEmail());
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Integer id) {
-        userRepository.deleteById(id);
+            log.info("Login successful for email: {}", loginRequest.getEmail());
+            return "Bearer " + token;
+        } catch (Exception e) {
+            log.error("Login failed for email: {} | Error: {}", loginRequest.getEmail(), e.getMessage(), e);
+            throw e;
+        }
     }
 }

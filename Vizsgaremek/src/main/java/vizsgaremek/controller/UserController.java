@@ -1,7 +1,6 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +14,6 @@ import vizsgaremek.security.JwtUtil;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@Slf4j
 public class UserController {
 
     private final UserRepository userRepository;
@@ -25,35 +23,37 @@ public class UserController {
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        log.info("Register request received for email: {}", user.getEmail());
-        try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole("ROLE_USER");
-            User savedUser = userRepository.save(user);
-            log.info("User saved successfully: {}", savedUser.getEmail());
-            return savedUser;
-        } catch (Exception e) {
-            log.error("Error registering user: {}", e.getMessage(), e);
-            throw e;
-        }
+        System.out.println("➡ Register request received for: " + user.getEmail());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
+
+        User savedUser = userRepository.save(user);
+        System.out.println("User saved successfully: " + savedUser.getEmail());
+        return savedUser;
     }
 
     @PostMapping("/login")
     public String login(@RequestBody User loginRequest) {
-        log.info("Login attempt for email: {}", loginRequest.getEmail());
+        System.out.println("➡ Login attempt for: " + loginRequest.getEmail());
+
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtUtil.generateToken(loginRequest.getEmail());
 
-            log.info("Login successful for email: {}", loginRequest.getEmail());
+            System.out.println("Login successful: " + loginRequest.getEmail());
             return "Bearer " + token;
+
         } catch (Exception e) {
-            log.error("Login failed for email: {} | Error: {}", loginRequest.getEmail(), e.getMessage(), e);
-            throw e;
+            System.err.println("Login failed for: " + loginRequest.getEmail());
+            e.printStackTrace(); // this prints the error stack trace
+            return "Login failed: " + e.getMessage();
         }
     }
 }

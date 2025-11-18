@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 03, 2025 at 09:38 AM
+-- Generation Time: Nov 18, 2025 at 11:51 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.1.0
 
@@ -45,32 +45,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllWorker` ()   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAppointment` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAppointment` (IN `id` INT(11))   BEGIN
+	SELECT * FROM `appointment` WHERE `appointment`.`AppointmentId` LIKE id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFaculty` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFaculty` (IN `id` INT(11))   BEGIN
+	SELECT * FROM `faculties` WHERE `faculties`.`facultyId` LIKE id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversitiesXFaculties` ()   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversity` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversity` (IN `id` INT(11))   BEGIN
+	SELECT * FROM `universities` WHERE `universities`.`universityId` LIKE id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUser` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUser` (IN `id` INT(11))   BEGIN
+	SELECT * FROM `user` WHERE `user`.`UserId` LIKE id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserXAppointment` ()   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getWorker` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getWorker` (IN `id` INT(11))   BEGIN
+	SELECT * FROM `worker` WHERE `worker`.`WorkerId` LIKE id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getWorkerXAppointment` ()   BEGIN
@@ -97,8 +97,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setUser` (IN `firstname` VARCHAR(50
 	INSERT INTO `user`(`Firstname`, `Lastname`, `UserName`, `Email`, `password`) VALUES (firstname,lastname,username,email,password);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `setUserXAppointment` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setUserXAppointment` (IN `userId` INT(11), IN `appointmentId` INT(11))   BEGIN
+	INSERT INTO `userxappointment`(`AppointmentId`, `UserId`) VALUES (userId,appointmentId);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setWorker` (IN `firstname` VARCHAR(50), IN `lastname` VARCHAR(50), IN `username` VARCHAR(50), IN `email` VARCHAR(50), IN `password` VARCHAR(20), IN `phone` VARCHAR(15))   BEGIN
@@ -138,10 +138,17 @@ INSERT INTO `appointment` (`AppointmentId`, `Date`, `Capacity`, `IsFull`) VALUES
 --
 
 CREATE TABLE `faculties` (
-  `karId` int(11) NOT NULL,
+  `facultyId` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `faculties`
+--
+
+INSERT INTO `faculties` (`facultyId`, `name`, `description`) VALUES
+(1, 'próba', 'ez csak egy próba kar');
 
 -- --------------------------------------------------------
 
@@ -150,10 +157,17 @@ CREATE TABLE `faculties` (
 --
 
 CREATE TABLE `universities` (
-  `egyetemId` int(11) NOT NULL,
+  `universityId` int(11) NOT NULL,
   `name` varchar(400) NOT NULL,
   `location` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `universities`
+--
+
+INSERT INTO `universities` (`universityId`, `name`, `location`) VALUES
+(1, 'próba', 'hehehehe');
 
 -- --------------------------------------------------------
 
@@ -162,9 +176,9 @@ CREATE TABLE `universities` (
 --
 
 CREATE TABLE `universitiesxfaculties` (
-  `egyetemekXkarokId` int(11) NOT NULL,
-  `egyetemId` int(11) NOT NULL,
-  `karId` int(11) NOT NULL
+  `universitiesxfacultiesId` int(11) NOT NULL,
+  `universityId` int(11) NOT NULL,
+  `facultyId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -200,6 +214,13 @@ CREATE TABLE `userxappointment` (
   `UserId` int(11) NOT NULL,
   `AppointmentId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `userxappointment`
+--
+
+INSERT INTO `userxappointment` (`userXappointmentId`, `UserId`, `AppointmentId`) VALUES
+(3, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -250,7 +271,7 @@ ALTER TABLE `appointment`
 -- Indexes for table `faculties`
 --
 ALTER TABLE `faculties`
-  ADD PRIMARY KEY (`karId`),
+  ADD PRIMARY KEY (`facultyId`),
   ADD UNIQUE KEY `name` (`name`),
   ADD UNIQUE KEY `name_2` (`name`);
 
@@ -258,7 +279,7 @@ ALTER TABLE `faculties`
 -- Indexes for table `universities`
 --
 ALTER TABLE `universities`
-  ADD PRIMARY KEY (`egyetemId`),
+  ADD PRIMARY KEY (`universityId`),
   ADD UNIQUE KEY `name` (`name`),
   ADD UNIQUE KEY `location` (`location`);
 
@@ -266,9 +287,9 @@ ALTER TABLE `universities`
 -- Indexes for table `universitiesxfaculties`
 --
 ALTER TABLE `universitiesxfaculties`
-  ADD PRIMARY KEY (`egyetemekXkarokId`),
-  ADD KEY `egyetemId` (`egyetemId`),
-  ADD KEY `karId` (`karId`);
+  ADD PRIMARY KEY (`universitiesxfacultiesId`),
+  ADD KEY `egyetemId` (`universityId`),
+  ADD KEY `karId` (`facultyId`);
 
 --
 -- Indexes for table `user`
@@ -317,19 +338,19 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT for table `faculties`
 --
 ALTER TABLE `faculties`
-  MODIFY `karId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `facultyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `universities`
 --
 ALTER TABLE `universities`
-  MODIFY `egyetemId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `universityId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `universitiesxfaculties`
 --
 ALTER TABLE `universitiesxfaculties`
-  MODIFY `egyetemekXkarokId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `universitiesxfacultiesId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -341,7 +362,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
-  MODIFY `userXappointmentId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `userXappointmentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `worker`
@@ -353,7 +374,7 @@ ALTER TABLE `worker`
 -- AUTO_INCREMENT for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
-  MODIFY `workerXappointmentId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `workerXappointmentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -363,8 +384,8 @@ ALTER TABLE `workerxappointment`
 -- Constraints for table `universitiesxfaculties`
 --
 ALTER TABLE `universitiesxfaculties`
-  ADD CONSTRAINT `universitiesxfaculties_ibfk_1` FOREIGN KEY (`egyetemId`) REFERENCES `universities` (`egyetemId`),
-  ADD CONSTRAINT `universitiesxfaculties_ibfk_2` FOREIGN KEY (`karId`) REFERENCES `faculties` (`karId`);
+  ADD CONSTRAINT `universitiesxfaculties_ibfk_1` FOREIGN KEY (`universityId`) REFERENCES `universities` (`universityId`),
+  ADD CONSTRAINT `universitiesxfaculties_ibfk_2` FOREIGN KEY (`facultyId`) REFERENCES `faculties` (`facultyId`);
 
 --
 -- Constraints for table `userxappointment`

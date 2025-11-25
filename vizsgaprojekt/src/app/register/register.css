@@ -1,0 +1,41 @@
+.signup-div {
+    width: 420px;
+    height: 600px;
+    background-color: #E3E5FD;
+    margin: 20px auto;
+    border-radius: 36px;
+    padding: 25px;
+    justify-content: center;
+}
+
+.signup-div-data {
+    margin: 25px auto;
+    height: 400px;
+    width: 250px;
+    padding: 20px 5px;
+    justify-content: center;
+    background-color: #ECF0F7;
+    border-radius: 17px;
+}
+
+.signup-div-header {
+    border-radius: 17px;
+    background-color: #B3BBFB;
+    width: 250px;
+    margin: auto;
+    
+}
+
+.signup-text {
+    font-size: 50px;
+    color: white;
+    text-align: center;
+}
+
+input {
+    width: 200px;
+    height: 40px;
+    border-radius: 17px;
+    border: none;
+    margin: 10px auto ;
+}

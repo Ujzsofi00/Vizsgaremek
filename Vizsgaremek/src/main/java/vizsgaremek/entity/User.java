@@ -8,29 +8,30 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user")
+@Table(name = "`user`")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "userId")
+    private Integer userId;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "userName", length = 50, nullable = false)
     private String userName;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "firstName", length = 50, nullable = false)
     private String firstName;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "lastName", length = 50, nullable = false)
     private String lastName;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name = "email", length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 60, nullable = false)
+    @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @Column(length = 20, nullable = false)
+    @Column(name = "role", length = 20, nullable = false)
     private String role = "ROLE_USER";
 
     @ManyToOne

@@ -52,7 +52,7 @@ public class UserController {
 
         } catch (Exception e) {
             System.err.println("Login failed for: " + loginRequest.getEmail());
-            e.printStackTrace(); // this prints the error stack trace
+            e.printStackTrace();
             return "Login failed: " + e.getMessage();
         }
     }

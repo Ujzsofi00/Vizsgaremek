@@ -30,24 +30,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
-                        .requestMatchers(
-                                "/auth/register-user",
-                                "/auth/register-worker",
-                                "/auth/login"
-                        ).permitAll()
-
-
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
+
 
 
     @Bean

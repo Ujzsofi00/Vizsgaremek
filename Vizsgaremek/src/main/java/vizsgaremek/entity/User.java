@@ -31,9 +31,6 @@ public class User {
     @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @Column(name = "role", length = 20, nullable = false)
-    private String role = "ROLE_USER";
-
     @ManyToOne
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;

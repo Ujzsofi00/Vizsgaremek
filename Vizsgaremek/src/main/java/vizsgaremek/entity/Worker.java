@@ -20,9 +20,6 @@ public class Worker {
     private String email;
     private String password;
 
-    @Column(length = 20, nullable = false)
-    private String role = "ROLE_WORKER";
-
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;

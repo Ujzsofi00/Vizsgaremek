@@ -25,7 +25,6 @@ public class UserController {
     public User registerUser(@RequestBody User user) {
         System.out.println("➡ Register request received for: " + user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
 
         User savedUser = userRepository.save(user);
         System.out.println("User saved successfully: " + savedUser.getEmail());

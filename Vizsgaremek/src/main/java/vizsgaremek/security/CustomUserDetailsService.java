@@ -23,8 +23,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             var u = userOpt.get();
             return User.withUsername(u.getEmail())
                     .password(u.getPassword())
-                    .roles("USER")
                     .build();
+
         }
 
         var workerOpt = workerRepository.findByEmail(email);
@@ -32,7 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             var w = workerOpt.get();
             return User.withUsername(w.getEmail())
                     .password(w.getPassword())
-                    .roles("WORKER")
                     .build();
         }
 

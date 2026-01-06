@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Dec 04. 12:28
+-- Létrehozás ideje: 2026. Jan 06. 13:02
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.1.0
 
@@ -210,10 +210,15 @@ CREATE TABLE `faculty` (
 
 INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `deleted_at`) VALUES
 (1, 'doktori', 'mert kellenek orvosok', 0, NULL),
-(2, 'bölcsész', 'valamit csinál az biztos\r\n', 1, '2025-11-25 00:00:00'),
-(3, 'jog', 'mert neked kell jogász', 0, NULL),
+(2, 'Bölcsésztudományi', 'valamit csinál az biztos\r\n', 1, '2025-11-25 00:00:00'),
+(3, 'Állam- és Jogtudományi', 'mert neked kell jogász', 0, NULL),
 (4, 'mérnöki', 'nem tudom mit csinál', 0, NULL),
-(5, 'tesnevelési', 'mert kell még több stadion', 0, NULL);
+(5, 'tesnevelési', 'mert kell még több stadion', 0, NULL),
+(6, 'Fogorvosi', 'fogakkal foglalkozó tanfolyam', 0, NULL),
+(7, 'Gyógyszerésztudományi', 'gyógyszeri alapok elsajátítása, gyógyszerek tanulmányozása, új gyógyszerek fifejlestése', 0, NULL),
+(8, 'Egészségtudományi', 'egészségügyi dolgok elsajátítása', 0, NULL),
+(9, 'Gyógypedagógiai', 'terápiás tevékenységek elsajátítása, fejlesztésikésségek elsaátításadiagnózisok elemzése', 0, NULL),
+(10, 'Informatikai', 'itt az emberek megtanulnak szopni', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -260,7 +265,15 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (1, 5, 2),
 (2, 5, 4),
 (3, 5, 3),
-(4, 5, 5);
+(4, 5, 5),
+(5, 1, 1),
+(6, 1, 6),
+(7, 1, 7),
+(8, 1, 8),
+(9, 2, 2),
+(10, 2, 3),
+(11, 2, 9),
+(12, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -444,7 +457,7 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT a táblához `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `university`
@@ -456,7 +469,7 @@ ALTER TABLE `university`
 -- AUTO_INCREMENT a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
-  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `user`

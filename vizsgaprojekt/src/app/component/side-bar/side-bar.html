@@ -1,0 +1,39 @@
+<div class="container-fluid" (click)="close.emit()" style="background-color: rgba(0, 0, 0, 0.6); width: 100vw; height: 100vh"></div>
+
+<div class="container-fluid d-flex flex-column justify-content-between" id="sideBar">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="mt-4">Projekt neve</h1>
+      <ul class="mt-3">
+        <li (click)= "navigate('/homePage')" class="d-flex justify-content-start align-items-center mt-2">
+          <span class="material-symbols-outlined">home</span>
+          <span class="spanText">Főoldal</span>
+        </li>
+        <li (click)="navigate('/appointmentReservation')" class="d-flex justify-content-start align-items-center mt-2">
+          <span class="material-symbols-outlined"> calendar_add_on </span>
+          <span class="spanText">Felkészitő foglalás</span>
+        </li>
+        <li (click)="navigate('/universitySearch')" class="d-flex justify-content-start align-items-center mt-2">
+          <span class="material-symbols-outlined"> school </span>
+          <span class="spanText">Egyetem</span>
+        </li>
+        @if (userService.loggedUser?.role?.name == "ROLE_admin"){
+          <li (click)="navigate('/adminPage')" class="d-flex justify-content-start align-items-center mt-2">
+            <span class="material-symbols-outlined">hardware</span>
+            <span class="spanText">Admin Page</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-lg-12 d-flex justify-content-center">
+      @if (userService.loggedUser == null) {
+        <button (click)="navigate('/login')" class=" spanText" id="loginButton">Bejelentkezés</button>
+      } @else {
+        <button class="fw-bold" id="logoutButton">Kijelentkezés</button>
+      }
+    </div>
+  </div>
+</div>

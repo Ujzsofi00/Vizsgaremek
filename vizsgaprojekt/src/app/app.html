@@ -1,5 +1,22 @@
-<app-header></app-header>
-<app-login></app-login>
-<app-register></app-register>
-<app-home></app-home>
-<router-outlet />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 p-0">
+      <app-navbar (showSideBar)="isShowSideBar = !isShowSideBar" style="" />
+      @if (isShowSideBar) {
+        <app-side-bar (close)="isShowSideBar = false"/>
+      }
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <router-outlet />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <app-footer />
+    </div>
+  </div>
+</div>

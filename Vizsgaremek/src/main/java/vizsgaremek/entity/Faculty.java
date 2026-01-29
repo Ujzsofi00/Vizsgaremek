@@ -10,6 +10,8 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "faculties")
+@EqualsAndHashCode(exclude = {"workers", "university"})
+@ToString(exclude = {"workers", "university"})
 public class Faculty {
 
     @Id

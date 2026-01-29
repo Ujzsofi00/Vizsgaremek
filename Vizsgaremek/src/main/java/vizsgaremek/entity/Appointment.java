@@ -1,9 +1,12 @@
 package vizsgaremek.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,8 +24,9 @@ public class Appointment {
     private Integer capacity;
     private Boolean isFull;
 
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "appointments")
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "worker_id")

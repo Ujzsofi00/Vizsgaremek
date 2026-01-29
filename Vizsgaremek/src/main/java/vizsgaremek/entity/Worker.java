@@ -9,6 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "worker")
+@EqualsAndHashCode(exclude = {"appointment"})
+@ToString(exclude = {"appointment"})
 public class Worker {
 
     @Id
@@ -24,6 +26,6 @@ public class Worker {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    @OneToOne(mappedBy = "worker", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "worker")
     private Appointment appointment;
 }

@@ -10,7 +10,9 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "thisIsASecretKeyForJwtTokenThatShouldBeLongEnoughForHS256";
+    private static final String SECRET_KEY =
+            "thisIsASecretKeyForJwtTokenThatShouldBeLongEnoughForHS256";
+
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -33,10 +35,9 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, String email) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
+            return extractEmail(token).equals(email);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }

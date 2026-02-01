@@ -17,24 +17,24 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final WorkerRepository workerRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent()) {
-            var u = userOpt.get();
-            return User.withUsername(u.getEmail())
-                    .password(u.getPassword())
-                    .build();
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
 
-        }
-
-        var workerOpt = workerRepository.findByEmail(email);
-        if (workerOpt.isPresent()) {
-            var w = workerOpt.get();
-            return User.withUsername(w.getEmail())
-                    .password(w.getPassword())
-                    .build();
-        }
-
-        throw new UsernameNotFoundException("User or worker not found with email: " + email);
+        return userRepository.findByEmail(email)
+                .map(u -> User.withUsername(u.getEmail())
+                        .password(u.getPassword())
+                        .authorities("ROLE_USER")
+                        .build())
+                .orElseGet(() ->
+                        workerRepository.findByEmail(email)
+                                .map(w -> User.withUsername(w.getEmail())
+                                        .password(w.getPassword())
+                                        .authorities("ROLE_WORKER")
+                                        .build())
+                                .orElseThrow(() ->
+                                        new UsernameNotFoundException(
+                                                "User or worker not found with email: " + email
+                                        ))
+                );
     }
 }

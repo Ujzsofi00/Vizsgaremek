@@ -44,6 +44,9 @@ public class AuthController {
         if (request.getLastName() == null || request.getLastName().isBlank()) {
             return ResponseEntity.badRequest().body("Last name is required");
         }
+        if (request.getUserName() == null || request.getUserName().isBlank()) {
+            return ResponseEntity.badRequest().body("Username is required");
+        }
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email already exists");
@@ -54,6 +57,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
+        user.setUsername(request.getUserName());
 
         userRepository.save(user);
 
@@ -120,6 +124,7 @@ public class AuthController {
         private String password;
         private String firstName;
         private String lastName;
+        private String userName;
     }
 
     @Data

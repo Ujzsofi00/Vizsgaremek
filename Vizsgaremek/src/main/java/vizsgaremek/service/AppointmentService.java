@@ -85,7 +85,8 @@ public class AppointmentService {
     @Transactional
     public void bookAppointment(Integer appointmentId, Integer userId) {
 
-        Appointment appointment = appointmentRepository.findById(appointmentId)
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdAndIsDeletedFalse(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
         if (Boolean.TRUE.equals(appointment.getIsFull())) {
@@ -97,7 +98,6 @@ public class AppointmentService {
 
         boolean alreadyBooked = user.getAppointments().stream()
                 .anyMatch(a -> a.getAppointmentId().equals(appointmentId));
-
 
         if (alreadyBooked) {
             throw new RuntimeException("User already booked this appointment");

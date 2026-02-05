@@ -45,13 +45,17 @@ public class AppointmentController {
         return appointmentService.getCalendarForMonth(year, month);
     }
 
-    @PostMapping("/book")
-    public String bookAppointment(@RequestBody BookingRequestDto request) {
+    @PostMapping("/{appointmentId}/book")
+    public String bookAppointment(
+            @PathVariable Integer appointmentId,
+            @RequestBody BookingRequestDto request
+    ) {
         appointmentService.bookAppointment(
-                request.getAppointmentId(),
+                appointmentId,
                 request.getUserId()
         );
         return "Appointment booked successfully";
     }
+
 
 }

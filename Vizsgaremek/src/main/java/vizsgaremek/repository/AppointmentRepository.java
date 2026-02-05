@@ -9,12 +9,10 @@ import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
+    Optional<Appointment> findByAppointmentIdAndIsDeletedFalse(Integer appointmentId);
+
     List<Appointment> findByDateBetweenAndIsDeletedFalse(
             LocalDate start,
             LocalDate end
     );
-
-    boolean existsByDateAndIsDeletedFalse(LocalDate date);
-
-    Optional<Appointment> findByIdAndIsDeletedFalse(Integer id);
 }

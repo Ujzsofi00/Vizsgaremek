@@ -2,8 +2,11 @@ package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import vizsgaremek.dto.CalendarDayDto;
 import vizsgaremek.entity.Appointment;
-import vizsgaremek.repository.AppointmentRepository;
+import vizsgaremek.service.AppointmentService;
+import vizsgaremek.dto.BookingRequestDto;
+
 
 import java.util.List;
 
@@ -12,25 +15,43 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentController {
 
-    private final AppointmentRepository appointmentRepository;
+    private final AppointmentService appointmentService;
 
     @GetMapping
     public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
+        return appointmentService.getAllAppointments();
     }
 
     @GetMapping("/{id}")
     public Appointment getAppointment(@PathVariable Integer id) {
-        return appointmentRepository.findById(id).orElse(null);
+        return appointmentService.getAppointmentById(id).orElse(null);
     }
 
     @PostMapping
     public Appointment setAppointment(@RequestBody Appointment appointment) {
-        return appointmentRepository.save(appointment);
+        return appointmentService.saveAppointment(appointment);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Integer id) {
-        appointmentRepository.deleteById(id);
+        appointmentService.deleteAppointment(id);
     }
+
+    @GetMapping("/calendar")
+    public List<CalendarDayDto> getCalendar(
+            @RequestParam int year,
+            @RequestParam int month
+    ) {
+        return appointmentService.getCalendarForMonth(year, month);
+    }
+
+    @PostMapping("/book")
+    public String bookAppointment(@RequestBody BookingRequestDto request) {
+        appointmentService.bookAppointment(
+                request.getAppointmentId(),
+                request.getUserId()
+        );
+        return "Appointment booked successfully";
+    }
+
 }

@@ -10,6 +10,8 @@ import java.time.LocalDate;
 public class CalendarDayDto {
 
     private LocalDate date;
-    private boolean hasAppointment;
+
+    private boolean isToday;
     private boolean isFull;
+    private boolean isBookable;
 }

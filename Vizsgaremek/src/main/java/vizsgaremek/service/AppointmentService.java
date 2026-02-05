@@ -2,14 +2,12 @@ package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.dto.CalendarDayDto;
 import vizsgaremek.entity.Appointment;
-import vizsgaremek.repository.AppointmentRepository;
-import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.entity.User;
+import vizsgaremek.repository.AppointmentRepository;
 import vizsgaremek.repository.UserRepository;
-
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -21,12 +19,12 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
 
-
     public List<CalendarDayDto> getCalendarForMonth(int year, int month) {
 
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
+        LocalDate today = LocalDate.now();
 
         List<Appointment> appointments =
                 appointmentRepository.findByDateBetweenAndIsDeletedFalse(start, end);
@@ -43,19 +41,29 @@ public class AppointmentService {
 
             Appointment appointment = appointmentMap.get(date);
 
+            boolean isToday = date.equals(today);
+
             if (appointment == null) {
-                calendar.add(new CalendarDayDto(date, false, false));
-            } else {
                 calendar.add(new CalendarDayDto(
                         date,
-                        true,
-                        Boolean.TRUE.equals(appointment.getIsFull())
+                        isToday,
+                        false,
+                        false
+                ));
+            } else {
+                boolean isFull = Boolean.TRUE.equals(appointment.getIsFull());
+                boolean isBookable = !isFull && appointment.getCapacity() > 0;
+
+                calendar.add(new CalendarDayDto(
+                        date,
+                        isToday,
+                        isFull,
+                        isBookable
                 ));
             }
         }
 
         return calendar;
-
     }
 
     public List<Appointment> getAllAppointments() {
@@ -77,8 +85,7 @@ public class AppointmentService {
     @Transactional
     public void bookAppointment(Integer appointmentId, Integer userId) {
 
-        Appointment appointment = appointmentRepository
-                .findByIdAndIsDeletedFalse(appointmentId)
+        Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
         if (Boolean.TRUE.equals(appointment.getIsFull())) {

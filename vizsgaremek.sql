@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 26, 2026 at 09:22 AM
--- Server version: 5.7.24
--- PHP Version: 8.1.0
+-- Gép: localhost:3306
+-- Létrehozás ideje: 2026. Feb 09. 11:40
+-- Kiszolgáló verziója: 5.7.24
+-- PHP verzió: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vizsgaremek`
+-- Adatbázis: `vizsgaremek`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Eljárások
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAppointment` (IN `id` INT(11))   BEGIN
 	UPDATE `appointment` SET `is_deleted`=1, `deleted_at`=CURRENT_DATE() WHERE `appointment`.`appointment_id` = id;
@@ -168,7 +168,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `appointment`
+-- Tábla szerkezet ehhez a táblához `appointment`
 --
 
 CREATE TABLE `appointment` (
@@ -181,7 +181,7 @@ CREATE TABLE `appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `appointment`
+-- A tábla adatainak kiíratása `appointment`
 --
 
 INSERT INTO `appointment` (`appointment_id`, `date`, `capacity`, `Is_full`, `is_deleted`, `deleted_at`) VALUES
@@ -193,7 +193,7 @@ INSERT INTO `appointment` (`appointment_id`, `date`, `capacity`, `Is_full`, `is_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `faculty`
+-- Tábla szerkezet ehhez a táblához `faculty`
 --
 
 CREATE TABLE `faculty` (
@@ -205,7 +205,7 @@ CREATE TABLE `faculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `faculty`
+-- A tábla adatainak kiíratása `faculty`
 --
 
 INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `deleted_at`) VALUES
@@ -214,11 +214,11 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (3, 'Állam- és Jogtudományi', 'mert neked kell jogász', 0, NULL),
 (4, 'mérnöki', 'nem tudom mit csinál', 0, NULL),
 (5, 'Sporttudomány', 'mert kell még több stadion', 0, NULL),
-(6, 'Fogorvosi', 'fogakkal foglalkozó tanfolyam', 0, NULL),
+(6, 'digitális fogászati tervezés', 'fogakkal foglalkozó tanfolyam', 0, NULL),
 (7, 'Gyógyszerésztudományi', 'gyógyszeri alapok elsajátítása, gyógyszerek tanulmányozása, új gyógyszerek fifejlestése', 0, NULL),
 (8, 'Egészségtudományi', 'egészségügyi dolgok elsajátítása', 0, NULL),
 (9, 'Gyógypedagógiai', 'terápiás tevékenységek elsajátítása, fejlesztésikésségek elsaátításadiagnózisok elemzése', 0, NULL),
-(10, 'Informatikai', 'itt az emberek megtanulnak szopni', 0, NULL),
+(10, 'Informatikai', '', 0, NULL),
 (11, 'Pedagógiai és Pszichológiai', 'tanárképzés és pszihológus képzés', 0, NULL),
 (12, 'Tanító- és Óvóképző', 'tanár és ovónő képző', 0, NULL),
 (13, 'Hittudományi', 'Hitek tanulmányozás, teológiák elsajátítása, hittan tanár és lelkész képzésa', 0, NULL),
@@ -237,12 +237,40 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (26, 'Egészségügyi Közszolgálati', '', 0, NULL),
 (27, 'Társadalomtudományi', '', 0, NULL),
 (28, 'Pedagógusképző', '', 0, NULL),
-(29, 'Gazdaságtudományi', '', 0, NULL);
+(29, 'Gazdaságtudományi', '', 0, NULL),
+(30, 'Általános Orvostudományi', '', 0, NULL),
+(31, 'Gyermeknevelési és Gyógypedagógiai', '', 0, NULL),
+(32, 'műszaki', '', 0, NULL),
+(33, 'agrár', '', 0, NULL),
+(34, 'művészeti', '', 0, NULL),
+(35, 'művészetközvetítési', '', 0, NULL),
+(36, 'Közgazdaságtudományi', '', 0, NULL),
+(37, 'Kultúratudományi', '', 0, NULL),
+(38, 'Vidékfejlesztési', '', 0, NULL),
+(39, 'cirkuszművészet', '', 0, NULL),
+(40, 'táncművész [kortárstánc]', '', 0, NULL),
+(41, 'táncos és próbavezető', '', 0, NULL),
+(42, 'általános orvosi', '', 0, NULL),
+(43, 'orvosi diagnosztikai analitikus', '', 0, NULL),
+(44, 'egészségügyi szervező', '', 0, NULL),
+(45, 'ápolás és betegellátás', '', 0, NULL),
+(46, 'egészségügyi gondozás és prevenció', '', 0, NULL),
+(47, 'konduktor', '', 0, NULL),
+(48, 'politikatudomány', '', 0, NULL),
+(49, 'anglisztika', '', 0, NULL),
+(50, 'csecsemő- és kisgyermeknevelő', '', 0, NULL),
+(51, 'germanisztika', '', 0, NULL),
+(52, 'keleti nyelvek és kultúrák', '', 0, NULL),
+(53, 'képi ábrázolás', '', 0, NULL),
+(54, 'óvodapedagógus', '', 0, NULL),
+(55, 'szlavisztika', '', 0, NULL),
+(56, 'tanító', '', 0, NULL),
+(57, 'történem', '', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `university`
+-- Tábla szerkezet ehhez a táblához `university`
 --
 
 CREATE TABLE `university` (
@@ -254,23 +282,26 @@ CREATE TABLE `university` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `university`
+-- A tábla adatainak kiíratása `university`
 --
 
 INSERT INTO `university` (`university_id`, `name`, `location`, `is_deleted`, `deleted_at`) VALUES
 (1, 'Semmelweis Egyetem', 'https://www.google.com/maps/place/Semmelweis+Egyetem+%C3%81ltal%C3%A1nos+Orvostudom%C3%A1nyi+Kar/@47.4873751,19.0659224,18z/data=!4m10!1m2!2m1!1sSemmelweis+Egyetem!3m6!1s0x4741dc59ea3ba3cd:0xa255183ce04f11de!8m2!3d47.4873751!4d19.067379!15sChJTZW1tZWx3ZWlzIEVneWV0ZW0iA4gBAZIBCnVuaXZlcnNpdHmqAVQKDS9nLzExYmJybHNsMzkKCS9tLzA0dDduNBABMh4QASIa8dqFcZ0PBIXO2kLLHqByrKpDsJ_HbnD8mOkyFhACIhJzZW1tZWx3ZWlzIGVneWV0ZW3gAQA!16s%2Fg%2F12qfsrgp9?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 0, NULL),
-(2, 'ELTE Eötvös Loránd Tudományegyetem', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+Lor%C3%A1nd+Tudom%C3%A1nyegyetem/@47.4905698,19.0559696,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc44dc7c9251:0x2259d03e6d01806d!8m2!3d47.4905698!4d19.0585445!16zL20vMDMyZ240?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 0, NULL),
+(2, 'Eötvös Loránd Tudományegyetem (Budapest)', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+Lor%C3%A1nd+Tudom%C3%A1nyegyetem/@47.4905698,19.0559696,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc44dc7c9251:0x2259d03e6d01806d!8m2!3d47.4905698!4d19.0585445!16zL20vMDMyZ240?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 0, NULL),
 (3, 'Budapesti Corvinus Egyetem', 'https://www.google.com/maps/place/Budapesti+Corvinus+Egyetem/@47.4861534,19.0556806,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc502488be69:0xc5b7e757fb438129!8m2!3d47.4861534!4d19.0582555!16zL20vMDRndl9r?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 0, NULL),
 (4, 'Magyar Testnevelési és Sporttudományi Egyetem', 'https://www.google.com/maps/place/Magyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem/@47.4928905,19.0231691,18.25z/data=!4m10!1m2!2m1!1sMagyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem!3m6!1s0x4741dc2f55636f27:0x4c3d127f8f623b6f!8m2!3d47.4929725!4d19.0254182!15sCjBNYWd5YXIgVGVzdG5ldmVsw6lzaSDDqXMgU3BvcnR0dWRvbcOhbnlpIEVneWV0ZW2SAQp1bml2ZXJzaXR5qgFnCg0vZy8xMWI2NnNsZDh3EAEyHhABIhrfflh5CWHUoGeqF5j2vVv7HLpcd8BPqqy-wTI0EAIiMG1hZ3lhciB0ZXN0bmV2ZWzDqXNpIMOpcyBzcG9ydHR1ZG9tw6FueWkgZWd5ZXRlbeABAA!16s%2Fg%2F11b66sld8w?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 0, NULL),
 (5, 'Károli Gáspár Református Egyetem', 'https://www.google.com/maps/place/K%C3%A1roli+G%C3%A1sp%C3%A1r+Reform%C3%A1tus+Egyetem/@47.4889557,19.0511305,1877m/data=!3m1!1e3!4m10!1m2!2m1!1zCUvDoXJvbGkgR8Ohc3DDoXIgUmVmb3Jtw6F0dXMgRWd5ZXRlbQ!3m6!1s0x4741dc5ae616f9f9:0x79cd925b374568bf!8m2!3d47.4889541!4d19.061843!15sCiRLw6Fyb2xpIEfDoXNww6FyIFJlZm9ybcOhdHVzIEVneWV0ZW2SAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F11bc5lm7sl?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL),
 (6, 'Budapesti Gazdasági Egyetem', 'https://www.google.com/maps/place/Budapesti+Gazdas%C3%A1gi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3!4m10!1m2!2m1!1sBudapesti+Gazdas%C3%A1gi+Egyetem!3m6!1s0x4741dc127f42ee99:0xb8631187d54fedd6!8m2!3d47.5088043!4d19.0540419!15sChxCdWRhcGVzdGkgR2F6ZGFzw6FnaSBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11g6nkx5g2?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL),
 (7, 'Budapesti Műszaki és Gazdaságtudományi Egyetem', 'https://www.google.com/maps/search/Budapesti+M%C5%B1szaki+%C3%A9s+Gazdas%C3%A1gtudom%C3%A1nyi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL),
-(8, 'Debreceni Egyetem', 'google.com/maps/place/Debreceni+Egyetem/@47.5512318,21.5961877,7498m/data=!3m1!1e3!4m10!1m2!2m1!1sDebreceni+Egyetem!3m6!1s0x47470df39a92233b:0x158b32cc387080a5!8m2!3d47.5536257!4d21.6215102!15sChFEZWJyZWNlbmkgRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16zL20vMDhzbWpx?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL);
+(8, 'Debreceni Egyetem', 'google.com/maps/place/Debreceni+Egyetem/@47.5512318,21.5961877,7498m/data=!3m1!1e3!4m10!1m2!2m1!1sDebreceni+Egyetem!3m6!1s0x47470df39a92233b:0x158b32cc387080a5!8m2!3d47.5536257!4d21.6215102!15sChFEZWJyZWNlbmkgRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16zL20vMDhzbWpx?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL),
+(9, 'Pécsi Tudományegyetem', '', 0, NULL),
+(10, 'Budapest Cirkuszművészeti és Kortárstánc Főiskola', 'https://www.google.com/maps/place/Budapest+Cirkuszm%C5%B1v%C3%A9szeti+%C3%A9s+Kort%C3%A1rst%C3%A1nc+F%C5%91iskola+-+Sz%C3%A9khely/@47.5358829,19.0404411,394m/data=!3m1!1e3!4m6!3m5!1s0x4741d9592c921463:0xc50511cf9dd9a8b9!8m2!3d47.5357446!4d19.0426993!16s%2Fg%2F12372h_x?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL),
+(11, 'Eötvös Loránd Tudományegyetem (Szombathely)', 'https://www.google.com/maps/place/ELTE+Savaria+Egyetemi+K%C3%B6zpont/@47.2300098,16.6089827,561m/data=!3m2!1e3!5s0x476eb9b19fc57dd3:0x33858e2982d877c0!4m15!1m8!3m7!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!2sELTE+Savaria+Egyetemi+K%C3%B6zpont!8m2!3d47.2304519!4d16.6117225!10e3!16s%2Fg%2F12qf5mc7t!3m5!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!8m2!3d47.2304519!4d16.6117225!16s%2Fg%2F12qf5mc7t?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `universityxfaculty`
+-- Tábla szerkezet ehhez a táblához `universityxfaculty`
 --
 
 CREATE TABLE `universityxfaculty` (
@@ -280,7 +311,7 @@ CREATE TABLE `universityxfaculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `universityxfaculty`
+-- A tábla adatainak kiíratása `universityxfaculty`
 --
 
 INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `faculty_id`) VALUES
@@ -288,16 +319,16 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (2, 5, 13),
 (3, 5, 3),
 (4, 5, 28),
-(5, 1, 1),
+(5, 1, 42),
 (6, 1, 6),
 (7, 1, 7),
 (8, 1, 8),
 (9, 2, 2),
-(10, 2, 3),
+(10, 2, 49),
 (11, 2, 9),
 (12, 2, 10),
 (13, 2, 11),
-(14, 2, 12),
+(14, 2, 56),
 (15, 6, 14),
 (16, 6, 15),
 (17, 6, 16),
@@ -321,12 +352,69 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (35, 3, 29),
 (36, 7, 2),
 (37, 7, 29),
-(38, 7, 10);
+(38, 7, 10),
+(39, 8, 30),
+(40, 8, 2),
+(41, 8, 8),
+(42, 8, 6),
+(43, 8, 29),
+(44, 8, 31),
+(45, 8, 7),
+(46, 8, 10),
+(47, 8, 32),
+(48, 8, 33),
+(49, 8, 34),
+(50, 8, 35),
+(51, 8, 5),
+(52, 8, 27),
+(53, 8, 23),
+(54, 9, 33),
+(55, 9, 2),
+(56, 9, 29),
+(57, 9, 10),
+(58, 9, 3),
+(59, 9, 32),
+(60, 9, 34),
+(61, 9, 35),
+(62, 9, 30),
+(63, 9, 28),
+(64, 9, 5),
+(65, 9, 23),
+(66, 9, 27),
+(67, 9, 8),
+(68, 9, 7),
+(69, 9, 36),
+(70, 9, 37),
+(71, 9, 38),
+(72, 10, 39),
+(73, 10, 40),
+(74, 10, 41),
+(75, 1, 43),
+(76, 1, 44),
+(77, 1, 45),
+(78, 1, 46),
+(79, 1, 47),
+(80, 2, 48),
+(81, 2, 50),
+(82, 11, 50),
+(83, 11, 49),
+(84, 2, 51),
+(85, 11, 51),
+(86, 11, 52),
+(87, 2, 52),
+(88, 11, 53),
+(89, 2, 54),
+(90, 11, 54),
+(91, 2, 55),
+(92, 11, 55),
+(93, 11, 56),
+(94, 2, 57),
+(95, 11, 57);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Tábla szerkezet ehhez a táblához `user`
 --
 
 CREATE TABLE `user` (
@@ -341,7 +429,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- A tábla adatainak kiíratása `user`
 --
 
 INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `user_name`, `email`, `password`, `is_deleted`, `deleted_at`) VALUES
@@ -355,7 +443,7 @@ INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `user_name`, `email`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `userxappointment`
+-- Tábla szerkezet ehhez a táblához `userxappointment`
 --
 
 CREATE TABLE `userxappointment` (
@@ -365,7 +453,7 @@ CREATE TABLE `userxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `userxappointment`
+-- A tábla adatainak kiíratása `userxappointment`
 --
 
 INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_id`) VALUES
@@ -377,7 +465,7 @@ INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `worker`
+-- Tábla szerkezet ehhez a táblához `worker`
 --
 
 CREATE TABLE `worker` (
@@ -393,7 +481,7 @@ CREATE TABLE `worker` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `worker`
+-- A tábla adatainak kiíratása `worker`
 --
 
 INSERT INTO `worker` (`worker_id`, `last_name`, `first_name`, `user_name`, `password`, `email`, `phone`, `is_deleted`, `deleted_at`) VALUES
@@ -405,7 +493,7 @@ INSERT INTO `worker` (`worker_id`, `last_name`, `first_name`, `user_name`, `pass
 -- --------------------------------------------------------
 
 --
--- Table structure for table `workerxappointment`
+-- Tábla szerkezet ehhez a táblához `workerxappointment`
 --
 
 CREATE TABLE `workerxappointment` (
@@ -415,7 +503,7 @@ CREATE TABLE `workerxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `workerxappointment`
+-- A tábla adatainak kiíratása `workerxappointment`
 --
 
 INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `worker_id`) VALUES
@@ -425,17 +513,17 @@ INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `wo
 (4, 4, 5);
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `appointment`
+-- A tábla indexei `appointment`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointment_id`);
 
 --
--- Indexes for table `faculty`
+-- A tábla indexei `faculty`
 --
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`faculty_id`),
@@ -443,7 +531,7 @@ ALTER TABLE `faculty`
   ADD UNIQUE KEY `name_2` (`name`);
 
 --
--- Indexes for table `university`
+-- A tábla indexei `university`
 --
 ALTER TABLE `university`
   ADD PRIMARY KEY (`university_id`),
@@ -451,7 +539,7 @@ ALTER TABLE `university`
   ADD UNIQUE KEY `location` (`location`);
 
 --
--- Indexes for table `universityxfaculty`
+-- A tábla indexei `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD PRIMARY KEY (`universityxfaculty_id`),
@@ -459,7 +547,7 @@ ALTER TABLE `universityxfaculty`
   ADD KEY `karId` (`faculty_id`);
 
 --
--- Indexes for table `user`
+-- A tábla indexei `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
@@ -467,7 +555,7 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `UserName` (`user_name`);
 
 --
--- Indexes for table `userxappointment`
+-- A tábla indexei `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD PRIMARY KEY (`userXappointment_id`),
@@ -475,7 +563,7 @@ ALTER TABLE `userxappointment`
   ADD KEY `UserId` (`user_id`);
 
 --
--- Indexes for table `worker`
+-- A tábla indexei `worker`
 --
 ALTER TABLE `worker`
   ADD PRIMARY KEY (`worker_id`),
@@ -484,7 +572,7 @@ ALTER TABLE `worker`
   ADD UNIQUE KEY `Phone` (`phone`);
 
 --
--- Indexes for table `workerxappointment`
+-- A tábla indexei `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD PRIMARY KEY (`workerXappointment_id`),
@@ -492,77 +580,77 @@ ALTER TABLE `workerxappointment`
   ADD KEY `WorkerId` (`worker_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `appointment`
+-- AUTO_INCREMENT a táblához `appointment`
 --
 ALTER TABLE `appointment`
   MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `faculty`
+-- AUTO_INCREMENT a táblához `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
--- AUTO_INCREMENT for table `university`
+-- AUTO_INCREMENT a táblához `university`
 --
 ALTER TABLE `university`
-  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `universityxfaculty`
+-- AUTO_INCREMENT a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
-  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `userxappointment`
+-- AUTO_INCREMENT a táblához `userxappointment`
 --
 ALTER TABLE `userxappointment`
   MODIFY `userXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `worker`
+-- AUTO_INCREMENT a táblához `worker`
 --
 ALTER TABLE `worker`
   MODIFY `worker_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `workerxappointment`
+-- AUTO_INCREMENT a táblához `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   MODIFY `workerXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Megkötések a kiírt táblákhoz
 --
 
 --
--- Constraints for table `universityxfaculty`
+-- Megkötések a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD CONSTRAINT `universityxfaculty_ibfk_1` FOREIGN KEY (`university_id`) REFERENCES `university` (`university_id`),
   ADD CONSTRAINT `universityxfaculty_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`faculty_id`);
 
 --
--- Constraints for table `userxappointment`
+-- Megkötések a táblához `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD CONSTRAINT `userxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`),
   ADD CONSTRAINT `userxappointment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Constraints for table `workerxappointment`
+-- Megkötések a táblához `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD CONSTRAINT `workerxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`),

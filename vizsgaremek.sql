@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Feb 09. 11:40
+-- Létrehozás ideje: 2026. Feb 09. 13:08
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.1.0
 
@@ -265,7 +265,32 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (54, 'óvodapedagógus', '', 0, NULL),
 (55, 'szlavisztika', '', 0, NULL),
 (56, 'tanító', '', 0, NULL),
-(57, 'történem', '', 0, NULL);
+(57, 'történem', '', 0, NULL),
+(58, 'informatikus könyvtáros', '', 0, NULL),
+(59, 'kommunikáció- és médiatudomány', '', 0, NULL),
+(60, 'magyar', '', 0, NULL),
+(61, 'mozgókép', '', 0, NULL),
+(62, 'néprajz', '', 0, NULL),
+(63, 'ókori nyelvek és kultúrák', '', 0, NULL),
+(64, 'régészet', '', 0, NULL),
+(65, 'szabad bölcsészet', '', 0, NULL),
+(66, 'újlatin nyelvek és kultúrák', '', 0, NULL),
+(67, 'zenekultúra', '', 0, NULL),
+(68, 'gazdálkodási és menedzsment', '', 0, NULL),
+(69, 'kereskedelem és marketing', '', 0, NULL),
+(70, 'nemzetközi gazdálkodás', '', 0, NULL),
+(71, 'pénzügy és számvitel', '', 0, NULL),
+(72, 'műszaki menedzser', '', 0, NULL),
+(73, 'programtervező informatikus', '', 0, NULL),
+(74, 'edző', '', 0, NULL),
+(75, 'emberi erőforrások', '', 0, NULL),
+(76, 'közösségszervezés', '', 0, NULL),
+(77, 'pedagógia', '', 0, NULL),
+(78, 'pszichológia', '', 0, NULL),
+(79, 'rekreáció és életmód', '', 0, NULL),
+(80, 'sportszervezés', '', 0, NULL),
+(81, 'alkalmazott közgazdaságtan', '', 0, NULL),
+(82, 'nemzetközi tanulmányok', '', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -409,7 +434,41 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (92, 11, 55),
 (93, 11, 56),
 (94, 2, 57),
-(95, 11, 57);
+(95, 11, 57),
+(96, 2, 66),
+(97, 2, 58),
+(98, 2, 59),
+(99, 2, 60),
+(100, 2, 61),
+(101, 2, 62),
+(102, 2, 63),
+(103, 2, 64),
+(104, 2, 65),
+(105, 2, 67),
+(106, 2, 68),
+(107, 11, 68),
+(108, 2, 69),
+(109, 11, 69),
+(110, 2, 70),
+(111, 11, 71),
+(112, 2, 72),
+(113, 11, 21),
+(114, 2, 73),
+(115, 11, 73),
+(116, 2, 74),
+(117, 11, 74),
+(118, 2, 75),
+(119, 2, 76),
+(120, 11, 76),
+(121, 2, 77),
+(122, 2, 78),
+(123, 11, 78),
+(124, 2, 79),
+(125, 11, 79),
+(126, 2, 80),
+(127, 11, 80),
+(128, 2, 81),
+(129, 2, 82);
 
 -- --------------------------------------------------------
 
@@ -593,7 +652,7 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT a táblához `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT a táblához `university`
@@ -605,7 +664,7 @@ ALTER TABLE `university`
 -- AUTO_INCREMENT a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
-  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT a táblához `user`

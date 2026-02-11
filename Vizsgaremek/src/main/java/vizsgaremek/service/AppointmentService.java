@@ -1,119 +1,77 @@
 package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vizsgaremek.dto.CalendarDayDto;
 import vizsgaremek.entity.Appointment;
-import vizsgaremek.entity.User;
 import vizsgaremek.repository.AppointmentRepository;
-import vizsgaremek.repository.UserRepository;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    private final UserRepository userRepository;
 
-    public List<CalendarDayDto> getCalendarForMonth(int year, int month) {
-
-        YearMonth yearMonth = YearMonth.of(year, month);
-        LocalDate start = yearMonth.atDay(1);
-        LocalDate end = yearMonth.atEndOfMonth();
-        LocalDate today = LocalDate.now();
-
-        List<Appointment> appointments =
-                appointmentRepository.findByDateBetweenAndIsDeletedFalse(start, end);
-
-        Map<LocalDate, Appointment> appointmentMap = new HashMap<>();
-        for (Appointment appointment : appointments) {
-            appointmentMap.put(appointment.getDate(), appointment);
+    public ResponseEntity<Object> getAllAppointment() {
+        try {
+            return ResponseEntity.ok(appointmentRepository.getAllAppointment());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
+    }
 
-        List<CalendarDayDto> calendar = new ArrayList<>();
+    public ResponseEntity<Object> getAppointmentByDate(String date) {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
+            Date wantedDate = dateFormat.parse(date);
 
-        for (int day = 1; day <= yearMonth.lengthOfMonth(); day++) {
-            LocalDate date = yearMonth.atDay(day);
-
-            Appointment appointment = appointmentMap.get(date);
-
-            boolean isToday = date.equals(today);
-
-            if (appointment == null) {
-                calendar.add(new CalendarDayDto(
-                        date,
-                        isToday,
-                        false,
-                        false
-                ));
-            } else {
-                boolean isFull = Boolean.TRUE.equals(appointment.getIsFull());
-                boolean isBookable = !isFull && appointment.getCapacity() > 0;
-
-                calendar.add(new CalendarDayDto(
-                        date,
-                        isToday,
-                        isFull,
-                        isBookable
-                ));
+            try {
+                Appointment searchedAppointment = appointmentRepository.getAppointmentByDate(wantedDate).orElse(null);
+                return ResponseEntity.ok().body(searchedAppointment);
+            } catch (EmptyResultDataAccessException erdae) {
+                return ResponseEntity.ok(null);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-
-        return calendar;
     }
 
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
-    }
+    public ResponseEntity<Object> bookAppointment(Integer appointmentId, Integer userId) {
+        try {
 
-    public Optional<Appointment> getAppointmentById(Integer id) {
-        return appointmentRepository.findById(id);
-    }
 
-    public Appointment saveAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
-    }
-
-    public void deleteAppointment(Integer id) {
-        appointmentRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void bookAppointment(Integer appointmentId, Integer userId) {
-
-        Appointment appointment = appointmentRepository
-                .findByAppointmentIdAndIsDeletedFalse(appointmentId)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
-        if (Boolean.TRUE.equals(appointment.getIsFull())) {
-            throw new RuntimeException("Appointment is already full");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        boolean alreadyBooked = user.getAppointments().stream()
-                .anyMatch(a -> a.getAppointmentId().equals(appointmentId));
-
-        if (alreadyBooked) {
-            throw new RuntimeException("User already booked this appointment");
-        }
-
-        user.getAppointments().add(appointment);
-        appointment.getUsers().add(user);
-
-        appointment.setCapacity(appointment.getCapacity() - 1);
-
-        if (appointment.getCapacity() <= 0) {
-            appointment.setIsFull(true);
-        }
-
-        appointmentRepository.save(appointment);
-        userRepository.save(user);
     }
 
+
+    public ResponseEntity<Object> deleteAppointment(Integer appointmentId) {
+        try {
+            Appointment searchedAppointment = appointmentRepository.findById(appointmentId).orElse(null);
+            if (searchedAppointment == null || searchedAppointment.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                appointmentRepository.deleteAppointment(appointmentId);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

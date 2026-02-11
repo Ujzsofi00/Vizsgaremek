@@ -1,61 +1,35 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vizsgaremek.dto.CalendarDayDto;
-import vizsgaremek.entity.Appointment;
+import tools.jackson.databind.JsonNode;
 import vizsgaremek.service.AppointmentService;
-import vizsgaremek.dto.BookingRequestDto;
-
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/appointments")
+@RequestMapping("/appointment")
 @RequiredArgsConstructor
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
 
-    @GetMapping
-    public List<Appointment> getAllAppointments() {
-        return appointmentService.getAllAppointments();
+    @GetMapping("")
+    private ResponseEntity<Object> getAllAppointment() {
+        return appointmentService.getAllAppointment();
     }
 
-    @GetMapping("/{id}")
-    public Appointment getAppointment(@PathVariable Integer id) {
-        return appointmentService.getAppointmentById(id).orElse(null);
+    @GetMapping("/{wantedDate}")
+    private ResponseEntity<Object> getAppointmentByDate(@PathVariable("wantedDate") String wantedDate) {
+        return appointmentService.getAppointmentByDate(wantedDate);
     }
 
-    @PostMapping
-    public Appointment setAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.saveAppointment(appointment);
+    @PostMapping("/{id}/book")
+    private ResponseEntity<Object> bookAppointment(@PathVariable("id") Integer appointmentId, @RequestBody JsonNode requestBody) {
+        return appointmentService.bookAppointment(appointmentId, requestBody.get("userId").asInt());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAppointment(@PathVariable Integer id) {
-        appointmentService.deleteAppointment(id);
+    private ResponseEntity<Object> deleteAppointment(@PathVariable("id") Integer id) {
+        return appointmentService.deleteAppointment(id);
     }
-
-    @GetMapping("/calendar")
-    public List<CalendarDayDto> getCalendar(
-            @RequestParam int year,
-            @RequestParam int month
-    ) {
-        return appointmentService.getCalendarForMonth(year, month);
-    }
-
-    @PostMapping("/{appointmentId}/book")
-    public String bookAppointment(
-            @PathVariable Integer appointmentId,
-            @RequestBody BookingRequestDto request
-    ) {
-        appointmentService.bookAppointment(
-                appointmentId,
-                request.getUserId()
-        );
-        return "Appointment booked successfully";
-    }
-
-
 }

@@ -1,36 +1,39 @@
 package vizsgaremek.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vizsgaremek.entity.University;
-import vizsgaremek.repository.UniversityRepository;
-
-import java.util.List;
+import vizsgaremek.service.UniversityService;
 
 @RestController
-@RequestMapping("/universities")
+@RequestMapping("/university")
 @RequiredArgsConstructor
 public class UniversityController {
+    private final UniversityService universityService;
 
-    private final UniversityRepository universityRepository;
-
-    @GetMapping
-    public List<University> getAllUniversities() {
-        return universityRepository.findAll();
+    @GetMapping("/{name}")
+    private ResponseEntity<Object> getUniversityByName(@PathVariable("name") String wantedName) {
+        return universityService.getUniversityByName(wantedName);
     }
 
-    @GetMapping("/{id}")
-    public University getUniversity(@PathVariable Integer id) {
-        return universityRepository.findById(id).orElse(null);
+    @GetMapping("")
+    private ResponseEntity<Object> getAllUniversity() {
+        return universityService.getAllUniversity();
     }
 
-    @PostMapping
-    public University setUniversity(@RequestBody University university) {
-        return universityRepository.save(university);
+    @PostMapping("")
+    private ResponseEntity<Object> addUniversity(@RequestBody University newUniversity) {
+        return universityService.addUniversity(newUniversity);
+    }
+
+    @PutMapping("")
+    private ResponseEntity<Object> updateUniversity(@RequestBody University updatedUniversity) {
+        return universityService.updateUniversity(updatedUniversity);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUniversity(@PathVariable Integer id) {
-        universityRepository.deleteById(id);
+    private ResponseEntity<Object> deleteUniversity(@PathVariable("id") Integer id) {
+        return universityService.deleteUniversity(id);
     }
 }

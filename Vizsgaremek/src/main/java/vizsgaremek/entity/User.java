@@ -1,19 +1,18 @@
 package vizsgaremek.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "`user`")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -21,7 +20,7 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String username;
 
     @Column(name = "first_name")
@@ -42,12 +41,21 @@ public class User {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @ManyToMany
+
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @ManyToMany()
     @JoinTable(
-            name = "user_x_appointment",
+            name = "userxappointment",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "appointment_id")
     )
-    @JsonIgnore
-    private Set<Appointment> appointments = new HashSet<>();
+    @JsonIgnoreProperties({"reserverUsers"})
+    private List<Appointment> bookedAppointments;
+
+    @OneToMany(mappedBy = "worker")
+    @JsonIgnoreProperties({"reserverUsers"})
+    private List<Appointment> workAppointment;
 }

@@ -1,22 +1,23 @@
 package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import vizsgaremek.entity.Faculty;
+import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.repository.FacultyRepository;
-import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FacultyService {
     private final FacultyRepository facultyRepository;
 
-    public List<Faculty> findAll() { return facultyRepository.findAll(); }
-
-    public Optional<Faculty> findById(int id) { return facultyRepository.findById(id); }
-
-    public Faculty save(Faculty faculty) { return facultyRepository.save(faculty); }
-
-    public void deleteById(int id) { facultyRepository.deleteById(id); }
+    public ResponseEntity<Object> getAllFaculty() {
+        try {
+            return ResponseEntity.ok().body(facultyRepository.getAllFaculties());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

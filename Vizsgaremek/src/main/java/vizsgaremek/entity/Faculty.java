@@ -1,5 +1,6 @@
 package vizsgaremek.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.*;
@@ -9,22 +10,24 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "faculties")
-@EqualsAndHashCode(exclude = {"workers", "university"})
-@ToString(exclude = {"workers", "university"})
+@Table(name = "faculty")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getAllFaculties", procedureName = "getAllFaculties", resultClasses = Faculty.class)
+})
 public class Faculty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "faculty_id")
     private Integer id;
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
-    private List<Worker> workers = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "university_id")
-    private University university;
+    @ManyToMany(mappedBy = "faculties")
+    @JsonIgnore
+    private List<University> universities;
 }

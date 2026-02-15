@@ -1,5 +1,6 @@
 package vizsgaremek.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,13 +15,13 @@ import java.util.List;
 @Setter
 @Table(name = "user")
 @NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "getAllUsers", procedureName = "getAllUsers", resultClasses = User.class),
+        @NamedStoredProcedureQuery(name = "getAllUsers", procedureName = "getAllUsers", resultClasses = Users.class),
         @NamedStoredProcedureQuery(name = "deleteUser", procedureName = "deteteUser", parameters = {
                 @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
         }),
-        @NamedStoredProcedureQuery(name = "getAllWorker", procedureName = "getAllWorker", resultClasses = User.class),
+        @NamedStoredProcedureQuery(name = "getAllWorker", procedureName = "getAllWorker", resultClasses = Users.class),
 })
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +49,8 @@ public class User {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-
+    //
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")
     private Role role;
 

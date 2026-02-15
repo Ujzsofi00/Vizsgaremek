@@ -1,5 +1,6 @@
 package vizsgaremek.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +8,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -40,11 +43,9 @@ public class Appointment {
     private Date date;
 
     @Column(name = "start_time")
-//    @Temporal(TemporalType.TIME)
     private LocalTime start;
 
     @Column(name = "end_time")
-//    @Temporal(TemporalType.TIME)
     private LocalTime end;
 
     @Column(name = "is_online")
@@ -64,13 +65,13 @@ public class Appointment {
 
     @ManyToMany(mappedBy = "bookedAppointments")
     @JsonIgnoreProperties({"bookedAppointments", "workAppointment"})
-    private List<User> reserverUsers;
+    private List<Users> reserverUsers;
 
     @JoinColumn(name = "worker_id")
     @JsonIgnoreProperties({"bookedAppointments", "workAppointment"})
-    private User worker;
+    private Users worker;
 
-    public Appointment(Integer capacity, Boolean isOnline, LocalTime end, LocalTime start, Date date, String title, User worker) {
+    public Appointment(Integer capacity, Boolean isOnline, LocalTime end, LocalTime start, Date date, String title, Users worker) {
         this.title = title;
         this.date = date;
         this.capacity = capacity;

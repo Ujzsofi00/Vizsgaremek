@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.dto.AppointmentDto;
 import vizsgaremek.entity.Appointment;
-import vizsgaremek.entity.User;
+import vizsgaremek.entity.Users;
 import vizsgaremek.repository.AppointmentRepository;
 import vizsgaremek.repository.UserRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +51,7 @@ public class AppointmentService {
     public ResponseEntity<Object> bookAppointment(Integer appointmentId, Integer userId) {
         try {
             Appointment searchedAppointment = appointmentRepository.findById(appointmentId).orElse(null);
-            User searchedUser = userRepository.findById(userId).orElse(null);
+            Users searchedUser = userRepository.findById(userId).orElse(null);
             if (searchedAppointment == null || searchedAppointment.getIsDeleted()) {
                 return ResponseEntity.status(404).body("appointmentNotFound");
             } else if (searchedUser == null || searchedUser.getIsDeleted()) {
@@ -92,7 +94,7 @@ public class AppointmentService {
                 return ResponseEntity.status(404).body("appointmentNotFound");
             }
 
-            User worker = userRepository.findById(updatedAppointment.getWorkerId()).orElse(null);
+            Users worker = userRepository.findById(updatedAppointment.getWorkerId()).orElse(null);
             if (worker == null || worker.getIsDeleted()) {
                 return ResponseEntity.status(404).body("workerNotFound");
             }
@@ -115,7 +117,7 @@ public class AppointmentService {
     @PreAuthorize("hasAnyRole('admin', 'worker')")
     public ResponseEntity<Object> addAppointment(AppointmentDto newAppointmentDto) {
         try {
-            User worker = userRepository.findById(newAppointmentDto.getWorkerId()).orElse(null);
+            Users worker = userRepository.findById(newAppointmentDto.getWorkerId()).orElse(null);
             if (worker == null || worker.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             }

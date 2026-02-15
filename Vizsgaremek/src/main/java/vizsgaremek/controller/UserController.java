@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
-import vizsgaremek.entity.User;
+import vizsgaremek.entity.Users;
 import vizsgaremek.service.UserService;
 
 @RequiredArgsConstructor
@@ -14,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody User user) {
+    public ResponseEntity<Object> registerUser(@RequestBody Users user) {
         return userService.register(user);
     }
 

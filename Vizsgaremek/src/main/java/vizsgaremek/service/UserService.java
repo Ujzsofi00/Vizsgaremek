@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vizsgaremek.entity.User;
+import vizsgaremek.entity.Users;
 import vizsgaremek.repository.RoleRepository;
 import vizsgaremek.repository.UserRepository;
 
@@ -19,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public ResponseEntity<Object> register(User user) {
+    public ResponseEntity<Object> register(Users user) {
         user.setRole(roleRepository.findById(1).get());
         user.setIsDeleted(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -33,7 +33,7 @@ public class UserService {
                 return null;
             }
 
-            User searchedUser = userRepository.findByUsername(username).orElse(null);
+            Users searchedUser = userRepository.findByUsername(username).orElse(null);
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -63,7 +63,7 @@ public class UserService {
     @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> deleteUser(Integer id) {
         try {
-            User searchedUser = userRepository.findById(id).orElse(null);
+            Users searchedUser = userRepository.findById(id).orElse(null);
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             }
@@ -78,7 +78,7 @@ public class UserService {
     @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> changeRoleOfUser(Integer id) {
         try {
-            User searchedUser = userRepository.findById(id).orElse(null);
+            Users searchedUser = userRepository.findById(id).orElse(null);
             if (searchedUser.getRole().getName().equals("ROLE_worker")) {
                 searchedUser.setRole(roleRepository.findById(1).get());
             } else {

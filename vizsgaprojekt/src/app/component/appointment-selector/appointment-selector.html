@@ -1,1 +1,48 @@
-<p>appointment-selector works!</p>
+<div class="container-fluid" style="height: 100vh">
+  <div class="row my-5">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div
+        class="infoDiv h-100 d-flex justify-content-start align-items-center"
+      >
+        @if (selectedAppointment == null || selectedAppointment.isDeleted) {
+          <h1 class="text-center">Ezen a napon nincs felkészités!</h1>
+        } @else if (selectedAppointment.isFull) {
+          <h1 class="text-center">Nincs szabad hely!</h1>
+        } @else {
+          <ul>
+            <li>Típus: {{selectedAppointment.isOnline ? "online" : "helyszíni"}}</li>
+            @if (!selectedAppointment.isOnline) {
+              <li>Helyszín: Universitas Studio</li>
+            }
+            <li>Előadó: {{selectedAppointment.worker.firstName}} {{selectedAppointment.worker.lastName}}</li>
+            <li>Szabad helyek: {{selectedAppointment.capacity - selectedAppointment.reserverUsers.length}}</li>
+            <li>Időpont: {{selectedAppointment.date}} {{selectedAppointment.start}}-{{selectedAppointment.end}}</li>
+          </ul>
+        }
+      </div>
+    </div>
+
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div class="infoDiv">
+        <mat-card class="demo-inline-calendar-card">
+          <mat-calendar [(selected)]="selectedDate" (selectedChange)="getAppointmentByDate()"></mat-calendar>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  @if (selectedAppointment != null && !selectedAppointment.isDeleted) {
+    <div class="row">
+    <div class="col-lg-12 d-flex justify-content-center">
+      <div
+        style="
+          width: 800px;
+          height: 400px;
+          background-color: #e3e5fd;
+          border-radius: 16px;
+        "
+      ></div>
+    </div>
+  </div>
+  }
+</div>

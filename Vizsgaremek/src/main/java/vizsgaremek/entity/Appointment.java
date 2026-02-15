@@ -5,14 +5,15 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@AllArgsConstructor
 @Table(name = "appointment")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getAppointmentByDate", procedureName = "getAppointmentByDate", parameters = {
@@ -32,16 +33,19 @@ public class Appointment {
     @Column(name = "appointment_id")
     private Integer id;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "date")
-    private LocalDate date;
+    private Date date;
 
     @Column(name = "start_time")
-    @Temporal(TemporalType.TIME)
-    private Date start;
+//    @Temporal(TemporalType.TIME)
+    private LocalTime start;
 
     @Column(name = "end_time")
-    @Temporal(TemporalType.TIME)
-    private Date end;
+//    @Temporal(TemporalType.TIME)
+    private LocalTime end;
 
     @Column(name = "is_online")
     private Boolean isOnline;
@@ -50,7 +54,7 @@ public class Appointment {
     private Integer capacity;
 
     @Column(name = "is_full")
-    private Boolean isFull;
+    private Boolean isFull = false;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -66,4 +70,14 @@ public class Appointment {
     @JoinColumn(name = "worker_id")
     @JsonIgnoreProperties({"bookedAppointments", "workAppointment"})
     private User worker;
+
+    public Appointment(Integer capacity, Boolean isOnline, LocalTime end, LocalTime start, Date date, String title, User worker) {
+        this.title = title;
+        this.date = date;
+        this.capacity = capacity;
+        this.isOnline = isOnline;
+        this.end = end;
+        this.start = start;
+        this.worker = worker;
+    }
 }

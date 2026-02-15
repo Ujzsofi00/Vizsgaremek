@@ -1,0 +1,65 @@
+<div class="container-fluid" style="height: 100vh; background-color: rgba(0, 0, 0, 0.6); width: 100vw;">
+  <div class="row h-100">
+    <div class="col-lg-12 h-100 d-flex justify-content-center align-items-center">
+      <div id="secondContainer" class="container-fluid d-flex flex-column justify-content-between">
+        <div class="row">
+          <div class="col-lg-12 d-flex justify-content-between align-items-center mt-3">
+            <div style="height: 40px; width: 40px;"></div>
+            <h1 class="text-center m-0">Egyetem létrehozása</h1>
+            <button class="iconButton" (click)="close.emit()">X</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <form class="container-fluid" [formGroup]="createForm">
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="name" class="fw-bold">Az egyetem neve:</label>
+                  <input type="text" class="w-100 px-2" id="name" placeholder="Az egyetem neve" formControlName="name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="description" class="fw-bold">Leírás</label>
+                  <textarea name="description" id="description" formControlName="description" placeholder="Leírás" class="w-100 p-2" style="height: 125px;"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="address">Cím:</label>
+                  <input type="text" class="w-100 px-2" id="address" placeholder="Cím" formControlName="address">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="googleMapsLink">Google Maps elérhetőség</label>
+                  <input type="text" class="w-100 px-2" placeholder="Google Maps elérhetőség" id="googleMapsLink" formControlName="googleMapsLink">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="">Szakok:</label>
+                  <mat-form-field class="w-100">
+                    <!-- <input matInput type="text" class="d-none"> -->
+                    <mat-select formControlName="faculties" multiple>
+                      @for (faculty of faculties; track $index) {
+                        <mat-option [value]="faculty.id">{{faculty.name}}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-lg-12 d-flex justify-content-center align-items-center">
+            <button id="createButton" [disabled]="createForm.invalid" (click)="sendCreate()">Mentés</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

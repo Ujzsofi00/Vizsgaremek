@@ -2,6 +2,7 @@ package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.entity.University;
@@ -13,6 +14,7 @@ import vizsgaremek.repository.UniversityRepository;
 public class UniversityService {
     private final UniversityRepository universityRepository;
 
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> getAllUniversity() {
         try {
             return ResponseEntity.ok().body(universityRepository.getAllUniversities());
@@ -22,6 +24,7 @@ public class UniversityService {
         }
     }
 
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> addUniversity(University newUniversity) {
         try {
             if (newUniversity.getId() != null) {
@@ -35,6 +38,7 @@ public class UniversityService {
         }
     }
 
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> updateUniversity(University updatedUniversity) {
         try {
             if (updatedUniversity.getId() == null) {
@@ -48,6 +52,7 @@ public class UniversityService {
         }
     }
 
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Object> deleteUniversity(Integer id) {
         try {
             University searchedUniversity = universityRepository.findById(id).orElse(null);

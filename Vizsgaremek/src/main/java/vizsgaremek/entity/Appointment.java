@@ -66,7 +66,6 @@ public class Appointment {
     @JsonIgnoreProperties({"bookedAppointments", "workAppointment"})
     private List<User> reserverUsers;
 
-    @ManyToOne(cascade = {})
     @JoinColumn(name = "worker_id")
     @JsonIgnoreProperties({"bookedAppointments", "workAppointment"})
     private User worker;

@@ -6,10 +6,10 @@ import lombok.*;
 import java.util.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
+@Setter
 @Table(name = "faculty")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getAllFaculties", procedureName = "getAllFaculties", resultClasses = Faculty.class)

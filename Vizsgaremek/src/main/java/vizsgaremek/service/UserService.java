@@ -2,19 +2,26 @@ package vizsgaremek.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.entity.User;
+import vizsgaremek.repository.RoleRepository;
 import vizsgaremek.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public ResponseEntity<Object> register(User user) {
+        user.setRole(roleRepository.findById(1).get());
+        user.setIsDeleted(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok().build();
@@ -27,7 +34,7 @@ public class UserService {
             }
 
             User searchedUser = userRepository.findByUsername(username).orElse(null);
-            if (searchedUser == null) {
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 if (passwordEncoder.matches(password, searchedUser.getPassword())) {
@@ -37,6 +44,58 @@ public class UserService {
                 }
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<Object> getAllUser() {
+        try {
+            return ResponseEntity.ok().body(userRepository.getAllUsers());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<Object> deleteUser(Integer id) {
+        try {
+            User searchedUser = userRepository.findById(id).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            }
+            userRepository.deleteUser(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<Object> changeRoleOfUser(Integer id) {
+        try {
+            User searchedUser = userRepository.findById(id).orElse(null);
+            if (searchedUser.getRole().getName().equals("ROLE_worker")) {
+                searchedUser.setRole(roleRepository.findById(1).get());
+            } else {
+                searchedUser.setRole(roleRepository.findById(3).get());
+            }
+
+            return ResponseEntity.ok().body(userRepository.save(searchedUser));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'worker')")
+    public ResponseEntity<Object> getAllWorker() {
+        try {
+            return ResponseEntity.ok().body(userRepository.getAllWorker());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

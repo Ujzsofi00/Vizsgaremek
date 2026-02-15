@@ -8,17 +8,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
+@Setter
 @Table(name = "user")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getAllUsers", procedureName = "getAllUsers", resultClasses = User.class),
+        @NamedStoredProcedureQuery(name = "deleteUser", procedureName = "deteteUser", parameters = {
+                @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
+        }),
+        @NamedStoredProcedureQuery(name = "getAllWorker", procedureName = "getAllWorker", resultClasses = User.class),
+})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer id;
 
     @Column(name = "username")
     private String username;
@@ -42,7 +49,6 @@ public class User {
     private LocalDateTime deletedAt;
 
 
-    @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")
     private Role role;
 

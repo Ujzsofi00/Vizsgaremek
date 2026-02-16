@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, model, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, model, OnInit,  } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { Appointment } from '../../models/Appointment.model';
 import { AppointmentService } from '../../service/appointment-service';
 import { UserService } from '../../service/user-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-appointment-selector',
-  imports: [MatCardModule, MatDatepickerModule],
+  imports: [MatCardModule, MatDatepickerModule, CommonModule],
   templateUrl: './appointment-selector.html',
   styleUrl: './appointment-selector.scss',
   providers: [provideNativeDateAdapter()],
@@ -21,6 +22,7 @@ export class AppointmentSelector implements OnInit{
   private appointMentService = inject(AppointmentService)
   private userService = inject(UserService)
   private router = inject(Router)
+  isShowBookButton: boolean = false
 
   ngOnInit(): void {
     this.getAppointmentByDate()
@@ -28,16 +30,21 @@ export class AppointmentSelector implements OnInit{
 
   getAppointmentByDate() {
     const formattedDate = this.selectedDate().toLocaleDateString("Hu-hu").replace(". ", "-").replace(". ", "-").replace(".", "")
-    console.log(formattedDate)
     this.appointMentService.getAppointmentByDate(formattedDate).subscribe({
       next: response => {
         this.selectedAppointment = response
-        console.log(this.selectedAppointment)
+      },
+      complete: () => {
+        this.isShowBookButton = this.selectedAppointment!.reserverUsers.map(u => u.id).includes(this.userService.loggedUser?.id!)
+        console.log(this.selectedAppointment!.reserverUsers.map(u => u.id))
+        console.log(this.selectedAppointment!.reserverUsers.map(u => u.id).includes(this.userService.loggedUser?.id!))
       }
     })
   }
 
   bookAppointment() {
-
+    this.appointMentService.bookAppointment(this.selectedAppointment?.id!, this.userService.loggedUser?.id!).subscribe({
+      next: response => console.log(response)
+    })
   }
 }

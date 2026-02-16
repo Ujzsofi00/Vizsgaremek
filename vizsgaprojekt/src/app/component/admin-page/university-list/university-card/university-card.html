@@ -1,0 +1,100 @@
+<div class="my-4">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{univeristy().name}} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-between align-items-center">
+              <h4 class="w-100 text-lg-start text-center">{{univeristy().name}}:</h4>
+              <button class="iconButton" (click)="sendUpdate()" [disabled]="isEdit && updateForm.invalid">
+                <span class="material-symbols-outlined">
+                  {{isEdit ? "check" : "edit"}}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <form class="container-fluid" [formGroup]="updateForm">
+            <div class="row">
+              <div class="col-lg-12 my-3">
+                <label for="universityName" class="fw-bold text-lg-start text-center w-100">Egyetem neve:</label>
+                @if(!isEdit) {
+                  <p class="text-lg-start text-center">{{univeristy().name}}</p>
+                } @else {
+                  <br>
+                  <input type="text" class="w-100 px-2" placeholder="Az egyetem neve" id="universityName" formControlName="name">
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <label for="description" class="fw-bold text-lg-start text-center w-100">Leírás:</label>
+                @if (!isEdit) {
+                  <p class="text-lg-start text-center">{{univeristy().description}}</p>
+                } @else {
+                  <br>
+                  <textarea type="text" class="w-100 px-2" placeholder="Az egyetem leírása" id="description" formControlName="description"></textarea>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <label for="address" class="fw-bold text-lg-start text-center w-100">Cím:</label>
+                @if(!isEdit) {
+                  <p class="text-lg-start text-center">{{univeristy().address}}</p>
+                } @else {
+                  <br>
+                  <input type="text" class="w-100 px-2" placeholder="Az egyetem teljes címe" id="address" formControlName="address">
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <label for="googleMapsLink" class="fw-bold text-lg-start text-center w-100">Google Maps link:</label>
+                @if (!isEdit) {
+                  <a class="text-lg-start text-center" target="_blank" [href]="univeristy().googleMapsLink">{{univeristy().googleMapsLink}}</a>
+                } @else {
+                  <br>
+                  <input type="text" class="w-100 px-2" placeholder="Google Maps linkje" id="googleMapsLink" formControlName="googleMapsLink">
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <label for="faculties" class="fw-bold w-100 text-lg-start text-center">Elérhető szakok:</label>
+                @if (!isEdit) {
+                  <ul class="list-unstyled px-lg-4">
+                    @for (faculty of univeristy().faculties; track $index) {
+                      <li class="text-lg-start text-center">{{faculty.name}}</li>
+                    }
+                  </ul>
+                } @else {
+                  <br>
+                  <mat-form-field class="w-100">
+                    <!-- <input matInput type="text" class="d-none"> -->
+                    <mat-select formControlName="faculties" multiple id="faculties">
+                      @for (faculty of faculties; track $index) {
+                        <mat-option [value]="faculty.id">{{faculty.name}}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                }
+              </div>
+            </div>
+          </form>
+
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-end align-items-center">
+              <button class="iconButton" (click)="delete.emit()">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

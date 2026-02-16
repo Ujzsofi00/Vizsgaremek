@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AppointmentSelector } from '../component/appointment-selector/appointment-selector';
+import { Appointment } from '../models/Appointment.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,8 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class AppointmentService {
   private http = inject(HttpClient)
+  private baseUrl: string = "http://localhost:8080/appointment"
 
-  getAppointmentByDate(date: Date): Observable<AppointmentSelector> {
-    return this.http.get<AppointmentSelector>("")
+  getAppointmentByDate(date: string): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.baseUrl}/${date}`)
+  }
+
+  bookAppointment(appointmentId: number, userId: number) {
+    return this.http.post(`${this.baseUrl}/book`, {})
   }
 }

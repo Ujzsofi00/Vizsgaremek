@@ -3,7 +3,7 @@ import { Role } from "./role.model";
 export class User {
   constructor(
     public id: number | null,
-    public userName: string,
+    public username: string,
     public firstName: string,
     public lastName: string,
     public email: string,

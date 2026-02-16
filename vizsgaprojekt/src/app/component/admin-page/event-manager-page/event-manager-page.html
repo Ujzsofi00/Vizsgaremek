@@ -1,1 +1,178 @@
-<p>event-manager-page works!</p>
+<div class="container-fluid" style="height: 88vh;">
+  <div class="row h-100 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div class="container-fluid" id="editorDiv">
+        <div class="row h-100">
+          <div class="col-lg-12 h-100">
+            @if(selectedAppointment != null) {
+              <div class="container-fluid h-100 d-flex flex-column justify-content-between py-3">
+                <div class="row">
+                  <div class="col-lg-12 d-flex justify-content-between align-items-center">
+                    <div></div>
+                    <h1 class="w-100 text-center">{{selectedAppointment.title}}</h1>
+                    <button class="iconButton" (click)="handleUpdate()">
+                      <span class="material-symbols-outlined">
+                        {{isShowForm ? "check" : "edit"}}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    @if (!isShowForm) {
+                      <ul class="list-unstyled px-4" style="font-size: 17px;">
+                        <li><span class="fw-bold">Típus:</span> {{selectedAppointment!.isOnline ? "online" : "helyszíni"}}</li>
+                        @if (!selectedAppointment!.isOnline) {
+                          <li><span class="fw-bold">Helyszín:</span> Universitas Studio</li>
+                        }
+                        <li><span class="fw-bold">Előadó:</span> {{selectedAppointment!.worker.firstName}} {{selectedAppointment!.worker.lastName}}</li>
+                        <li><span class="fw-bold">Szabad helyek:</span> {{selectedAppointment!.capacity - selectedAppointment!.reserverUsers.length}}</li>
+                        <li><span class="fw-bold">Időpont:</span> {{selectedAppointment!.date | date: "yyyy-MM-dd"}} {{selectedAppointment!.start.toString().substring(0, 5)}}-{{selectedAppointment!.end.toString().substring(0, 5)}}</li>
+                      </ul>
+                    } @else {
+                      <form class="container-fluid" [formGroup]="editForm">
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="title">Cim:</label>
+                            <input type="text" class="w-100 px-3" id="title" placeholder="Cím" formControlName="title">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="date">Dátum:</label>
+                            <input type="date" class="w-100 px-3" id="date" formControlName="date">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6 my-2">
+                            <label for="start">Kezdés:</label>
+                            <input type="time" class="w-100 px-3" id="start" formControlName="startHour">
+                          </div>
+                          <div class="col-lg-6 my-2">
+                            <label for="end">Vége:</label>
+                            <input type="time" class="w-100 px-3" id="end" formControlName="endHour">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="capacity">Férőhely:</label>
+                            <input type="number" class="w-100 px-3" id="capacity" placeholder="Férőhely" formControlName="capacity">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="worker">Előadó:</label><br>
+                            <select id="worker" class="w-100 px-3" formControlName="workerId">
+                              <option value="" selected disabled>Válaszd ki az előadód</option>
+                              @for (worker of workers; track $index) {
+                                <option [value]="worker.id">{{worker.firstName}} {{worker.lastName}}</option>
+                              }
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-12 d-flex justify-content-start align-items-center">
+                            <input type="radio" id="isOnline" [checked]="isOnline" (change)="isOnline = !isOnline">
+                            <label for="isOnline" class="mx-2">Online lesz</label>
+                          </div>
+                        </div>
+                      </form>
+                    }
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12 d-flex justify-content-end align-items-center">
+                    <button class="iconButton" (click)="deleteAppointment()">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }@else {
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h1 class="text-center">Időpont létrehozása</h1>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    @if(isShowForm)  {
+                      <form class="container-fluid" [formGroup]="editForm">
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="title">Cim:</label>
+                            <input type="text" class="w-100 px-3" id="title" placeholder="Cím" formControlName="title">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="date">Dátum:</label>
+                            <input type="date" class="w-100 px-3" id="date" formControlName="date">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6 my-2">
+                            <label for="start">Kezdés:</label>
+                            <input type="time" class="w-100 px-3" id="start" formControlName="startHour">
+                          </div>
+                          <div class="col-lg-6 my-2">
+                            <label for="end">Vége:</label>
+                            <input type="time" class="w-100 px-3" id="end" formControlName="endHour">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="capacity">Férőhely:</label>
+                            <input type="number" class="w-100 px-3" id="capacity" placeholder="Férőhely" formControlName="capacity">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 my-2">
+                            <label for="worker">Előadó:</label><br>
+                            <select id="worker" class="w-100 px-3" formControlName="workerId">
+                              <option value="" selected disabled>Válaszd ki az előadód</option>
+                              @for (worker of workers; track $index) {
+                                <option [value]="worker.id">{{worker.firstName}} {{worker.lastName}}</option>
+                              }
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 d-flex justify-content-start align-items-center">
+                            <input type="radio" id="isOnline" [checked]="isOnline" (change)="isOnline = !isOnline">
+                            <label for="isOnline" class="mx-2">Online lesz</label>
+                          </div>
+                        </div>
+                      </form>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+
+                  <button (click)="showFormForCreate()"> {{isShowForm ? "Mentés" : "Létrehozás"}} </button>
+
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div style="width: 450px;">
+        <mat-card class="demo-inline-calendar-card">
+          <mat-calendar [(selected)]="selected" (selectedChange)="getAppointmentByDate()"></mat-calendar>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

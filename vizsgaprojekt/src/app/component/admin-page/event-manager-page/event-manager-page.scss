@@ -1,0 +1,30 @@
+#editorDiv {
+  background-color: #B3BBFB;
+  height: 650px;
+  width: 550px;
+  border-radius: 12px;
+}
+
+.iconButton {
+  border: none;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E3E5FD;
+  border-radius: 8px;
+}
+
+input, textarea, select {
+  background-color: #E3E5FD;
+  height: 35px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+input:focus,
+input::after {
+  border: none !important;
+}

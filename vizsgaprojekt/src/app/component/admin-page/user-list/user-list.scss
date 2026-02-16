@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Relief:wght@400;700&display=swap');
+
+.userCard {
+  height: 150px;
+  background-color: #BEB2F6;
+  border-radius: 12px;
+  width: 950px;
+  font-family: "Comic Relief", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.deleteButton {
+  background-color: rgb(248, 86, 65);
+  border: none;
+  width: 150px;
+  height: 45px;
+  border-radius: 8px;
+  font-size: 20px;
+}

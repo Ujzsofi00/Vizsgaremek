@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2026. Feb 18. 12:49
+-- Létrehozás ideje: 2026. Feb 18. 12:56
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.1.0
 
@@ -640,6 +640,7 @@ INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `wo
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointment_id`),
+  ADD UNIQUE KEY `date` (`date`),
   ADD KEY `user` (`worker_id`);
 
 --

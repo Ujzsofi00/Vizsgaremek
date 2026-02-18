@@ -4,11 +4,11 @@ import { university } from '../../../models/University.model';
 import { FacultyService } from '../../../service/faculty-service';
 import { UniversityService } from '../../../service/university-service';
 import { UniversityCard } from './university-card/university-card';
-import { UniversityCreate } from './university-create/university-create';
+import { UniversityCreator } from './university-create/university-creator';
 
 @Component({
   selector: 'app-university-list',
-  imports: [UniversityCard, UniversityCreate],
+  imports: [UniversityCard, UniversityCreator],
   templateUrl: './university-list.html',
   styleUrl: './university-list.scss',
 })

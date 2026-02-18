@@ -6,21 +6,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-university-create',
-  imports: [ReactiveFormsModule,MatFormFieldModule, MatSelectModule, FormsModule],
-  templateUrl: './university-create.html',
-  styleUrl: './university-create.scss',
+  selector: 'app-university-creator',
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, FormsModule],
+  templateUrl: './university-creator.html',
+  styleUrl: './university-creator.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UniversityCreate implements OnInit{
+export class UniversityCreator implements OnInit{
   private facultyService = inject(FacultyService)
   faculties: Faculty[] = []
-  createForm!: FormGroup
+  creatorForm!: FormGroup
   create = output<{name: string, description: string, address: string, googleMapsLink: string, faculties: number[]}>()
   close = output()
 
   ngOnInit(): void {
-    this.createForm = new FormGroup({
+    this.creatorForm = new FormGroup({
       name: new FormControl("", [Validators.required]),
       description: new FormControl("", [Validators.required]),
       address: new FormControl("", [Validators.required]),
@@ -34,6 +34,6 @@ export class UniversityCreate implements OnInit{
   }
 
   sendCreate() {
-    this.create.emit(this.createForm.value)
+    this.create.emit(this.creatorForm.value)
   }
 }

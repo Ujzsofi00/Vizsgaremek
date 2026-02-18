@@ -2,15 +2,17 @@ import { User } from "./User.model";
 
 export class Appointment {
   constructor(
-    public id: number,
+    public id: number | null,
+    public title: string,
     public date: Date,
-    public start: Date,
-    public end: Date,
+    public start: Date | string,
+    public end: Date | string,
     public capacity: number,
+    public worker: User,
     public isOnline: boolean,
     public isFull: boolean,
     public isDeleted: boolean,
     public reserverUsers: User[],
-    public worker: User
+    public deletedAt: Date|null = null
   ) { }
 }

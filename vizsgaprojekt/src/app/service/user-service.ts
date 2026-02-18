@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   private http = inject(HttpClient)
-  private baseUrl = "http://localhost:8080/users"
+  private baseUrl = "http://localhost:8080/user"
   loggedUser: User | null = null
 
   login (username: string, password: string): Observable<User> {
@@ -17,5 +17,21 @@ export class UserService {
 
   register(newUser: User) {
     return this.http.post(`${this.baseUrl}/register`, newUser)
+  }
+
+  getAllUser(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl)
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`)
+  }
+
+  changeRoleOfUser(id: number):Observable<User> {
+    return this.http.patch<User>(`${this.baseUrl}/${id}`, {})
+  }
+
+  getAllWorker(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/worker`)
   }
 }

@@ -3,6 +3,16 @@ import { inject, Injectable } from '@angular/core';
 import { Appointment } from '../models/Appointment.model';
 import { Observable } from 'rxjs';
 
+interface appointmentDto {
+  title: string,
+  date: string,
+  start: string,
+  end: string,
+  isOnline: boolean,
+  capacity: number,
+  workerId: number
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,6 +25,18 @@ export class AppointmentService {
   }
 
   bookAppointment(appointmentId: number, userId: number) {
-    return this.http.post(`${this.baseUrl}/book`, {})
+    return this.http.post(`${this.baseUrl}/${appointmentId}/book`, { userId: userId })
+  }
+
+  deleteAppointment(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`)
+  }
+
+  updateAppointment(id: number, updatedAppointment: appointmentDto): Observable<Appointment> {
+    return this.http.put<Appointment>(`${this.baseUrl}/${id}`, updatedAppointment)
+  }
+
+  addAppointment(newAppointment: appointmentDto) {
+    return this.http.post(`${this.baseUrl}`, newAppointment)
   }
 }

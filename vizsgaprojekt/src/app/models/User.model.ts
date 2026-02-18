@@ -1,3 +1,4 @@
+import { Appointment } from "./Appointment.model";
 import { Role } from "./role.model";
 
 export class User {
@@ -8,6 +9,10 @@ export class User {
     public lastName: string,
     public email: string,
     public password: string,
-    public role?: Role
+    public role?: Role,
+    public bookedAppointments: Appointment[] = [],
+    public workAppointment: Appointment[] = [],
+    public isDeleted: boolean = false,
+    public deletedAt: Date|null = null,
   ) { }
 }

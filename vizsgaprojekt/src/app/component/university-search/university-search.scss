@@ -9,7 +9,7 @@
   width: 1000px;
   height: 100px;
   border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
   #universityInput {
     height: 50px;
@@ -23,6 +23,7 @@
 #infoDiv {
   background-color: #E3E5FD;
   width: 1000px;
+  height: 350px;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
@@ -45,4 +46,37 @@
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
+}
+
+
+#selectContainer {
+  position: fixed;
+  top: 311px;
+  // box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.selectableUniversity {
+  height: 45px;
+  width: 100%;
+  background-color: #E3E5FD;
+  z-index: 2;
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectableUniversity:hover {
+  background-color: #BEB2F6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1050px) {
+   #infoDiv, #inputContainer, #selectContainer {
+    width: 90% !important;
+  }
+
+  .selectableUniversity {
+    width: 100%;
+  }
 }

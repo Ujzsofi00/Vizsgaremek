@@ -1,13 +1,18 @@
+@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Relief:wght@400;700&display=swap');
+
+* {
+  font-family: "Comic Relief", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
 
 .userCard {
   height: 150px;
   background-color: #BEB2F6;
   border-radius: 12px;
   width: 950px;
-  font-family: "Comic Relief", system-ui;
-  font-weight: 400;
-  font-style: normal;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .deleteButton {
@@ -17,4 +22,31 @@
   height: 45px;
   border-radius: 8px;
   font-size: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+* {
+  @include mat.checkbox-overrides((
+    selected-checkmark-color: #ECF0F7,
+    selected-focus-icon-color: #5a49a8,
+    selected-pressed-state-layer-color: #ECF0F7,
+    selected-pressed-icon-color: #5a49a8,
+    selected-icon-color: #5a49a8,
+    selected-hover-icon-color: #5a49a8,
+    unselected-icon-color: #5a49a8,
+    unselected-hover-icon-color: #5a49a8,
+    unselected-focus-icon-color: #5a49a8
+  ));
+}
+
+@media screen and (max-width: 1000px) {
+  .userCard {
+    width: 90%;
+    height: auto;
+  }
+
+  ul, li {
+    width: 100%;
+    padding: 0px;
+  }
 }

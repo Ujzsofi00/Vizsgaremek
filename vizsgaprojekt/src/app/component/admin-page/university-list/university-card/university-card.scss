@@ -1,9 +1,28 @@
-input, textarea {
-  background-color: #E3E5FD;
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Relief:wght@400;700&display=swap');
+
+* {
+  color: #5a49a8;
+}
+
+h4, p, input, textarea, mat-form-field {
+  font-family: "Comic Relief", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+input,
+textarea {
+  background-color: #ECF0F7;
   height: 35px;
   border: none;
   border-radius: 4px;
   font-size: 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+mat-form-field {
+  background-color: #E3E5FD !important;
 }
 
 input:focus,
@@ -22,10 +41,45 @@ input::after {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #E3E5FD;
+  background-color: #B3BBFB;
   border-radius: 8px;
 }
 
 mat-select {
   height: 35px;
+}
+
+* {
+  @include mat.expansion-overrides(( // actions-divider-color: red,
+      container-background-color: #E3E5FD,
+      header-text-color: #5a49a8
+      ));
+}
+
+//scrollbar:
+* {
+  --sb-track-color: #e3e5fd;
+  --sb-thumb-color: #5a49a8;
+  --sb-size: 5px;
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
 }

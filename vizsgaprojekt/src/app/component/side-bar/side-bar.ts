@@ -2,6 +2,7 @@ import { Component, inject, output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../models/User.model'; 
 import { UserService } from '../../service/user-service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,9 +14,17 @@ export class SideBar {
   private router = inject(Router)
   userService = inject(UserService)
   close = output()
+  private cookieService = inject(CookieService)
 
   navigate(path: string) {
     this.router.navigate([path])
     this.close.emit()
   }
+
+  logout() {
+    this.userService.loggedUser = null
+    this.cookieService.delete("jwt")
+    this.router.navigate(["/homePage"])
+  }
 }
+

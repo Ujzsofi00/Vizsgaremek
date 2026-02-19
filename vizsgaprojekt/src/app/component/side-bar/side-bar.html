@@ -9,10 +9,12 @@
           <span class="material-symbols-outlined">home</span>
           <span class="spanText">Főoldal</span>
         </li>
-        <li (click)="navigate('/appointmentReservation')" class="d-flex justify-content-start align-items-center mt-2">
-          <span class="material-symbols-outlined"> calendar_add_on </span>
-          <span class="spanText">Felkészítő foglalás</span>
-        </li>
+        @if (userService.loggedUser != null) {
+          <li (click)="navigate('/appointmentReservation')" class="d-flex justify-content-start align-items-center mt-2">
+            <span class="material-symbols-outlined"> calendar_add_on </span>
+            <span class="spanText">Felkészítő foglalás</span>
+          </li>
+        }
         <li (click)="navigate('/universitySearch')" class="d-flex justify-content-start align-items-center mt-2">
           <span class="material-symbols-outlined"> school </span>
           <span class="spanText">Egyetem</span>
@@ -20,7 +22,14 @@
         @if (userService.loggedUser?.role?.name == "ROLE_admin"){
           <li (click)="navigate('/adminPage')" class="d-flex justify-content-start align-items-center mt-2">
             <span class="material-symbols-outlined">hardware</span>
-            <span class="spanText">Admin Page</span>
+            <span class="spanText">Admin</span>
+          </li>
+        }
+
+        @if (userService.loggedUser?.role?.name == "ROLE_worker"){
+          <li (click)="navigate('/eventManager')" class="d-flex justify-content-start align-items-center mt-2">
+            <span class="material-symbols-outlined">hardware</span>
+            <span class="spanText">Időpontok kezelése</span>
           </li>
         }
       </ul>
@@ -32,7 +41,7 @@
       @if (userService.loggedUser == null) {
         <button (click)="navigate('/login')" class=" spanText" id="loginButton">Bejelentkezés</button>
       } @else {
-        <button class="fw-bold" id="logoutButton">Kijelentkezés</button>
+        <button class="fw-bold" id="logoutButton" (click)="logout()">Kijelentkezés</button>
       }
     </div>
   </div>

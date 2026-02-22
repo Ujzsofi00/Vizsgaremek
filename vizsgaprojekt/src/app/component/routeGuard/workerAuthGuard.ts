@@ -9,7 +9,7 @@ export class WorkerAuthGuard implements CanMatch {
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    if (this.userService.loggedUser?.role?.name == "ROLE_worker") {
+    if (this.userService.loggedUser?.role?.name == "ROLE_worker" || this.userService.loggedUser?.role?.name == "ROLE_admin") {
       return true
     }
 

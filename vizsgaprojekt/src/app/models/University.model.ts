@@ -7,6 +7,7 @@ export class university {
     public description: string,
     public address: string,
     public googleMapsLink: string,
+    public pageLink: string,
     public faculties: Faculty[],
     public isDeleted: boolean = false
   ) {}

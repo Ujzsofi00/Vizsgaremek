@@ -29,3 +29,10 @@ p {
 .carouselImg {
   height: 500px;
 }
+
+@media screen and (max-width: 992px) {
+  #infoBox {
+    margin: 0px !important;
+    width: 100%;
+  }
+}

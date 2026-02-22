@@ -77,3 +77,13 @@ p {
 a {
   color: #5a49a8 !important;
 }
+
+@media screen and (max-width: 750px) {
+  #secondContainer {
+    width: 90%;
+
+    #loginButton, #titleContainer, form {
+      width: 90%;
+    }
+  }
+}

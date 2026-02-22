@@ -2,13 +2,13 @@
   <mat-accordion>
     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
       <mat-expansion-panel-header>
-        <mat-panel-title> {{univeristy().name}} </mat-panel-title>
+        <mat-panel-title class="fw-bold" style="font-size: 17px; color: #5a49a8;"> {{univeristy().name}} </mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 d-flex justify-content-between align-items-center">
-              <h4 class="w-100 text-lg-start text-center">{{univeristy().name}}:</h4>
+        <div class="container-fluid" style="height: 473px !important; overflow-y: auto; overflow-x: hidden !important;">
+          <div class="row px-3" style="position: sticky; top: 0px; background-color: #E3E5FD;">
+            <div class="col-lg-12 py-2 d-flex justify-content-between align-items-center" style="border-bottom: 3px solid #5a49a8;">
+              <h4 class="w-100 text-lg-start text-center fw-bold" style="font-size: 800 !important;">{{univeristy().name}}:</h4>
               <button class="iconButton" (click)="sendUpdate()" [disabled]="isEdit && updateForm.invalid">
                 <span class="material-symbols-outlined">
                   {{isEdit ? "check" : "edit"}}
@@ -55,13 +55,26 @@
               <div class="col-lg-12 mb-3">
                 <label for="googleMapsLink" class="fw-bold text-lg-start text-center w-100">Google Maps link:</label>
                 @if (!isEdit) {
-                  <a class="text-lg-start text-center" target="_blank" [href]="univeristy().googleMapsLink">{{univeristy().googleMapsLink}}</a>
+                  <a class="text-lg-start text-center w-100" target="_blank" [href]="univeristy().googleMapsLink">{{univeristy().googleMapsLink}}</a>
                 } @else {
                   <br>
                   <input type="text" class="w-100 px-2" placeholder="Google Maps linkje" id="googleMapsLink" formControlName="googleMapsLink">
                 }
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <label for="pageLink" class="fw-bold text-lg-start text-center w-100">Egyetem oldal elérhetősége:</label>
+                @if (!isEdit) {
+                  <a class="text-lg-start text-center w-100" target="_blank" [href]="univeristy().pageLink">{{univeristy().pageLink}}</a>
+                } @else {
+                  <br>
+                  <input type="text" class="w-100 px-2 w-100" placeholder="Egyetem oldalának linkje" id="pageLink" formControlName="pageLink">
+                }
+              </div>
+            </div>
+
             <div class="row">
               <div class="col-lg-12">
                 <label for="faculties" class="fw-bold w-100 text-lg-start text-center">Elérhető szakok:</label>
@@ -77,7 +90,7 @@
                     <!-- <input matInput type="text" class="d-none"> -->
                     <mat-select formControlName="faculties" multiple id="faculties">
                       @for (faculty of faculties; track $index) {
-                        <mat-option [value]="faculty.id">{{faculty.name}}</mat-option>
+                        <mat-option [value]="faculty.id" >{{faculty.name}}</mat-option>
                       }
                     </mat-select>
                   </mat-form-field>

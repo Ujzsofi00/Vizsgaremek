@@ -37,9 +37,9 @@ export class UniversityList implements OnInit{
     })
   }
 
-  updateUniversity(formValue: {name: string, description: string, address: string, googleMapsLink: string, faculties: number[]}, id: number, index: number) {
+  updateUniversity(formValue: {name: string, description: string, address: string, googleMapsLink: string, faculties: number[], pageLink: string,}, id: number, index: number) {
     this.universityService.updateUniversity(
-      new university(id, formValue.name, formValue.description, formValue.address, formValue.googleMapsLink,
+      new university(id, formValue.name, formValue.description, formValue.address, formValue.googleMapsLink, formValue.pageLink,
         formValue.faculties.map((id) => this.faculties.find(f => f.id == id)!)
       )
     ).subscribe({
@@ -49,9 +49,9 @@ export class UniversityList implements OnInit{
     })
   }
 
-  addUniversity(formValue: {name: string, description: string, address: string, googleMapsLink: string, faculties: number[]}) {
+  addUniversity(formValue: {name: string, description: string, address: string, googleMapsLink: string, faculties: number[], pageLink: string}) {
     this.universityService.addUniversity(
-      new university(null, formValue.name, formValue.description, formValue.address, formValue.googleMapsLink,
+      new university(null, formValue.name, formValue.description, formValue.address, formValue.googleMapsLink, formValue.pageLink,
         formValue.faculties.map((id) => this.faculties.find(f => f.id == id)!)
       )
     ).subscribe({

@@ -22,7 +22,7 @@ export class UniversityCard implements OnInit {
   delete = output()
   isEdit: boolean = false
   updateForm!: FormGroup
-  update = output<{name: string, description: string, address: string, googleMapsLink: string, faculties: number[]}>()
+  update = output<{name: string, description: string, address: string, googleMapsLink: string, faculties: number[], pageLink: string}>()
 
   ngOnInit(): void {
     this.updateForm = new FormGroup({
@@ -30,7 +30,8 @@ export class UniversityCard implements OnInit {
       description: new FormControl(this.univeristy().description, [Validators.required]),
       address: new FormControl(this.univeristy().address, [Validators.required]),
       googleMapsLink: new FormControl(this.univeristy().googleMapsLink, [Validators.required]),
-      faculties: new FormControl("", [Validators.required])
+      faculties: new FormControl(this.univeristy().faculties.map(f=>f.id), [Validators.required]),
+      pageLink: new FormControl(this.univeristy().pageLink, [Validators.required]),
     })
 
     this.facultyService.getAllFaculty().subscribe({

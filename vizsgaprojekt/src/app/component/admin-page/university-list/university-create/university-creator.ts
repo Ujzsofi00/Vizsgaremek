@@ -16,7 +16,7 @@ export class UniversityCreator implements OnInit{
   private facultyService = inject(FacultyService)
   faculties: Faculty[] = []
   creatorForm!: FormGroup
-  create = output<{name: string, description: string, address: string, googleMapsLink: string, faculties: number[]}>()
+  create = output<{name: string, description: string, address: string, googleMapsLink: string, faculties: number[], pageLink: string}>()
   close = output()
 
   ngOnInit(): void {
@@ -25,6 +25,7 @@ export class UniversityCreator implements OnInit{
       description: new FormControl("", [Validators.required]),
       address: new FormControl("", [Validators.required]),
       googleMapsLink: new FormControl("", [Validators.required]),
+      pageLink: new FormControl("", [Validators.required]),
       faculties: new FormControl("", [Validators.required])
     })
 

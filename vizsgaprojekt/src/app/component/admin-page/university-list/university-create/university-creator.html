@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-between align-items-center mt-3">
             <div style="height: 40px; width: 40px;"></div>
-            <h1 class="text-center m-0">Egyetem létrehozása</h1>
+            <h3 class="text-center m-0 fw-bold">Egyetem létrehozása</h3>
             <button class="iconButton" (click)="close.emit()">X</button>
           </div>
         </div>
@@ -37,6 +37,13 @@
                   <input type="text" class="w-100 px-2" placeholder="Google Maps elérhetőség" id="googleMapsLink" formControlName="googleMapsLink">
                 </div>
               </div>
+              <div class="row">
+                <div class="col-lg-12 mb-3">
+                  <label for="pageLink">Egyetem oldal elérhetősége</label>
+                  <input type="text" class="w-100 px-2" placeholder="Egyetem oldal elérhetősége" id="pageLink" formControlName="pageLink">
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-lg-12 mb-3">
                   <label for="">Szakok:</label>

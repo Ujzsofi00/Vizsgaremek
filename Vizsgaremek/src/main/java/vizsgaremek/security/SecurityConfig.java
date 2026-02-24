@@ -72,7 +72,8 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(jwtGeneratorFilter, BasicAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                //.formLogin(Customizer.withDefaults());
+                .formLogin(f -> f.disable());
         return http.build();
     }
 

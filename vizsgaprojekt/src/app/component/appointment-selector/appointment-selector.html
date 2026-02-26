@@ -12,7 +12,7 @@
         }"
       >
         @if (selectedAppointment == null || selectedAppointment.isDeleted) {
-          <h1 class="text-center">Ezen a napon nincs felkészités!</h1>
+          <h1 class="text-center">Ezen a napon nincs felkészítés!</h1>
         } @else if (selectedAppointment.isFull) {
           <h1 class="text-center">Nincs szabad hely!</h1>
         } @else {

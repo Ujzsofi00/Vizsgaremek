@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-lg-12 d-flex justify-content-center align-items-center">
-      <button id="createButton" (click)="showCreatorForm = true">Egyetem hozzáadása</button>
+      <button id="createButton" (click)="showCreatorForm = true">Egyetem hozzáadasa</button>
     </div>
   </div>
 
@@ -23,4 +23,5 @@
 @if (showCreatorForm) {
   <app-university-creator (create)="addUniversity($event)" (close)="showCreatorForm = false"/>
 }
+
 

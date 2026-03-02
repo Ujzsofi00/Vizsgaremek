@@ -4,7 +4,7 @@
       <button (click)="showSideBar.emit()" id="sidebarButton" class="d-flex justify-content-center align-items-center">
         <span class="material-symbols-outlined">menu</span>
       </button>
-      <p class="m-0" routerLink="/homePage" id="projectTitle">Universitas</p>
+      <p class="m-0 text-center" routerLink="/homePage" id="projectTitle">Universitas</p>
       @if (userService.loggedUser == null) {
         <button routerLink="/login"  id="loginButton">Bejelentkezés</button>
       }

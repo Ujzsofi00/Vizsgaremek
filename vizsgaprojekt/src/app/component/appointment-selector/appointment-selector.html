@@ -1,46 +1,46 @@
 <div class="container-fluid" style="height: 83vh">
   <div class="row my-5 h-100 d-flex justify-content-center align-items-center">
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 my-3 d-flex justify-content-center align-items-center order-lg-0 order-1">
       <div
-        class="infoDiv h-100 d-flex justify-content-center p-4"
+        class="infoDiv h-100 d-flex p-4"
         [ngClass]="{
           'flex-row': selectedAppointment == null || selectedAppointment.isDeleted || selectedAppointment.isFull,
           'align-items-center': selectedAppointment == null || selectedAppointment.isDeleted || selectedAppointment.isFull,
+
+
           'flex-column': selectedAppointment != null && !selectedAppointment.isDeleted && !selectedAppointment.isFull,
-          'align-items-start': selectedAppointment != null && !selectedAppointment.isDeleted && !selectedAppointment.isFull,
-          'justify-content-between': selectedAppointment != null && !selectedAppointment.isDeleted && !selectedAppointment.isFull && isShowBookButton
+          'align-items-start justify-content-between': selectedAppointment != null && !selectedAppointment.isDeleted && !selectedAppointment.isFull,
         }"
       >
         @if (selectedAppointment == null || selectedAppointment.isDeleted) {
-          <h1 class="text-center">Ezen a napon nincs felkészítés!</h1>
+          <h1 class="text-center">Ezen a napon nincs felkészités!</h1>
         } @else if (selectedAppointment.isFull) {
           <h1 class="text-center">Nincs szabad hely!</h1>
         } @else {
           <h1 class="w-100 text-center">{{selectedAppointment.title}}</h1>
-          <!-- <p class="w-100 mb-2" style="font-size: 25px;">Adatok:</p> -->
-          <ul class="list-unstyled px-4" style="font-size: 17px;">
-            <li><span class="fw-bold">Típus:</span> {{selectedAppointment.isOnline ? "online" : "helyszíni"}}</li>
+          <ul class="list-unstyled px-4 w-100" style="font-size: 17px;">
+            <li class="w-100 text-lg-start text-center"><span class="fw-bold">Típus:</span> {{selectedAppointment.isOnline ? "online" : "helyszíni"}}</li>
             @if (!selectedAppointment.isOnline) {
-              <li><span class="fw-bold">Helyszín:</span> Universitas Studio</li>
+              <li class="w-100 text-lg-start text-center"><span class="fw-bold">Helyszín:</span> Universitas Studio</li>
             }
-            <li><span class="fw-bold">Előadó:</span> {{selectedAppointment.worker.firstName}} {{selectedAppointment.worker.lastName}}</li>
-            <li><span class="fw-bold">Szabad helyek:</span> {{selectedAppointment.capacity - selectedAppointment.reserverUsers.length}}</li>
-            <li><span class="fw-bold">Időpont:</span> {{selectedAppointment.date | date: "yyyy-MM-dd"}} {{selectedAppointment.start.toString().substring(0, 5)}}-{{selectedAppointment.end.toString().substring(0, 5)}}</li>
+            <li class="w-100 text-lg-start text-center"><span class="fw-bold">Előadó:</span> {{selectedAppointment.worker.firstName}} {{selectedAppointment.worker.lastName}}</li>
+            <li class="w-100 text-lg-start text-center"><span class="fw-bold">Szabad helyek:</span> {{selectedAppointment.capacity - selectedAppointment.reserverUsers.length}}</li>
+            <li class="w-100 text-lg-start text-center"><span class="fw-bold">Időpont:</span> {{selectedAppointment.date | date: "yyyy-MM-dd"}} {{selectedAppointment.start.toString().substring(0, 5)}}-{{selectedAppointment.end.toString().substring(0, 5)}}</li>
           </ul>
 
           <div class="w-100 d-flex justify-content-center align-items-center">
               @if (!isShowBookButton) {
-                <button (click)="bookAppointment()">Foglalás</button>
+                <button (click)="bookAppointment(); isShowBookButton = false">Foglalás</button>
               }
             </div>
         }
       </div>
     </div>
 
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div class="infoDiv">
+    <div class="col-lg-6 my-3 d-flex justify-content-center align-items-center order-lg-1 order-0">
+      <div class="infoDiv d-flex justify-content-center align-items-center">
         <mat-card class="demo-inline-calendar-card">
-          <mat-calendar [(selected)]="selectedDate" (selectedChange)="getAppointmentByDate()"></mat-calendar>
+          <mat-calendar [(selected)]="selectedDate" (selectedChange)="getAppointmentByDate()" style="font-weight: 900; width: 500px;" />
         </mat-card>
       </div>
     </div>

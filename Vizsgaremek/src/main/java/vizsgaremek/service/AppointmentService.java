@@ -13,6 +13,7 @@ import vizsgaremek.repository.AppointmentRepository;
 import vizsgaremek.repository.UserRepository;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
@@ -88,17 +89,18 @@ public class AppointmentService {
 
     @PreAuthorize("hasAnyRole('admin', 'worker')")
     public ResponseEntity<Object> updateAppointment(Integer id, AppointmentDto updatedAppointment) {
+
+        Appointment searchedAppointment = appointmentRepository.findById(id).orElse(null);
+        if (searchedAppointment == null || searchedAppointment.getIsDeleted()) {
+            return ResponseEntity.status(404).body("appointmentNotFound");
+        }
+
+        Users worker = userRepository.findById(updatedAppointment.getWorkerId()).orElse(null);
+        if (worker == null || worker.getIsDeleted()) {
+            return ResponseEntity.status(404).body("workerNotFound");
+        }
+
         try {
-            Appointment searchedAppointment = appointmentRepository.findById(id).orElse(null);
-            if (searchedAppointment == null || searchedAppointment.getIsDeleted()) {
-                return ResponseEntity.status(404).body("appointmentNotFound");
-            }
-
-            Users worker = userRepository.findById(updatedAppointment.getWorkerId()).orElse(null);
-            if (worker == null || worker.getIsDeleted()) {
-                return ResponseEntity.status(404).body("workerNotFound");
-            }
-
             searchedAppointment.setTitle(updatedAppointment.getTitle());
             searchedAppointment.setDate(this.dateFormat.parse(updatedAppointment.getDate()));
             searchedAppointment.setStart(LocalTime.parse(updatedAppointment.getStart()));
@@ -108,20 +110,21 @@ public class AppointmentService {
             searchedAppointment.setWorker(worker);
 
             return ResponseEntity.ok().body(appointmentRepository.save(searchedAppointment));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
             return ResponseEntity.internalServerError().build();
         }
+
     }
 
     @PreAuthorize("hasAnyRole('admin', 'worker')")
     public ResponseEntity<Object> addAppointment(AppointmentDto newAppointmentDto) {
-        try {
-            Users worker = userRepository.findById(newAppointmentDto.getWorkerId()).orElse(null);
-            if (worker == null || worker.getIsDeleted()) {
-                return ResponseEntity.notFound().build();
-            }
 
+        Users worker = userRepository.findById(newAppointmentDto.getWorkerId()).orElse(null);
+        if (worker == null || worker.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
             Appointment newAppointment = new Appointment(
                     newAppointmentDto.getCapacity(),
                     newAppointmentDto.getIsOnline(),
@@ -131,15 +134,8 @@ public class AppointmentService {
                     newAppointmentDto.getTitle(),
                     worker
             );
-
-            try {
-                Appointment appointmentAtSameDate = appointmentRepository.getAppointmentByDate(newAppointment.getDate()).orElse(null);
-                return ResponseEntity.status(415).body("invalidDate");
-            } catch (EmptyResultDataAccessException ex) {
-                return ResponseEntity.ok().body(appointmentRepository.save(newAppointment));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return ResponseEntity.ok().body(appointmentRepository.save(newAppointment));
+        } catch (ParseException e) {
             return ResponseEntity.internalServerError().build();
         }
     }

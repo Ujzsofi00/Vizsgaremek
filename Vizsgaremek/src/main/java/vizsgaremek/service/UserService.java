@@ -10,17 +10,25 @@ import vizsgaremek.entity.Users;
 import vizsgaremek.repository.RoleRepository;
 import vizsgaremek.repository.UserRepository;
 
+import java.util.regex.Pattern;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
     public ResponseEntity<Object> register(Users user) {
         user.setRole(roleRepository.findById(1).get());
+
+
+        if (!emailValidator(user.getEmail())) {
+            return ResponseEntity.status(415).body("invalidEmail");
+        }
         user.setIsDeleted(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -100,5 +108,13 @@ public class UserService {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+
+    public static Boolean emailValidator(String email) {
+        if (email == null || email.length() > 100) {
+            return false;
+        }
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 }

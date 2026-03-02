@@ -4,12 +4,13 @@ import { UserService } from '../../service/user-service';
 @Injectable({
   providedIn: "root"
 })
-export class WorkerAuthGuard implements CanMatch {
+export class RoleAuthGuard implements CanMatch {
   userService = inject(UserService)
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    if (this.userService.loggedUser?.role?.name == "ROLE_worker" || this.userService.loggedUser?.role?.name == "ROLE_admin") {
+    let data = route.data as {roles: string[]}
+    if (data.roles.includes(this.userService.loggedUser?.role?.name!)) {
       return true
     }
 

@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Gép: localhost:3306
--- Létrehozás ideje: 2026. Feb 18. 13:14
--- Kiszolgáló verziója: 5.7.24
--- PHP verzió: 8.1.0
+-- Host: localhost:3306
+-- Generation Time: Mar 02, 2026 at 09:23 AM
+-- Server version: 5.7.24
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `vizsgaremek`
+-- Database: `vizsgaremek`
 --
 
 DELIMITER $$
 --
--- Eljárások
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAppointment` (IN `idIN` INT(11))   BEGIN
 	UPDATE `appointment` SET `is_deleted`=1, `deleted_at`=CURRENT_DATE() WHERE `appointment`.`appointment_id` = idIN;
@@ -86,7 +86,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFaculty` (IN `id` INT(11))   BEG
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacultyByUniversityId` (IN `universityIdIN` INT(11))   BEGIN
-	SELECT * FROM universityxfaculty WHERE universityxfaculty.university_id = universityId;
+	SELECT * FROM universityxfaculty WHERE universityxfaculty.university_id = universityIdIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversity` (IN `idIN` INT(11))   BEGIN
@@ -157,7 +157,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `appointment`
+-- Table structure for table `appointment`
 --
 
 CREATE TABLE `appointment` (
@@ -175,7 +175,7 @@ CREATE TABLE `appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `appointment`
+-- Dumping data for table `appointment`
 --
 
 INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end_time`, `capacity`, `Is_full`, `is_online`, `worker_id`, `is_deleted`, `deleted_at`) VALUES
@@ -187,7 +187,7 @@ INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `faculty`
+-- Table structure for table `faculty`
 --
 
 CREATE TABLE `faculty` (
@@ -199,41 +199,41 @@ CREATE TABLE `faculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `faculty`
+-- Dumping data for table `faculty`
 --
 
 INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `deleted_at`) VALUES
-(1, 'doktori', 'mert kellenek orvosok', 0, NULL),
-(2, 'Bölcsésztudományi', 'valamit csinál az biztos\r\n', 0, '2025-11-25 00:00:00'),
-(3, 'Állam- és Jogtudományi', 'mert neked kell jogász', 0, NULL),
+(1, 'csere', 'ez csak a cserét jelzi', 0, NULL),
+(2, 'agrár- és üzleti digitalizáció', '\r\n', 0, '2025-11-25 00:00:00'),
+(3, 'igazságügyi igazgatási', '', 0, NULL),
 (4, 'mérnöki', 'nem tudom mit csinál', 0, NULL),
 (5, 'Sporttudomány', 'mert kell még több stadion', 0, NULL),
 (6, 'digitális fogászati tervezés', 'fogakkal foglalkozó tanfolyam', 0, NULL),
-(7, 'Gyógyszerésztudományi', 'gyógyszeri alapok elsajátítása, gyógyszerek tanulmányozása, új gyógyszerek fifejlestése', 0, NULL),
-(8, 'Egészségtudományi', 'egészségügyi dolgok elsajátítása', 0, NULL),
+(7, 'Gyógyszerész', 'gyógyszeri alapok elsajátítása, gyógyszerek tanulmányozása, új gyógyszerek fifejlestése', 0, NULL),
+(8, 'gazdasági és vidékfejlesztési agrármérnöki', '', 0, NULL),
 (9, 'Gyógypedagógiai', 'terápiás tevékenységek elsajátítása, fejlesztésikésségek elsaátításadiagnózisok elemzése', 0, NULL),
-(10, 'Informatikai', '', 0, NULL),
-(11, 'Pedagógiai és Pszichológiai', 'tanárképzés és pszihológus képzés', 0, NULL),
+(10, 'élelmiszermérnöki', '', 0, NULL),
+(11, 'mezőgazdasági vízgazdálkodási és környezettechnológiai mérnöki', '', 0, NULL),
 (12, 'Tanító- és Óvóképző', 'tanár és ovónő képző', 0, NULL),
-(13, 'Hittudományi', 'Hitek tanulmányozás, teológiák elsajátítása, hittan tanár és lelkész képzésa', 0, NULL),
-(14, 'Szociális és Egészségtudományi', '', 0, NULL),
-(15, 'Kereskedelmi, Vendéglátóipari és Idegenforgalmi', '', 0, NULL),
-(16, 'Külkereskedelmi', '', 0, NULL),
-(17, 'Pénzügyi és Számviteli', '', 0, NULL),
+(13, 'Jogász', '', 0, NULL),
+(14, 'kertészmérnöki', '', 0, NULL),
+(15, 'lótenyésztő, lovassport szervező agrármérnöki', '', 0, NULL),
+(16, 'mezőgazdasági mérnöki', '', 0, NULL),
+(17, 'Pénzügy és Számvitel', '', 0, NULL),
 (18, 'Építészmérnöki', '', 0, NULL),
 (19, 'Építőmérnöki', '', 0, NULL),
-(20, 'Gazdaság- és Társadalomtudományi', '', 0, NULL),
+(20, 'precíziós mezőgazdasági mérnöki', '', 0, NULL),
 (21, 'Gépészmérnöki', '', 0, NULL),
-(22, 'Közlekedésmérnöki és Járműmérnöki', '', 0, NULL),
-(23, 'Természettudományi', '', 0, NULL),
-(24, 'Vegyészmérnöki és Biomérnöki', '', 0, NULL),
-(25, 'Villamosmérnöki és Informatikai', '', 0, NULL),
+(22, 'természetvédelmi mérnöki', '', 0, NULL),
+(23, 'vadgazda mérnöki', '', 0, NULL),
+(24, 'anyagmérnöki', '', 0, NULL),
+(25, 'biotechnológia', '', 0, NULL),
 (26, 'Egészségügyi Közszolgálati', '', 0, NULL),
 (27, 'Társadalomtudományi', '', 0, NULL),
 (28, 'Pedagógusképző', '', 0, NULL),
 (29, 'Gazdaságtudományi', '', 0, NULL),
 (30, 'Általános Orvostudományi', '', 0, NULL),
-(31, 'Gyermeknevelési és Gyógypedagógiai', '', 0, NULL),
+(31, 'romológia', '', 0, NULL),
 (32, 'műszaki', '', 0, NULL),
 (33, 'agrár', '', 0, NULL),
 (34, 'művészeti', '', 0, NULL),
@@ -285,12 +285,61 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (80, 'sportszervezés', '', 0, NULL),
 (81, 'alkalmazott közgazdaságtan', '', 0, NULL),
 (82, 'nemzetközi tanulmányok', '', 0, NULL),
-(83, 'szociológia', '', 0, NULL);
+(83, 'szociológia', '', 0, NULL),
+(84, 'turizmus-vendéglátás', '', 0, NULL),
+(85, 'biológia', '', 0, NULL),
+(86, 'fizika', '', 0, NULL),
+(87, 'földrajz', '', 0, NULL),
+(88, 'földtudományi', '', 0, NULL),
+(89, 'kémia', '', 0, NULL),
+(90, 'környezettan', '', 0, NULL),
+(91, 'matematika', '', 0, NULL),
+(92, 'buddhista tanító', '', 0, NULL),
+(93, 'teológia', '', 0, NULL),
+(94, 'állatorvosi', '', 0, NULL),
+(95, 'kutató zoológus', '', 0, NULL),
+(96, 'szociálpedagógia', '', 0, NULL),
+(97, 'kántor', '', 0, NULL),
+(98, 'vaisnava jógamester', '', 0, NULL),
+(99, 'vaisnava teológia', '', 0, NULL),
+(100, 'osztatlan tanári', '', 0, NULL),
+(101, 'filozófia, politika, gazdaság', '', 0, NULL),
+(102, 'gazdaságinformatikus', '', 0, NULL),
+(103, 'üzleti adattudomány', '', 0, NULL),
+(104, 'szakoktató', '', 0, NULL),
+(105, 'animáció', '', 0, NULL),
+(106, 'designkultúra', '', 0, NULL),
+(107, 'építőművészet', '', 0, NULL),
+(108, 'formatervezés', '', 0, NULL),
+(109, 'kézműves tárgykultúra', '', 0, NULL),
+(110, 'környezetkultúra', '', 0, NULL),
+(111, 'média design', '', 0, NULL),
+(112, 'mozgóképkultúra és médiaismeret', '', 0, NULL),
+(113, 'televíziós műsorkészítő', '', 0, NULL),
+(114, 'tervezőgrafika', '', 0, NULL),
+(115, 'textiltervezés', '', 0, NULL),
+(116, 'energetikai mérnöki', '', 0, NULL),
+(117, 'ipari termék- és formatervező mérnöki', '', 0, NULL),
+(118, 'mechatronikai mérnöki', '', 0, NULL),
+(119, 'járműmérnöki', '', 0, NULL),
+(120, 'közlekedésmérnöki', '', 0, NULL),
+(121, 'logisztikai mérnöki', '', 0, NULL),
+(122, 'repülőmérnöki', '', 0, NULL),
+(123, 'fizikus-mérnöki', '', 0, NULL),
+(124, 'biomérnöki', '', 0, NULL),
+(125, 'környezetmérnöki', '', 0, NULL),
+(126, 'vegyészmérnöki', '', 0, NULL),
+(127, 'mérnökinformatikus', '', 0, NULL),
+(128, 'üzemmérnök-informatikus', '', 0, NULL),
+(129, 'villamosmérnöki', '', 0, NULL),
+(130, 'alkotóművészet és muzikológia', '', 0, NULL),
+(131, 'előadó-művészet', '', 0, NULL),
+(132, 'kortárs könnyűzene', '', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
@@ -299,7 +348,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -310,7 +359,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `university`
+-- Table structure for table `university`
 --
 
 CREATE TABLE `university` (
@@ -325,36 +374,36 @@ CREATE TABLE `university` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `university`
+-- Dumping data for table `university`
 --
 
 INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `google_maps_link`, `page_link`, `is_deleted`, `deleted_at`) VALUES
-(1, 'Semmelweis Egyetem', 'orvosi egyetem', 'Budapest, Üllői út 26, 1085', 'https://www.google.com/maps/place/Semmelweis+Egyetem+%C3%81ltal%C3%A1nos+Orvostudom%C3%A1nyi+Kar/@47.4873751,19.0659224,18z/data=!4m10!1m2!2m1!1sSemmelweis+Egyetem!3m6!1s0x4741dc59ea3ba3cd:0xa255183ce04f11de!8m2!3d47.4873751!4d19.067379!15sChJTZW1tZWx3ZWlzIEVneWV0ZW0iA4gBAZIBCnVuaXZlcnNpdHmqAVQKDS9nLzExYmJybHNsMzkKCS9tLzA0dDduNBABMh4QASIa8dqFcZ0PBIXO2kLLHqByrKpDsJ_HbnD8mOkyFhACIhJzZW1tZWx3ZWlzIGVneWV0ZW3gAQA!16s%2Fg%2F12qfsrgp9?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.semmelweis.hu', 0, NULL),
-(2, 'Eötvös Loránd Tudományegyetem (Budapest)', 'szinte mindent tudsz itt tanulni', 'Budapest, Egyetem tér 1-3, 1053', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+Lor%C3%A1nd+Tudom%C3%A1nyegyetem/@47.4905698,19.0559696,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc44dc7c9251:0x2259d03e6d01806d!8m2!3d47.4905698!4d19.0585445!16zL20vMDMyZ240?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.elte.hu', 0, NULL),
-(3, 'Budapesti Corvinus Egyetem', 'ez a Fővámtéri szabadidő központ, hogy itt mi jó nem tudom', 'Budapest, Fővám tér 8, 1093', 'https://www.google.com/maps/place/Budapesti+Corvinus+Egyetem/@47.4861534,19.0556806,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc502488be69:0xc5b7e757fb438129!8m2!3d47.4861534!4d19.0582555!16zL20vMDRndl9r?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-corvinus.hu', 0, NULL),
-(4, 'Magyar Testnevelési és Sporttudományi Egyetem', 'itt tudsz sokat tesizni', 'Budapest, Alkotás u. 42-48, 1123', 'https://www.google.com/maps/place/Magyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem/@47.4928905,19.0231691,18.25z/data=!4m10!1m2!2m1!1sMagyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem!3m6!1s0x4741dc2f55636f27:0x4c3d127f8f623b6f!8m2!3d47.4929725!4d19.0254182!15sCjBNYWd5YXIgVGVzdG5ldmVsw6lzaSDDqXMgU3BvcnR0dWRvbcOhbnlpIEVneWV0ZW2SAQp1bml2ZXJzaXR5qgFnCg0vZy8xMWI2NnNsZDh3EAEyHhABIhrfflh5CWHUoGeqF5j2vVv7HLpcd8BPqqy-wTI0EAIiMG1hZ3lhciB0ZXN0bmV2ZWzDqXNpIMOpcyBzcG9ydHR1ZG9tw6FueWkgZWd5ZXRlbeABAA!16s%2Fg%2F11b66sld8w?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.tf.hu', 0, NULL),
-(5, 'Károli Gáspár Református Egyetem', 'jó kérdés mit tusz itt tanulni, de biztos jó', 'Budapest, Kálvin tér 9, 1092', 'https://www.google.com/maps/place/K%C3%A1roli+G%C3%A1sp%C3%A1r+Reform%C3%A1tus+Egyetem/@47.4889557,19.0511305,1877m/data=!3m1!1e3!4m10!1m2!2m1!1zCUvDoXJvbGkgR8Ohc3DDoXIgUmVmb3Jtw6F0dXMgRWd5ZXRlbQ!3m6!1s0x4741dc5ae616f9f9:0x79cd925b374568bf!8m2!3d47.4889541!4d19.061843!15sCiRLw6Fyb2xpIEfDoXNww6FyIFJlZm9ybcOhdHVzIEVneWV0ZW2SAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F11bc5lm7sl?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.kre.hu', 0, NULL),
-(6, 'Budapesti Gazdasági Egyetem', 'bármi is ez', 'Budapest, Markó u. 29-31, 1055', 'https://www.google.com/maps/place/Budapesti+Gazdas%C3%A1gi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3!4m10!1m2!2m1!1sBudapesti+Gazdas%C3%A1gi+Egyetem!3m6!1s0x4741dc127f42ee99:0xb8631187d54fedd6!8m2!3d47.5088043!4d19.0540419!15sChxCdWRhcGVzdGkgR2F6ZGFzw6FnaSBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11g6nkx5g2?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.uni-bge.hu', 0, NULL),
-(7, 'Budapesti Műszaki és Gazdaságtudományi Egyetem', 'itt elvileg műszaki dolgokat tanulsz, de jó a mehatronikai mérnök kar versenycsapata', 'Budapest, Műegyetem rkp. 3, 1111', 'https://www.google.com/maps/search/Budapesti+M%C5%B1szaki+%C3%A9s+Gazdas%C3%A1gtudom%C3%A1nyi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.bme.hu', 0, NULL),
-(8, 'Debreceni Egyetem', 'mit tudom én, hogy itt mit tusz tanulni, azt se tudom, hogy hol van', 'Debrecen, Egyetem tér 1, 4032', 'google.com/maps/place/Debreceni+Egyetem/@47.5512318,21.5961877,7498m/data=!3m1!1e3!4m10!1m2!2m1!1sDebreceni+Egyetem!3m6!1s0x47470df39a92233b:0x158b32cc387080a5!8m2!3d47.5536257!4d21.6215102!15sChFEZWJyZWNlbmkgRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16zL20vMDhzbWpx?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.unideb.hu', 0, NULL),
-(9, 'Pécsi Tudományegyetem', 'Pécsen van biztos szar\r\nMiért nincsen egy kibaszott fő épülete?????', 'Pécs, Boszorkány út 2, 7624 ', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+M%C5%B1szaki+%C3%A9s+Informatikai+Kar/@46.0805525,17.6350114,61647m/data=!3m1!1e3!4m10!1m2!2m1!1zcHRlIHDDqWNz!3m6!1s0x4742b1bef45122bb:0xb5277a173d87a05b!8m2!3d46.0805525!4d18.2117936!15sCglwdGUgcMOpY3NaCyIJcHRlIHDDqWNzkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSbWRIRkhPRGxSUlJBQuABAPoBBAgAEB4!16s%2Fg%2F11xy39_h7?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.pte.hu', 0, NULL),
-(10, 'Budapest Cirkuszművészeti és Kortárstánc Főiskola', 'itt mindig áll a cirkusz', 'Budapest, Perc u. 2, 1036', 'https://www.google.com/maps/place/Budapest+Cirkuszm%C5%B1v%C3%A9szeti+%C3%A9s+Kort%C3%A1rst%C3%A1nc+F%C5%91iskola+-+Sz%C3%A9khely/@47.5358829,19.0404411,394m/data=!3m1!1e3!4m6!3m5!1s0x4741d9592c921463:0xc50511cf9dd9a8b9!8m2!3d47.5357446!4d19.0426993!16s%2Fg%2F12372h_x?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://bcdc.hu/', 0, NULL),
+(1, 'Semmelweis Egyetem', 'A Semmelweis Egyetem Magyarország és a közép-európai régió vezető orvos-egészségügyi felsőoktatási intézménye, mely szakegyetemként egyedülálló az országban. Három fő tevékenysége az oktatás, kutatás-innováció és gyógyítás; e hármas egység teszi nemzetközileg is elismert tudásközponttá a több mint 250 éves egyetemet.\r\n\r\n', 'Budapest, Üllői út 26, 1085', 'https://www.google.com/maps/place/Semmelweis+Egyetem+%C3%81ltal%C3%A1nos+Orvostudom%C3%A1nyi+Kar/@47.4873751,19.0659224,18z/data=!4m10!1m2!2m1!1sSemmelweis+Egyetem!3m6!1s0x4741dc59ea3ba3cd:0xa255183ce04f11de!8m2!3d47.4873751!4d19.067379!15sChJTZW1tZWx3ZWlzIEVneWV0ZW0iA4gBAZIBCnVuaXZlcnNpdHmqAVQKDS9nLzExYmJybHNsMzkKCS9tLzA0dDduNBABMh4QASIa8dqFcZ0PBIXO2kLLHqByrKpDsJ_HbnD8mOkyFhACIhJzZW1tZWx3ZWlzIGVneWV0ZW3gAQA!16s%2Fg%2F12qfsrgp9?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.semmelweis.hu', 0, NULL),
+(2, 'Eötvös Loránd Tudományegyetem (Budapest)', 'Az Egyetemen oktatási és kutatási feladatot ellátó, szolgáltató, működést támogató szervezeti egységek és köznevelési intézmények is működnek. Az Egyetemen az oktatási és a szakképzési tevékenység, a tudományos munka elsősorban a karokon folyik, valamint működnek kari szervezeten kívüli sajátos oktatási-kutatási tevékenységet ellátó egységek is.', 'Budapest, Egyetem tér 1-3, 1053', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+Lor%C3%A1nd+Tudom%C3%A1nyegyetem/@47.4905698,19.0559696,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc44dc7c9251:0x2259d03e6d01806d!8m2!3d47.4905698!4d19.0585445!16zL20vMDMyZ240?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.elte.hu', 0, NULL),
+(3, 'Budapesti Corvinus Egyetem', 'A Budapesti Corvinus Egyetem (röviden: CORVINUS/Corvinus vagy Corvinus Egyetem) egy európai léptékben közepes méretű, üzleti, gazdaság- és társadalomtudományi fókuszú intézmény. Az Egyetem Magyarország egyik vezető oktatási intézménye a gazdaság- és társadalomtudományok területén. Sőt több annál: olyan közösség, amelyhez jó és érdemes tartozni.', 'Budapest, Fővám tér 8, 1093', 'https://www.google.com/maps/place/Budapesti+Corvinus+Egyetem/@47.4861534,19.0556806,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc502488be69:0xc5b7e757fb438129!8m2!3d47.4861534!4d19.0582555!16zL20vMDRndl9r?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-corvinus.hu', 0, NULL),
+(4, 'Magyar Testnevelési és Sporttudományi Egyetem', 'A Magyar Testnevelési Egyetem életre hívásának gondolata már a századfordulón felmerült, de a konkrét előkészületek csak az 1920-as évek elején kezdődtek, majd alapítónk, Klebelsberg Kuno kultuszminiszter fáradozása nyomán az első tanév ünnepélyes megnyitására 1925 novemberében került sor.', 'Budapest, Alkotás u. 42-48, 1123', 'https://www.google.com/maps/place/Magyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem/@47.4928905,19.0231691,18.25z/data=!4m10!1m2!2m1!1sMagyar+Testnevel%C3%A9si+%C3%A9s+Sporttudom%C3%A1nyi+Egyetem!3m6!1s0x4741dc2f55636f27:0x4c3d127f8f623b6f!8m2!3d47.4929725!4d19.0254182!15sCjBNYWd5YXIgVGVzdG5ldmVsw6lzaSDDqXMgU3BvcnR0dWRvbcOhbnlpIEVneWV0ZW2SAQp1bml2ZXJzaXR5qgFnCg0vZy8xMWI2NnNsZDh3EAEyHhABIhrfflh5CWHUoGeqF5j2vVv7HLpcd8BPqqy-wTI0EAIiMG1hZ3lhciB0ZXN0bmV2ZWzDqXNpIMOpcyBzcG9ydHR1ZG9tw6FueWkgZWd5ZXRlbeABAA!16s%2Fg%2F11b66sld8w?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', 'http://www.tf.hu', 0, NULL),
+(5, 'Károli Gáspár Református Egyetem', 'Megjelent a HVG Diploma 2026 felsőoktatási rangsor, mely alapján a Károli Gáspár Református Egyetem – tavalyi helyezésén javítva  – a 6. legjobb* a 27 rangsorolt magyarországi felsőoktatási intézmény közül.\r\n\r\nA frissen megjelent kiadványban többek között olyan szempontok alapján rangsorolták a magyar felsőoktatási intézményeket, mint az elsőhelyes jelentkezők száma, a felvett hallgatók pontátlaga, a nyelvvizsgával felvettek aránya, a középiskolai versenyeken szerzett helyezések száma, valamint az oktatói kiválóság, publikációk aránya. ', 'Budapest, Kálvin tér 9, 1092', 'https://www.google.com/maps/place/K%C3%A1roli+G%C3%A1sp%C3%A1r+Reform%C3%A1tus+Egyetem/@47.4889557,19.0511305,1877m/data=!3m1!1e3!4m10!1m2!2m1!1zCUvDoXJvbGkgR8Ohc3DDoXIgUmVmb3Jtw6F0dXMgRWd5ZXRlbQ!3m6!1s0x4741dc5ae616f9f9:0x79cd925b374568bf!8m2!3d47.4889541!4d19.061843!15sCiRLw6Fyb2xpIEfDoXNww6FyIFJlZm9ybcOhdHVzIEVneWV0ZW2SAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F11bc5lm7sl?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.kre.hu', 0, NULL),
+(6, 'Budapesti Gazdasági Egyetem', 'A Budapesti Gazdaságtudományi Egyetem (BGE) Magyarország legnagyobb gazdaságtudományi egyeteme és Magyarország 4. legnagyobb egyeteme, ahol közel 20.000 diák tanul jelenleg.  \r\n\r\n A BGE az összes gazdasági alapszakján piacvezető, itt végzett a hazai közgazdászok legnagyobb része, emellett ide nyernek a legtöbben felvételt gazdaságinformatikus, valamint kommunikáció és médiatudomány alapszakokra is, és a nemzetközi tanulmányok szak létszámában is a második legnagyobb képzés a BGE-é. ', 'Budapest, Markó u. 29-31, 1055', 'https://www.google.com/maps/place/Budapesti+Gazdas%C3%A1gi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3!4m10!1m2!2m1!1sBudapesti+Gazdas%C3%A1gi+Egyetem!3m6!1s0x4741dc127f42ee99:0xb8631187d54fedd6!8m2!3d47.5088043!4d19.0540419!15sChxCdWRhcGVzdGkgR2F6ZGFzw6FnaSBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11g6nkx5g2?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.uni-bge.hu', 0, NULL),
+(7, 'Budapesti Műszaki és Gazdaságtudományi Egyetem', 'A Műegyetem elsődleges feladata műszaki, informatikai, természettudományi, valamint gazdasági, üzleti és menedzsment szakemberek képzése. A BME oktatástól elválaszthatatlan küldetése a tudományos kutatás, amely átfogja az innovációs láncot alkotó alap- és alkalmazott kutatást, a műszaki termék- és szolgáltatásfejlesztést, valamint az eredmények hasznosítását. ', 'Budapest, Műegyetem rkp. 3, 1111', 'https://www.google.com/maps/search/Budapesti+M%C5%B1szaki+%C3%A9s+Gazdas%C3%A1gtudom%C3%A1nyi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.bme.hu', 0, NULL),
+(8, 'Debreceni Egyetem (Debrecen)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Debrecen, Egyetem tér 1, 4032', 'google.com/maps/place/Debreceni+Egyetem/@47.5512318,21.5961877,7498m/data=!3m1!1e3!4m10!1m2!2m1!1sDebreceni+Egyetem!3m6!1s0x47470df39a92233b:0x158b32cc387080a5!8m2!3d47.5536257!4d21.6215102!15sChFEZWJyZWNlbmkgRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16zL20vMDhzbWpx?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.unideb.hu', 0, NULL),
+(9, 'Pécsi Tudományegyetem', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Pécs, Boszorkány út 2, 7624 ', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+M%C5%B1szaki+%C3%A9s+Informatikai+Kar/@46.0805525,17.6350114,61647m/data=!3m1!1e3!4m10!1m2!2m1!1zcHRlIHDDqWNz!3m6!1s0x4742b1bef45122bb:0xb5277a173d87a05b!8m2!3d46.0805525!4d18.2117936!15sCglwdGUgcMOpY3NaCyIJcHRlIHDDqWNzkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSbWRIRkhPRGxSUlJBQuABAPoBBAgAEB4!16s%2Fg%2F11xy39_h7?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.pte.hu', 0, NULL),
+(10, 'Budapest Cirkuszművészeti és Kortárstánc Főiskola', 'A Budapest Cirkuszművészeti és Kortárstánc Főiskola az időben zajló, mozdulatalapú előadóművészetek tanulására, tanítására, kutatására és fejlesztésére szervezett tér és közösség. A Főiskola célja a tehetségek felkutatása, támogatása és olyan előadóművészek és pedagógusok képzése, akiknek a diplomája a világ bármely pontján egyet jelent a korszerű gyakorlati- és elméleti tudással és kreativitással. Küldetésünknek tekintjük, hogy a Főiskola művészetpedagógiai tevékenysége, valamint az itt végzett diákok a művészet eszköztárával alapértékeket jelenítsenek meg az élet kulturális és társadalmi színtereiben hazai és nemzetközi szinten egyaránt.', 'Budapest, Perc u. 2, 1036', 'https://www.google.com/maps/place/Budapest+Cirkuszm%C5%B1v%C3%A9szeti+%C3%A9s+Kort%C3%A1rst%C3%A1nc+F%C5%91iskola+-+Sz%C3%A9khely/@47.5358829,19.0404411,394m/data=!3m1!1e3!4m6!3m5!1s0x4741d9592c921463:0xc50511cf9dd9a8b9!8m2!3d47.5357446!4d19.0426993!16s%2Fg%2F12372h_x?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://bcdc.hu/', 0, NULL),
 (11, 'Eötvös Loránd Tudományegyetem (Szombathely)', 'Elte csak Szombathelyen', 'Szombathely, Károlyi Gáspár tér 4, 9700', 'https://www.google.com/maps/place/ELTE+Savaria+Egyetemi+K%C3%B6zpont/@47.2300098,16.6089827,561m/data=!3m2!1e3!5s0x476eb9b19fc57dd3:0x33858e2982d877c0!4m15!1m8!3m7!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!2sELTE+Savaria+Egyetemi+K%C3%B6zpont!8m2!3d47.2304519!4d16.6117225!10e3!16s%2Fg%2F12qf5mc7t!3m5!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!8m2!3d47.2304519!4d16.6117225!16s%2Fg%2F12qf5mc7t?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.elte.hu', 0, NULL),
-(12, 'A Tan Kapuja Buddhista Főiskola', 'valami budha iskola/egyetem/valami', 'Budapest, Börzsöny u. 11, 1098', 'https://www.google.com/maps/place/A+Tan+Kapuja+Buddhista+F%C5%91iskola/@47.4631837,19.1099096,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dd2b7d99ca3f:0x47f4d1baa5ce0f46!8m2!3d47.4631837!4d19.1124845!16s%2Fg%2F11b7fvfmym?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.tkbf.hu', 0, NULL),
-(13, 'Adventista Teológiai Főiskola', 'Valamit tanulnak, de a neve nem árul el nekem sokat', 'Pécel, Ráday u. 12, 2119', 'https://www.google.com/maps/place/Adventista+Teol%C3%B3giai+F%C5%91iskola+P%C3%A9cel/@47.489116,19.3451135,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741c76a5b15613b:0x3ff05085028e6c0b!8m2!3d47.489116!4d19.3476884!16s%2Fg%2F11xfjytkm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://atf.adventista.hu/', 0, NULL),
-(14, 'Állatorvostudományi Egyetem', 'itt állatorvosokat képeznek', 'Budapest, István u. 2, 1078', 'https://www.google.com/maps/place/%C3%81llatorvostudom%C3%A1nyi+Egyetem/@47.5032266,19.0747528,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc6369890843:0xdebb765b9240649!8m2!3d47.5032266!4d19.0773277!16s%2Fg%2F12391_cm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.univet.hu', 0, NULL),
-(15, 'Andrássy Gyula Budapesti Német Nyelvű Egyetem', 'valami német egyetem, vagy csak németül tanulnak', 'Budapest, Pollack Mihály tér 3, 1088', 'https://www.google.com/maps/place/Andr%C3%A1ssy+Gyula+Budapesti+N%C3%A9met+Nyelv%C5%B1+Egyetem/@47.4920573,19.0613617,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc5c9c7e57d9:0xe90139065d0ad585!8m2!3d47.4920573!4d19.0639366!16s%2Fm%2F03h4ygf?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://aub.eu/', 0, NULL),
-(16, 'Apor Vilmos Katolikus Főiskola', 'nem tudom mit tanulnak, de Vácon van', 'Vác Budapesti főút, 5, Schuszter Konstantin tér 1, 2600', 'https://www.google.com/maps/place/Apor+Vilmos+Katolikus+F%C5%91iskola/@47.7739868,18.5563717,59728m/data=!3m1!1e3!4m10!1m2!2m1!1sApor+Vilmos+Katolikus+F%C5%91iskola!3m6!1s0x47402aebe77ecfbf:0xed261dd6f20b30f5!8m2!3d47.7752878!4d19.1316244!15sCh9BcG9yIFZpbG1vcyBLYXRvbGlrdXMgRsWRaXNrb2xhkgEHbGlicmFyeeABAA!16s%2Fg%2F11xmsvxp3?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.avkf.hu/', 0, NULL),
-(17, 'Baptista Teológiai Akadémia', 'Mi az a baptista teológia??', 'Budapest, Benczúr u. 31, 1068', 'https://www.google.com/maps/place/Baptista+Teol%C3%B3giai+Akad%C3%A9mia/@47.5110969,19.0731201,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc79ef5cf7af:0x12da6d032b5eba30!8m2!3d47.5110969!4d19.075695!16s%2Fg%2F120wl3rw?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.bta.hu/', 0, NULL),
-(18, 'Bhaktivedanta Hittudományi Főiskola', 'egyre több kérdésem van az intézmények elnevezésével kapcsolatban, ez mi?????', 'Budapest, Attila u. 8, 1039', 'https://www.google.com/maps/place/Bhaktivedanta+Hittudom%C3%A1nyi+F%C5%91iskola/@47.5850148,19.0450775,468m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc6e6da5d053:0x313805cc69c55729!8m2!3d47.5850148!4d19.0476524!16s%2Fg%2F11x9mcwb5?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(19, 'Brenner János Hittudományi Főiskola', 'miért van ennyi hittudományi egyetem/főiskola???', 'Győr, Káptalandomb 7, 9021', 'https://www.google.com/maps/place/Brenner+J%C3%A1nos+Hittudom%C3%A1nyi+F%C5%91iskola/@47.6894757,17.6288115,467m/data=!3m2!1e3!4b1!4m6!3m5!1s0x476bbfe6ef3972a5:0x47714131f4f62ba2!8m2!3d47.6894757!4d17.6313864!16s%2Fm%2F0cpnh5j?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(20, 'Budapesti Metropolitan Egyetem', 'nem tudom mit csinál és kérdéseim is vannak a nevével', 'Budapest, Nagy Lajos király útja 1-9, 1148', 'https://www.google.com/maps/place/Budapesti+Metropolitan+Egyetem+-+Nagy+Lajos+kir%C3%A1ly+%C3%BAti+campus/@47.5063729,19.1325475,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741db56482532c1:0xc0da42e56c8938b9!8m2!3d47.5063729!4d19.1351224!16s%2Fm%2F02pshhf?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(21, 'Debreceni Református Hittudományi Egyetem', 'még egy hittudományi egyetem... minek kell nekünk ennyi????', 'Debrecen, Kálvin tér 16, 4026', 'https://www.google.com/maps/place/Debreceni+Reform%C3%A1tus+Hittudom%C3%A1nyi+Egyetem/@47.5334538,21.6215356,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47470e0a56bde25d:0xbeb917d2f8d3d364!8m2!3d47.5334538!4d21.6241105!16s%2Fm%2F0gg6041?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(22, 'Dunaújvárosi Egyetem', 'Dunaújvárosnak nincsen foci csapata is??', 'Dunaújváros, Táncsics Mihály u. 1/a, 2400', 'https://www.google.com/maps/place/Duna%C3%BAjv%C3%A1rosi+Egyetem/@46.960507,18.9311381,474m/data=!3m3!1e3!4b1!5s0x47421771c78629ab:0x2ca96a40b03bb779!4m6!3m5!1s0x47421770fc20ee09:0x47283785e7c94a6f!8m2!3d46.960507!4d18.933713!16s%2Fm%2F0cpbh0c?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(23, 'Edutus Egyetem (Tatabánya)', 'Stadium tér..... Itt az Ádám jól el lenne', 'Tatabánya, Stúdium tér 1, 2800', 'https://www.google.com/maps/place/Edutus+Egyetem/@47.5869136,17.8229867,59942m/data=!3m1!1e3!4m10!1m2!2m1!1sEdutus+Egyetem!3m6!1s0x476a40df09814983:0x24f2f448fd5aa17e!8m2!3d47.5869136!4d18.3997689!15sCg5FZHV0dXMgRWd5ZXRlbZIBD2J1c2luZXNzX3NjaG9vbOABAA!16s%2Fg%2F121n9rw5?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(24, 'Edutus Egyetem (Budapest)', 'inkább a budai egyetemet válaljuk fel, de van egy Pesten is', 'Budapest, Fehérvári út 84/A, 1119', 'https://www.google.com/maps/place/Edutus+Egyetem/@47.5005089,18.8662932,17850m/data=!3m1!1e3!4m10!1m2!2m1!1sEdutus+Egyetem!3m6!1s0x4741d9ac74507399:0x5f491288e2432fb5!8m2!3d47.4641801!4d19.0434503!15sCg5FZHV0dXMgRWd5ZXRlbZIBCnVuaXZlcnNpdHngAQA!16s%2Fg%2F1pp2w_ypm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(25, 'Egri Hittudományi Főiskola', 'jó tudni Egerben is van hittudomány... minek nekünk annyi???', 'Eger, Foglár György u. 6, 3300', 'https://www.google.com/maps/place/Egri+Hittudom%C3%A1nyi+F%C5%91iskola/@47.9013468,20.3702336,465m/data=!3m1!1e3!4m10!1m2!2m1!1sEgri+Hittudom%C3%A1nyi+F%C5%91iskola!3m6!1s0x47408d9e91663eb1:0x3a572b33e6d5b0e2!8m2!3d47.901379!4d20.3729869!15sChxFZ3JpIEhpdHR1ZG9tw6FueWkgRsWRaXNrb2xhkgEIc2VtaW5hcnngAQA!16s%2Fm%2F0cp4n42?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(26, 'Eötvös József Főiskola', 'vajon sok a Baja??', 'Baja, Szegedi út 2, 6500', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+J%C3%B3zsef+F%C5%91iskola/@46.1839749,18.9522069,481m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47431fec5e7a754f:0xef689196c2d3ec2a!8m2!3d46.1839749!4d18.9547818!16s%2Fg%2F122dlf78?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(12, 'A Tan Kapuja Buddhista Főiskola', 'A Főiskola magáénak vallja a nagy magyar keletkutatók szellemi örökségét. Legfőbb szellemi előfutárunknak és példaképünknek Kőrösi Csoma Sándort tekintjük, akit a buddhizmus hívei világszerte bódhiszattvaként – szent törekvőként – tisztelnek, s úgy emlegetnek, mint „nyugati tanítvány”-t.', 'Budapest, Börzsöny u. 11, 1098', 'https://www.google.com/maps/place/A+Tan+Kapuja+Buddhista+F%C5%91iskola/@47.4631837,19.1099096,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dd2b7d99ca3f:0x47f4d1baa5ce0f46!8m2!3d47.4631837!4d19.1124845!16s%2Fg%2F11b7fvfmym?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.tkbf.hu', 0, NULL),
+(13, 'Adventista Teológiai Főiskola', 'Az Adventista Teológiai Főiskola vallja, hogy az Atya, Fiú, Szentlélek Isten a világ teremtője és fenntartója, és Ő minden igaz ismeret forrása. Az ember a bűn következtében elidegenedett Istentől, Isten Fia azonban testetöltött, és helyreállítja a Teremtő és az ember harmonikus közösségét. Ezt a szolgálatot megváltásnak nevezzük, a keresztény nevelésre pedig úgy tekintünk, mint a megváltás egyik eszközére. A Főiskolán oktatott hitéleti tárgyakat a Hetednapi Adventista Egyház hitelveinek szellemében tanítjuk, a világi tudományok művelésekor tiszteletben tartjuk az adventista bibliaiértelmezés és teológiai látás iránymutatásait. Egészséges, kölcsönös tiszteleten alapuló párbeszédre törekszünk minden szellemi irányzattal, ezért követjük Pál apostol tanítását: „mindent vizsgáljatok meg, a jót tartsátok meg, a gonosz minden fajtájától tartózkodjatok” (1Thessz 5:21-22).', 'Pécel, Ráday u. 12, 2119', 'https://www.google.com/maps/place/Adventista+Teol%C3%B3giai+F%C5%91iskola+P%C3%A9cel/@47.489116,19.3451135,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741c76a5b15613b:0x3ff05085028e6c0b!8m2!3d47.489116!4d19.3476884!16s%2Fg%2F11xfjytkm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://atf.adventista.hu/', 0, NULL),
+(14, 'Állatorvostudományi Egyetem', 'A budapesti Állatorvostudományi Egyetem a gazdag örökség és a folyamatos jobbító célú erőfeszítések révén háromnyelvű, nemzetközileg elismert intézménnyé vált.\r\nÚj célkitűzésünk válaszol a növekvő társadalmi igényre, amely szerint az állatorvosnak nemcsak a gyógyításban és az egészség megőrzésében, hanem élő természeti környezetünk megőrzésében is hozzáértően és tevékenyen részt kell venniük.', 'Budapest, István u. 2, 1078', 'https://www.google.com/maps/place/%C3%81llatorvostudom%C3%A1nyi+Egyetem/@47.5032266,19.0747528,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc6369890843:0xdebb765b9240649!8m2!3d47.5032266!4d19.0773277!16s%2Fg%2F12391_cm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.univet.hu', 0, NULL),
+(15, 'Andrássy Gyula Budapesti Német Nyelvű Egyetem', 'Az Andrássy Gyula Német Nyelvű Egyetem nevű budapesti székhelyű felsőoktatási intézmény 2002 óta német nyelven kínál mester- és szakirányú továbbképzéseket. Ez az első teljesen német nyelvű felsőoktatási intézmény, melyet német nyelvterületen kívül alapítottak. Időközben a részben német nyelvű intézmények száma gyarapodott.', 'Budapest, Pollack Mihály tér 3, 1088', 'https://www.google.com/maps/place/Andr%C3%A1ssy+Gyula+Budapesti+N%C3%A9met+Nyelv%C5%B1+Egyetem/@47.4920573,19.0613617,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc5c9c7e57d9:0xe90139065d0ad585!8m2!3d47.4920573!4d19.0639366!16s%2Fm%2F03h4ygf?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://aub.eu/', 0, NULL),
+(16, 'Apor Vilmos Katolikus Főiskola (Vác)', 'A svájci Ingenbohlban alapított Szent Keresztről Nevezett Irgalmas Nővérek 1865-ben telepedtek meg Magyarországon. 1901-ben a Budapesttől mintegy 30 kilométerre levő Zsámbék községben létrehozták első magyar noviciátusukat.', 'Vác Budapesti főút, 5, Schuszter Konstantin tér 1, 2600', 'https://www.google.com/maps/place/Apor+Vilmos+Katolikus+F%C5%91iskola/@47.7739868,18.5563717,59728m/data=!3m1!1e3!4m10!1m2!2m1!1sApor+Vilmos+Katolikus+F%C5%91iskola!3m6!1s0x47402aebe77ecfbf:0xed261dd6f20b30f5!8m2!3d47.7752878!4d19.1316244!15sCh9BcG9yIFZpbG1vcyBLYXRvbGlrdXMgRsWRaXNrb2xhkgEHbGlicmFyeeABAA!16s%2Fg%2F11xmsvxp3?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.avkf.hu/', 0, NULL),
+(17, 'Baptista Teológiai Akadémia', 'A BTA autonóm tudományművelő, értékközvetítő és személyiségfejlesztő intézmény, amely a rá vonatkozó fenntartói útmutatások keretein belül a hatályos jogszabályok szerint, minőségügyi alapelveire épülő minőségpolitikájával összhangban, a főiskola hagyományait követve és folyamatos megújulásra nyitottan működik. \r\n\r\nA főiskola teológiai tanítás tekintetében a konzervatív irány elkötelezettje, vallja a teljes Szentírás ihletettségét és üzenetének mindenkori és egyetemes érvényét. Az oktatás módszertanában kutatja, biblikusan reflektálja és lehetőség szerint innovatív módon alkalmazza a korszerű formákat. ', 'Budapest, Benczúr u. 31, 1068', 'https://www.google.com/maps/place/Baptista+Teol%C3%B3giai+Akad%C3%A9mia/@47.5110969,19.0731201,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc79ef5cf7af:0x12da6d032b5eba30!8m2!3d47.5110969!4d19.075695!16s%2Fg%2F120wl3rw?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.bta.hu/', 0, NULL),
+(18, 'Bhaktivedanta Hittudományi Főiskola', 'Az Alapítvány a hindu vaisnava filozófia oktatási intézményeként az emberiség egyik legősibb filozófiájának és kultúrájának széleskörű megismertetését, illetve a vaisnava filozófia szakembereinek képzését és továbbképzését jelölte meg céljául.\r\n\r\nAz MKTHK 2001-ben hozta létre a Bhaktivedanta Hittudományi Főiskolát, amelynek vaisnava teológus szakja 2003-ban nyert akkreditációt. A Főiskola 2004 szeptemberétől államilag elismert felsőfokú oktatási intézményként oktatja a hinduizmus vaisnava ágának filozófiáját, kultúráját. A Bhaktivedanta Hittudományi Főiskola elsőként a hinduizmus világvallását önállóan képviselő felsőfokú teológiai intézmény Magyarországon, illetve Európában, amely 2005 júniusában adta ki az első, államilag elismert diplomákat.', 'Budapest, Attila u. 8, 1039', 'https://www.google.com/maps/place/Bhaktivedanta+Hittudom%C3%A1nyi+F%C5%91iskola/@47.5850148,19.0450775,468m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc6e6da5d053:0x313805cc69c55729!8m2!3d47.5850148!4d19.0476524!16s%2Fg%2F11x9mcwb5?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(19, 'Brenner János Hittudományi Főiskola', 'A Brenner János Hittudományi Főiskola a Nyugat-Dunántúl egyik legrégebbi egyházi felsőoktatási intézménye, fenntartója a Győri Egyházmegye. A régióban a hitéleti, hittudományi, egyházzenei képzések és továbbképzések szellemi központja.\r\n\r\nFőiskolánk legfontosabb küldetésének tartja a papnövendékek és a hitoktatók képzését. Célunk nemzedékről nemzedékre átörökíteni, hogy az Isten titka felé nyitott emberi gondolkodás logikus, szép, értelmes és igaz.', 'Győr, Káptalandomb 7, 9021', 'https://www.google.com/maps/place/Brenner+J%C3%A1nos+Hittudom%C3%A1nyi+F%C5%91iskola/@47.6894757,17.6288115,467m/data=!3m2!1e3!4b1!4m6!3m5!1s0x476bbfe6ef3972a5:0x47714131f4f62ba2!8m2!3d47.6894757!4d17.6313864!16s%2Fm%2F0cpnh5j?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(20, 'Budapesti Metropolitan Egyetem', 'A Budapesti Metropolitan Egyetem számára kiemelten fontos, hogy minden hallgató és munkatárs biztonságban, elfogadó és támogató közegben érezze magát. Új érzékenyítő filmünk bemutatja, hogyan építjük közösségünket a sokszínűség, a nyitottság és az egymás iránti tisztelet értékein alapulva.', 'Budapest, Nagy Lajos király útja 1-9, 1148', 'https://www.google.com/maps/place/Budapesti+Metropolitan+Egyetem+-+Nagy+Lajos+kir%C3%A1ly+%C3%BAti+campus/@47.5063729,19.1325475,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741db56482532c1:0xc0da42e56c8938b9!8m2!3d47.5063729!4d19.1351224!16s%2Fm%2F02pshhf?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(21, 'Debreceni Református Hittudományi Egyetem', 'Egyetemünk tanbeli kérdésekben a Szentírás alapján áll, önmagára nézve kötelezőnek ismeri el a Magyarországi Református Egyház hitvallásait, alkotmányát, törvényeit és zsinati határozatait. Valamennyi oktatójától, dolgozójától és hallgatójától elvárja a református egyház hitelveinek és érdekeinek tiszteletben tartását, valamint a keresztyén értékrenddel össze-egyeztethető életfolytatást.\r\n\r\nEgyetemünk célja református lelkészek, teológusok és egyházi munkatársak képzése elsődlegesen a Magyarországi Református Egyház számára, továbbá olyan pedagógusok és egyéb világi szakemberek felkészítése a magyar köznevelés és kulturális intézményrendszer számára, akik a Magyarországi Református Egyház hitelveit és hagyományait ismerik, azokat képesek hitelesen megjeleníteni, református egyháztagságuk esetében pedig készek és hajlandók szakismeretükkel az egyház Urát szolgálni.', 'Debrecen, Kálvin tér 16, 4026', 'https://www.google.com/maps/place/Debreceni+Reform%C3%A1tus+Hittudom%C3%A1nyi+Egyetem/@47.5334538,21.6215356,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47470e0a56bde25d:0xbeb917d2f8d3d364!8m2!3d47.5334538!4d21.6241105!16s%2Fm%2F0gg6041?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(22, 'Dunaújvárosi Egyetem', '2000-ben, amikor önálló felsőoktatási intézménnyé válhattunk, határozott elképzelésünk volt arról, hogy miként váljunk Dunaújváros és a régió szellemi innovációs központjává. Képzési és kutatási területeink bővítését e cél szolgálatába állítottuk, hogy létrehozzunk egy korszerű intézményt, a Közép-európai Innovációs és Technológiai Campust.\r\nA Dunaújvárosi Egyetem egyik fő küldetése, hogy a műszaki, informatika tudományág, a hozzájuk kapcsolódó kutatások területén az országban és nemzetközileg is egyaránt vonzó, biztos szakmai tudást adó egyetem legyen. Legalább ennyire fontos pozícióink megőrzése a gazdaságtudományok, a társadalomtudomány és a pedagógusképzés képzési területeken is. Jelenleg 8 Bsc/BA alapszak és 5 felsőoktatási szakképzési szak, 2 mesterképzési szak, továbbá 17 szakirányú továbbképzés választható.', 'Dunaújváros, Táncsics Mihály u. 1/a, 2400', 'https://www.google.com/maps/place/Duna%C3%BAjv%C3%A1rosi+Egyetem/@46.960507,18.9311381,474m/data=!3m3!1e3!4b1!5s0x47421771c78629ab:0x2ca96a40b03bb779!4m6!3m5!1s0x47421770fc20ee09:0x47283785e7c94a6f!8m2!3d46.960507!4d18.933713!16s%2Fm%2F0cpbh0c?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(23, 'Edutus Egyetem (Tatabánya)', 'Hallgatók mondták:\r\n\r\n„Modern gondolkodású, emberséges iskola.”\r\n\r\n„Az Edutus Egyetem szigorú szabályzata mellet kompromisszum kész, igazi család barát. Jelenleg a kis létszám miatt többet tudnak foglalkozni az oktatok a diákokkal, más egyetemeken az óriási létszám miatt nehezebb a tanulás.”\r\n\r\n„Tanárok nem konzervatívak. A vezetőség fiatalos felfogású. Ott segítenek, ahol tényleg szükséges.”\r\n\r\n„A legjobb iskola mind közül ahová eddig jártam.”\r\n\r\n„Rendkívül tetszik a hibrid oktatási módszer, hogy amennyiben hallgató nem tudja megoldani 7é webináriumon is csatlakozhat az órákra. Az oktatók korrektek, felkészültek és hozzáértők. Nagyon érdekesnek találom az egyetemi projekteket, mint a Napcsiga és az Okosház.”', 'Tatabánya, Stúdium tér 1, 2800', 'https://www.google.com/maps/place/Edutus+Egyetem/@47.5869136,17.8229867,59942m/data=!3m1!1e3!4m10!1m2!2m1!1sEdutus+Egyetem!3m6!1s0x476a40df09814983:0x24f2f448fd5aa17e!8m2!3d47.5869136!4d18.3997689!15sCg5FZHV0dXMgRWd5ZXRlbZIBD2J1c2luZXNzX3NjaG9vbOABAA!16s%2Fg%2F121n9rw5?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(24, 'Edutus Egyetem (Budapest)', 'Hallgatói vélemények:\r\n\r\n„Modern gondolkodású, emberséges iskola.”\r\n\r\n„Az Edutus Egyetem szigorú szabályzata mellet kompromisszum kész, igazi család barát. Jelenleg a kis létszám miatt többet tudnak foglalkozni az oktatok a diákokkal, más egyetemeken az óriási létszám miatt nehezebb a tanulás.”\r\n\r\n„Tanárok nem konzervatívak. A vezetőség fiatalos felfogású. Ott segítenek, ahol tényleg szükséges.”\r\n\r\n„A legjobb iskola mind közül ahová eddig jártam.”\r\n\r\n„Rendkívül tetszik a hibrid oktatási módszer, hogy amennyiben hallgató nem tudja megoldani 7é webináriumon is csatlakozhat az órákra. Az oktatók korrektek, felkészültek és hozzáértők. Nagyon érdekesnek találom az egyetemi projekteket, mint a Napcsiga és az Okosház.”', 'Budapest, Fehérvári út 84/A, 1119', 'https://www.google.com/maps/place/Edutus+Egyetem/@47.5005089,18.8662932,17850m/data=!3m1!1e3!4m10!1m2!2m1!1sEdutus+Egyetem!3m6!1s0x4741d9ac74507399:0x5f491288e2432fb5!8m2!3d47.4641801!4d19.0434503!15sCg5FZHV0dXMgRWd5ZXRlbZIBCnVuaXZlcnNpdHngAQA!16s%2Fg%2F1pp2w_ypm?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(25, 'Egri Hittudományi Főiskola', 'Telekesy István püspök kezdeményezésére 1705-ben kezdődött meg a teológiai oktatás, azonban az intézet működésének hivatalos jóváhagyása a Rákóczi-szabadságharc Egerbe is átcsapó hullámai miatt 1709-ben történt meg. Az iskoláztatás fejlesztésében további lépés volt 1740-ben Foglár György kanonok jogi iskolájának alapítása, amelyet az országgyűlés törvénycikkben is rögzített, majd hamarosan Barkóczy Ferenc püspök filozófiai iskolát indított. Ezzel már kialakultak a leendő egri egyetem három fakultásának előzményei. Barkóczy terveit 1762-ben Eszterházy Károly püspök gondolta tovább. Elkezdődött az építkezés, a tervezett egyetem csillagvizsgálóval, könyvtárral, nagy előadótermekkel és nyomdával bővült. Mikor Eszterházy elfoglalta Egerben püspöki székét, magával hozta egy felsőfokú iskola építésének gondolatát. Ezt egyetemnek szánta s írásaiban mindig úgy említi az épületet, mint domus universitatist (egyetem háza).', 'Eger, Foglár György u. 6, 3300', 'https://www.google.com/maps/place/Egri+Hittudom%C3%A1nyi+F%C5%91iskola/@47.9013468,20.3702336,465m/data=!3m1!1e3!4m10!1m2!2m1!1sEgri+Hittudom%C3%A1nyi+F%C5%91iskola!3m6!1s0x47408d9e91663eb1:0x3a572b33e6d5b0e2!8m2!3d47.901379!4d20.3729869!15sChxFZ3JpIEhpdHR1ZG9tw6FueWkgRsWRaXNrb2xhkgEIc2VtaW5hcnngAQA!16s%2Fm%2F0cp4n42?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(26, 'Eötvös József Főiskola', 'Az Eötvös József Főiskola a város egyik legrégebbi, egyben legpatinásabb intézménye, amely 150 éves múltra tekint vissza. A város felsőoktatási intézményeként kiemelt szerepet vállal a város kulturális, oktatási és tudományos életében egyaránt. Az intézmény küldetéseként fogalmazta meg, hogy pedagógusok és közgazdászok képzésével járul hozzá a régió, illetve az ország társadalmi felemelkedéséhez. A továbbképzések, szakirányú képzések lehetőséget kínálnak a felnőtt lakosság számára az élethosszig tartó tanulásra.', 'Baja, Szegedi út 2, 6500', 'https://www.google.com/maps/place/E%C3%B6tv%C3%B6s+J%C3%B3zsef+F%C5%91iskola/@46.1839749,18.9522069,481m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47431fec5e7a754f:0xef689196c2d3ec2a!8m2!3d46.1839749!4d18.9547818!16s%2Fg%2F122dlf78?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
 (27, 'Esztergomi Hittudományi Főiskola', 'még egy hittudományi intézmény.... innem mnégis hova mennek az emberek, minek jó nekd, hogy ott végeztél???', 'Esztergom, Szent István tér 10, 2500', 'https://www.google.com/maps/place/Esztergomi+Hittudom%C3%A1nyi+F%C5%91iskola/@47.8006537,18.7346393,466m/data=!3m2!1e3!4b1!4m6!3m5!1s0x476a61f2af150829:0x9df0cd3c868f9096!8m2!3d47.8006537!4d18.7372142!16s%2Fg%2F11fmgypm4n?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
 (28, 'Eszterházy Károly Katolikus Egyetem (Eger)', 'legalább nem hittudományi egyetem', 'Eger, Eszterházy tér 1, 3300', 'https://www.google.com/maps/place/Eszterh%C3%A1zy+K%C3%A1roly+Katolikus+Egyetem+J%C3%A1szber%C3%A9nyi+Campus/@47.4969,17.5912711,240182m/data=!3m1!1e3!4m10!1m2!2m1!1sEszterh%C3%A1zy+K%C3%A1roly+Katolikus+Egyetem!3m6!1s0x47410708da3dcc31:0xc600d2c8cf24c85e!8m2!3d47.4969!4d19.8984!15sCiVFc3p0ZXJow6F6eSBLw6Fyb2x5IEthdG9saWt1cyBFZ3lldGVtIgOIAQGSAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F1tgg8r5z?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
 (29, 'Evangélikus Hittudományi Egyetem', '.... miért is csodálkkozok azon, hogy még egy hitttudományi egyetem ez', 'Budapest, Rózsavölgyi u 3, 1141', 'https://www.google.com/maps/place/Evang%C3%A9likus+Hittudom%C3%A1nyi+Egyetem/@47.5201416,19.1124331,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741db6f60cf63d3:0x13a106dd9d31f0d3!8m2!3d47.5201416!4d19.115008!16s%2Fg%2F1xy2v7p4?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
@@ -407,13 +456,19 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (76, 'Tokaj-Hegyalja Egyetem', 'hol van Hegyalja, gondolom a hegy aljánál, de amúgy tényleg.\r\n... ez az egyetem miért Sárospatakon található?????', 'Sárospatak, Eötvös út 7, 3950', 'https://www.google.com/maps/place/Tokaj-Hegyalja+Egyetem/@48.3212342,21.5666857,462m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6dc96986b9c1dd73:0x51a5a32ce20534d9!8m2!3d48.3212342!4d21.5666857!16s%2Fg%2F12qhl04ks?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
 (77, 'Tomori Pál Főiskola', 'kérlek nem akarom még egyszer ezek beírni', 'Budapest, Művelődés u. 21, 1223', 'https://www.google.com/maps/place/Tomori+P%C3%A1l+F%C5%91iskola/@47.4106203,19.010967,470m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741e7042a4574a3:0xca16f10d54ba6538!8m2!3d47.4106203!4d19.0135419!16s%2Fm%2F0cpbjfh?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
 (78, 'Veszprémi Érseki Főiskola', 'már negydjére írom ezeket a szarokat be!', 'Veszprém, Jutasi út 18/2, 8200', 'https://www.google.com/maps/place/Veszpr%C3%A9mi+%C3%89rseki+F%C5%91iskola/@47.1092508,17.9074094,473m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47699a61b8044ee1:0x7ca6706e1062bd30!8m2!3d47.1092508!4d17.9099843!16s%2Fm%2F0cpbf2s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(79, 'Wekerle Sándor Nemzetközi Egyetem', 'Ki ez a Sanyi akiről ellett nevezve?', 'Budapest, Jázmin u. 10, 1083', 'https://www.google.com/maps/place/Wekerle+S%C3%A1ndor+Nemzetk%C3%B6zi+Egyetem/@47.4857465,19.0785423,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf4644ded29:0xd2c66c65ed03e83c!8m2!3d47.4857465!4d19.0811172!16s%2Fm%2F0vsgpdt?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
-(80, 'Wesley János Lelkészképző Főiskola', 'ugye végeztem ezekkel a szarokkkal???? Kérlek, nem akarom őket újra beírni!!', 'Budapest, Dankó u. 11, 1086', 'https://www.google.com/maps/place/Wesley+J%C3%A1nos+Lelk%C3%A9szk%C3%A9pz%C5%91+F%C5%91iskola/@47.490954,19.0793737,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf0e7d9fe13:0xbd68724315b2e554!8m2!3d47.490954!4d19.0819486!16s%2Fg%2F11bzx32zmp?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL);
+(79, 'Wekerle Sándor Nemzetközi Egyetem', 'Ki ez a Sanyi akiről ellett nevezve?', 'Budapest, Jázmin u. 10, 1083', 'https://www.google.com/maps/place/Wekerle+S%C3%A1ndor+Nemzetk%C3%B6zi+Egyetem/@47.4857465,19.0785423,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf4644ded29:0xd2c66c65ed03e83c!8m2!3d47.4857465!4d19.0811172!16s%2Fm%2F0vsgpdt?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL);
+INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `google_maps_link`, `page_link`, `is_deleted`, `deleted_at`) VALUES
+(80, 'Wesley János Lelkészképző Főiskola', 'ugye végeztem ezekkel a szarokkkal???? Kérlek, nem akarom őket újra beírni!!', 'Budapest, Dankó u. 11, 1086', 'https://www.google.com/maps/place/Wesley+J%C3%A1nos+Lelk%C3%A9szk%C3%A9pz%C5%91+F%C5%91iskola/@47.490954,19.0793737,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf0e7d9fe13:0xbd68724315b2e554!8m2!3d47.490954!4d19.0819486!16s%2Fg%2F11bzx32zmp?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', '', 0, NULL),
+(81, 'Apor Vilmos Katolikus Főiskola (Budapest)', 'A svájci Ingenbohlban alapított Szent Keresztről Nevezett Irgalmas Nővérek 1865-ben telepedtek meg Magyarországon. 1901-ben a Budapesttől mintegy 30 kilométerre levő Zsámbék községben létrehozták első magyar noviciátusukat.', 'Budapest, Krisztina krt. 59, 1013', 'https://www.google.com/maps/place/Apor+Vilmos+Katolikus+F%C5%91iskola+Feln%C5%91ttk%C3%A9pz%C3%A9si+K%C3%B6zpont/@47.4975114,19.0276764,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc247640abfd:0x3dbfbf60dd46f11e!8m2!3d47.4975114!4d19.0302513!16s%2Fg%2F1vl9q82s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.avkf.hu/', 0, NULL),
+(82, 'Debreceni Egyetem (Siófok)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Siófok, Petőfi stny. 1, 8600', 'https://www.google.com/maps/place/G%C3%A1bor+D%C3%A9nes+F%C5%91iskola+Si%C3%B3foki+Campus/@46.9076647,18.0174176,7590m/data=!3m1!1e3!4m6!3m5!1s0x4769c0835940fa19:0x27beb50d5bba16c9!8m2!3d46.9103067!4d18.0487296!16s%2Fg%2F11cnlcptp4?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.unideb.hu', 0, NULL),
+(83, 'Debreceni Egyetem (Szolnok)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Szolnok, Tiszaligeti stny. 14, 5000', 'https://www.google.com/maps/place/Debreceni+Egyetem+Szolnok+Campus/@47.164737,20.1814318,2246m/data=!3m2!1e3!5s0x47414142ca6f7799:0x356a7ee726e9f5e5!4m6!3m5!1s0x47414142c85b684b:0x85e52a257566c05d!8m2!3d47.1657583!4d20.1872312!16s%2Fm%2F0cpbkm4?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.unideb.hu', 0, NULL),
+(84, 'Debreceni Egyetem (Nyíregyháza)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Nyíregyháza, Sóstói út 2-4, 4400', 'https://www.google.com/maps/place/Debreceni+Egyetem+-+Eg%C3%A9szs%C3%A9g%C3%BCgyi+Kar/@47.9529776,21.6845867,8848m/data=!3m1!1e3!4m6!3m5!1s0x47389f9be6772bbd:0x808b0c62ccccf4bb!8m2!3d47.9662676!4d21.7144061!16s%2Fg%2F11bv1rywzh?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'https://www.unideb.hu', 0, NULL),
+(85, 'Debreceni Egyetem (Hajdúböszörmény)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Hajdúböszörmény, Désány István u. 1-9, 4220', 'https://www.google.com/maps/place/Debreceni+Egyetem+Hajd%C3%BAb%C3%B6sz%C3%B6rm%C3%A9ny/@47.6675745,21.4939329,1528m/data=!3m1!1e3!4m10!1m2!2m1!1zZGVicmVjZW5pIGVneWV0ZW0gaGFqZMO6YsO2c3rDtnJtw6lueQ!3m6!1s0x47476ae467ce3463:0x7134e155a4c0d9bd!8m2!3d47.6679166!4d21.5078153!15sCiVkZWJyZWNlbmkgZWd5ZXRlbSBoYWpkw7piw7ZzesO2cm3DqW55IgOIAQFaJyIlZGVicmVjZW5pIGVneWV0ZW0gaGFqZMO6YsO2c3rDtnJtw6lueZIBDm51cnNlcnlfc2Nob29s4AEA!16s%2Fg%2F11y7z014t?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'https://www.unideb.hu', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `universityxfaculty`
+-- Table structure for table `universityxfaculty`
 --
 
 CREATE TABLE `universityxfaculty` (
@@ -423,78 +478,78 @@ CREATE TABLE `universityxfaculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `universityxfaculty`
+-- Dumping data for table `universityxfaculty`
 --
 
 INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `faculty_id`) VALUES
-(1, 5, 14),
+(1, 5, 1),
 (2, 5, 13),
-(3, 5, 3),
+(3, 5, 1),
 (4, 5, 28),
 (5, 1, 42),
 (6, 1, 6),
 (7, 1, 7),
-(8, 1, 8),
-(9, 2, 2),
+(8, 1, 58),
+(9, 2, 100),
 (10, 2, 49),
 (11, 2, 9),
-(12, 2, 10),
-(13, 2, 11),
+(12, 2, 1),
+(13, 2, 1),
 (14, 2, 56),
-(15, 6, 14),
-(16, 6, 15),
-(17, 6, 16),
+(15, 6, 1),
+(16, 6, 1),
+(17, 6, 1),
 (18, 7, 17),
 (19, 7, 18),
 (20, 7, 19),
-(21, 7, 20),
+(21, 7, 72),
 (22, 7, 21),
-(23, 7, 22),
-(24, 7, 23),
-(25, 7, 24),
-(26, 7, 25),
+(23, 7, 70),
+(24, 7, 104),
+(25, 7, 86),
+(26, 7, 91),
 (27, 8, 3),
 (28, 1, 26),
-(29, 2, 23),
-(30, 2, 27),
+(29, 2, 1),
+(30, 2, 1),
 (31, 4, 5),
-(32, 4, 28),
+(32, 4, 74),
 (33, 3, 27),
-(34, 3, 10),
-(35, 3, 29),
-(36, 7, 2),
-(37, 7, 29),
-(38, 7, 10),
+(34, 3, 1),
+(35, 3, 1),
+(36, 7, 68),
+(37, 7, 102),
+(38, 7, 59),
 (39, 8, 30),
-(40, 8, 2),
-(41, 8, 8),
+(40, 8, 49),
+(41, 8, 51),
 (42, 8, 6),
-(43, 8, 29),
-(44, 8, 31),
+(43, 8, 43),
+(44, 85, 31),
 (45, 8, 7),
-(46, 8, 10),
-(47, 8, 32),
-(48, 8, 33),
-(49, 8, 34),
+(46, 8, 59),
+(47, 8, 1),
+(48, 8, 1),
+(49, 8, 1),
 (50, 8, 35),
 (51, 8, 5),
 (52, 8, 27),
 (53, 8, 23),
-(54, 9, 33),
-(55, 9, 2),
-(56, 9, 29),
-(57, 9, 10),
+(54, 9, 1),
+(55, 9, 1),
+(56, 9, 1),
+(57, 9, 1),
 (58, 9, 3),
-(59, 9, 32),
-(60, 9, 34),
+(59, 9, 1),
+(60, 9, 1),
 (61, 9, 35),
 (62, 9, 30),
 (63, 9, 28),
 (64, 9, 5),
 (65, 9, 23),
 (66, 9, 27),
-(67, 9, 8),
-(68, 9, 7),
+(67, 9, 1),
+(68, 9, 1),
 (69, 9, 36),
 (70, 9, 37),
 (71, 9, 38),
@@ -556,12 +611,178 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (127, 11, 80),
 (128, 2, 81),
 (129, 2, 82),
-(130, 2, 71);
+(130, 2, 71),
+(131, 2, 83),
+(132, 11, 84),
+(133, 2, 85),
+(134, 2, 86),
+(135, 2, 87),
+(136, 2, 88),
+(137, 2, 89),
+(138, 2, 90),
+(139, 2, 91),
+(140, 12, 92),
+(141, 13, 93),
+(142, 14, 94),
+(143, 14, 95),
+(144, 15, 82),
+(145, 81, 50),
+(146, 16, 50),
+(147, 81, 54),
+(148, 16, 54),
+(149, 16, 96),
+(150, 16, 56),
+(151, 17, 93),
+(152, 17, 97),
+(153, 18, 98),
+(154, 18, 99),
+(155, 19, 100),
+(156, 10, 1),
+(157, 10, 1),
+(158, 10, 1),
+(159, 3, 81),
+(160, 3, 101),
+(161, 3, 68),
+(162, 3, 102),
+(163, 3, 59),
+(164, 3, 17),
+(165, 3, 70),
+(166, 3, 82),
+(167, 3, 103),
+(168, 6, 69),
+(169, 6, 59),
+(170, 6, 75),
+(171, 6, 68),
+(172, 6, 76),
+(173, 6, 70),
+(174, 6, 82),
+(175, 6, 104),
+(176, 6, 84),
+(177, 6, 17),
+(178, 6, 102),
+(179, 20, 105),
+(180, 20, 106),
+(181, 20, 107),
+(182, 20, 108),
+(183, 20, 53),
+(184, 20, 109),
+(185, 20, 110),
+(186, 20, 111),
+(187, 20, 61),
+(188, 20, 112),
+(189, 20, 113),
+(190, 20, 114),
+(191, 20, 115),
+(192, 20, 17),
+(193, 20, 75),
+(194, 20, 68),
+(195, 20, 69),
+(196, 20, 59),
+(197, 20, 70),
+(198, 20, 82),
+(199, 20, 84),
+(200, 7, 116),
+(201, 7, 117),
+(202, 7, 118),
+(203, 7, 119),
+(204, 7, 120),
+(205, 7, 121),
+(206, 7, 122),
+(207, 7, 123),
+(208, 7, 124),
+(209, 7, 125),
+(210, 7, 126),
+(211, 7, 127),
+(212, 7, 128),
+(213, 7, 129),
+(214, 4, 80),
+(215, 4, 79),
+(216, 8, 76),
+(217, 8, 60),
+(218, 8, 82),
+(219, 8, 62),
+(220, 8, 77),
+(221, 8, 48),
+(222, 8, 78),
+(223, 8, 65),
+(224, 8, 55),
+(225, 84, 71),
+(226, 8, 83),
+(227, 8, 57),
+(228, 8, 66),
+(229, 8, 45),
+(230, 8, 46),
+(231, 84, 44),
+(232, 8, 2),
+(233, 8, 68),
+(234, 8, 8),
+(235, 8, 69),
+(236, 8, 70),
+(237, 8, 17),
+(238, 8, 79),
+(239, 8, 80),
+(240, 8, 84),
+(241, 85, 50),
+(242, 85, 9),
+(243, 85, 54),
+(244, 85, 96),
+(245, 8, 102),
+(246, 8, 73),
+(247, 8, 10),
+(248, 8, 14),
+(249, 8, 15),
+(250, 8, 16),
+(251, 8, 11),
+(252, 8, 20),
+(253, 8, 22),
+(254, 8, 23),
+(255, 8, 18),
+(256, 8, 19),
+(257, 8, 21),
+(258, 8, 119),
+(259, 8, 125),
+(260, 8, 118),
+(261, 8, 72),
+(262, 8, 24),
+(263, 8, 85),
+(264, 8, 124),
+(265, 8, 25),
+(266, 8, 74),
+(267, 8, 86),
+(268, 8, 88),
+(269, 84, 45),
+(270, 82, 45),
+(271, 83, 45),
+(272, 84, 46),
+(273, 83, 46),
+(274, 83, 71),
+(275, 82, 8),
+(276, 83, 8),
+(277, 83, 69),
+(278, 83, 17),
+(279, 82, 79),
+(280, 83, 84),
+(281, 82, 84),
+(282, 82, 54),
+(283, 82, 31),
+(284, 82, 73),
+(285, 83, 21),
+(286, 83, 72),
+(287, 82, 87),
+(288, 8, 87),
+(289, 8, 89),
+(290, 8, 90),
+(291, 8, 91),
+(292, 8, 126),
+(293, 8, 129),
+(294, 8, 132),
+(295, 8, 131),
+(296, 8, 130);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -577,21 +798,22 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `username`, `email`, `password`, `role_id`, `is_deleted`, `deleted_at`) VALUES
-(4, 'Kis', 'József', 'Kisjozsef', 'kisjozsef@gmail.com', 'Jelszo', 1, 0, NULL),
+(4, 'Kis', 'József', 'Kisjozsef', 'kisjozsef@gmail.com', 'Jelszo', 2, 0, NULL),
 (5, 'Kovács', 'Bence', 'bkovacs', 'bence.kovacs@example.com', 'Passw0rd1', 1, 0, NULL),
 (6, 'Tóth', 'Anna', 'annat', 'anna.toth@example.com', 'Secure123!', 1, 0, NULL),
 (7, 'Szabó', 'Dávid', 'dszabo', 'david.szabo@example.com', 'Qwerty987', 1, 0, NULL),
 (8, 'Farkas', 'Eszter', 'efarkas', 'eszter.farkas@example.com', 'MyPass456', 1, 1, '2025-11-25 00:00:00'),
-(9, 'Nagy', 'Gábor', 'gnagy', 'gabor.nagy@example.com', 'TestUser!23', 1, 0, NULL);
+(9, 'Nagy', 'Gábor', 'gnagy', 'gabor.nagy@example.com', 'TestUser!23', 1, 0, NULL),
+(10, 'Zsófia', 'Ujsághy', 'UjZsofi', 'ujsaghy.zsofia@gmail.com', '$2a$10$4/w4CzPtjYVl1K5HBAHmJuiLpeld6iQmQA98PF2F39vBvjgnuC2XC', 2, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `userxappointment`
+-- Table structure for table `userxappointment`
 --
 
 CREATE TABLE `userxappointment` (
@@ -601,7 +823,7 @@ CREATE TABLE `userxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `userxappointment`
+-- Dumping data for table `userxappointment`
 --
 
 INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_id`) VALUES
@@ -613,7 +835,7 @@ INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_i
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `workerxappointment`
+-- Table structure for table `workerxappointment`
 --
 
 CREATE TABLE `workerxappointment` (
@@ -623,7 +845,7 @@ CREATE TABLE `workerxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `workerxappointment`
+-- Dumping data for table `workerxappointment`
 --
 
 INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `worker_id`) VALUES
@@ -633,11 +855,11 @@ INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `wo
 (4, 4, 5);
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `appointment`
+-- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointment_id`),
@@ -645,7 +867,7 @@ ALTER TABLE `appointment`
   ADD KEY `user` (`worker_id`);
 
 --
--- A tábla indexei `faculty`
+-- Indexes for table `faculty`
 --
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`faculty_id`),
@@ -653,13 +875,13 @@ ALTER TABLE `faculty`
   ADD UNIQUE KEY `name_2` (`name`);
 
 --
--- A tábla indexei `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `university`
+-- Indexes for table `university`
 --
 ALTER TABLE `university`
   ADD PRIMARY KEY (`university_id`),
@@ -667,7 +889,7 @@ ALTER TABLE `university`
   ADD UNIQUE KEY `google_maps_link` (`google_maps_link`);
 
 --
--- A tábla indexei `universityxfaculty`
+-- Indexes for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD PRIMARY KEY (`universityxfaculty_id`),
@@ -675,7 +897,7 @@ ALTER TABLE `universityxfaculty`
   ADD KEY `karId` (`faculty_id`);
 
 --
--- A tábla indexei `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
@@ -684,7 +906,7 @@ ALTER TABLE `user`
   ADD KEY `role_id` (`role_id`);
 
 --
--- A tábla indexei `userxappointment`
+-- Indexes for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD PRIMARY KEY (`userXappointment_id`),
@@ -692,96 +914,96 @@ ALTER TABLE `userxappointment`
   ADD KEY `UserId` (`user_id`);
 
 --
--- A tábla indexei `workerxappointment`
+-- Indexes for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD PRIMARY KEY (`workerXappointment_id`),
   ADD KEY `AppointmentId` (`appointment_id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `appointment`
+-- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
   MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT a táblához `faculty`
+-- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
--- AUTO_INCREMENT a táblához `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `university`
+-- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
-  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
--- AUTO_INCREMENT a táblához `universityxfaculty`
+-- AUTO_INCREMENT for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
-  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
 
 --
--- AUTO_INCREMENT a táblához `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `userxappointment`
+-- AUTO_INCREMENT for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   MODIFY `userXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `workerxappointment`
+-- AUTO_INCREMENT for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   MODIFY `workerXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `appointment`
+-- Constraints for table `appointment`
 --
 ALTER TABLE `appointment`
   ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `universityxfaculty`
+-- Constraints for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD CONSTRAINT `universityxfaculty_ibfk_1` FOREIGN KEY (`university_id`) REFERENCES `university` (`university_id`),
   ADD CONSTRAINT `universityxfaculty_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`faculty_id`);
 
 --
--- Megkötések a táblához `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 --
--- Megkötések a táblához `userxappointment`
+-- Constraints for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD CONSTRAINT `userxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`),
   ADD CONSTRAINT `userxappointment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `workerxappointment`
+-- Constraints for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD CONSTRAINT `workerxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`);

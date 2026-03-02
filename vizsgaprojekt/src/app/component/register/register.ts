@@ -67,8 +67,18 @@ export class Register implements OnInit {
   register() {
     const newUser = new User(null, this.registerForm.controls["username"].value, this.registerForm.controls["firstName"].value, this.registerForm.controls["lastName"].value, this.registerForm.controls["email"].value, this.registerForm.controls["password"].value)
     this.userService.register(newUser).subscribe({
-      error: error => {
-
+      error: (error) => {
+        if (error.error.statusText === "duplicateEmail") {
+          this.errorMsg = "duplicateEmail"
+          setTimeout(() => {
+            this.errorMsg = ""
+          }, 3000)
+        } else if (error.error.statusText === "duplicateUsername") {
+          this.errorMsg = "duplicateUsername"
+          setTimeout(() => {
+            this.errorMsg = ""
+          }, 3000)
+        }
       },
       complete: () => {
         this.router.navigate(["/login"])

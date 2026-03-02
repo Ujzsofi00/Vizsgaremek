@@ -16,43 +16,43 @@
             <form [formGroup]="registerForm" class="container-fluid d-flex flex-column justify-content-center py-4">
               <div class="row">
                 <div class="col-lg-12">
-                  <label for="email">E-mail:</label> <br>
-                  <input formControlName="email" id="email" class="w-100" type="text" placeholder="Írja ide az e-mail címét!">
+                  <label for="email" class="text-lg-start text-center w-100" [class.text-danger]="errorMsg == 'duplicateEmail'">{{errorMsg == 'duplicateEmail' ? "Ezzel az e-mail címmel már regisztráltak!" : "E-mail cím" }}</label> <br>
+                  <input formControlName="email" id="email" class="w-100 px-2" type="text" placeholder="Írja ide az e-mail címét!">
                 </div>
               </div>
 
                <div class="row mt-3">
                 <div class="col-lg-12">
-                  <label for="username">Felhasználónév:</label> <br>
-                  <input formControlName="username" id="username" class="w-100" type="text" placeholder="Írja ide a felhasználónevét!">
+                  <label for="username" class="text-lg-start text-center w-100" [class.text-danger]="errorMsg == 'duplicateUsername'">{{errorMsg == 'duplicateUsername' ? "Ezzel a felhasználónévvel már regisztráltak!" : "Felhasználónév" }}</label> <br>
+                  <input formControlName="username" id="username" class="w-100 px-2" type="text" placeholder="Írja ide a felhasználónevét!">
                 </div>
               </div>
 
                <div class="row mt-3">
                 <div class="col-lg-12">
-                  <label for="firstName">Vezetéknév:</label> <br>
-                  <input formControlName="firstName" id="firstName" class="w-100" type="text" placeholder="Írja ide a vezetéknevét!">
+                  <label for="firstName" class="text-lg-start text-center w-100">Vezetéknév:</label> <br>
+                  <input formControlName="firstName" id="firstName" class="w-100 px-2" type="text" placeholder="Írja ide a vezetéknevét!">
                 </div>
               </div>
 
                <div class="row mt-3">
                 <div class="col-lg-12">
-                  <label for="lastName">Keresztnév:</label> <br>
-                  <input formControlName="lastName" id="lastName" class="w-100" type="text" placeholder="Írja ide a keresztnevét!">
+                  <label for="lastName" class="text-lg-start text-center w-100">Keresztnév:</label> <br>
+                  <input formControlName="lastName" id="lastName" class="w-100 px-2" type="text" placeholder="Írja ide a keresztnevét!">
                 </div>
               </div>
 
               <div class="row mt-3">
                 <div class="co-lg-l2">
-                  <label for="password">Jelszó</label>
-                  <input formControlName="password" id="password" class="w-100" type="password" placeholder="Írja ide a jelszavát!">
+                  <label for="password" class="text-lg-start text-center w-100">Jelszó</label>
+                  <input formControlName="password" id="password" class="w-100 px-2" type="password" placeholder="Írja ide a jelszavát!">
                 </div>
               </div>
 
               <div class="row mt-3">
                 <div class="co-lg-l2">
-                  <label for="passwordAgain">Jelszó újra</label>
-                  <input formControlName="passwordAgain" id="passwordAgain" class="w-100" type="password" placeholder="Írja ide újból a jelszavát!">
+                  <label for="passwordAgain" class="text-lg-start text-center w-100">Jelszó újra</label>
+                  <input formControlName="passwordAgain" id="passwordAgain" class="w-100 px-2" type="password" placeholder="Írja ide újból a jelszavát!">
                 </div>
               </div>
             </form>
@@ -69,3 +69,4 @@
     </div>
   </div>
 </div>
+

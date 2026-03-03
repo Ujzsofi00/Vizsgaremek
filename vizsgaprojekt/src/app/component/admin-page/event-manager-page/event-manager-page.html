@@ -1,11 +1,11 @@
-<div class="container-fluid" style="height: 88vh;">
+<div class="container-fluid" style="height: 88vh;" style="margin-bottom:5px">
   <div class="row h-100 d-flex justify-content-center align-items-center">
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div class="container-fluid" id="editorDiv">
+    <div class="col-lg-6 my-5 order-lg-0 order-1 d-flex justify-content-center align-items-center">
+      <div class="container-fluid d-flex flex-column justify-content-between" id="editorDiv">
         <div class="row h-100">
           <div class="col-lg-12 h-100">
             @if(selectedAppointment != null) {
-              <div class="container-fluid h-100 d-flex flex-column justify-content-between py-3">
+              <div class="container-fluid h-100 py-3 d-flex flex-column justify-content-between">
                 <div class="row">
                   <div class="col-lg-12 d-flex justify-content-between align-items-center">
                     <div></div>
@@ -34,24 +34,24 @@
                       <form class="container-fluid" [formGroup]="editForm">
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="title">Cim:</label>
+                            <label for="title" class="fw-bold">Cim:</label>
                             <input type="text" class="w-100 px-3" id="title" placeholder="Cím" formControlName="title">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="date">Dátum:</label>
+                            <label for="date" [class.error]="errorMsg == 'duplicateDate'">Dátum:</label>
                             <input type="date" class="w-100 px-3" id="date" formControlName="date">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-6 my-2">
                             <label for="start">Kezdés:</label>
-                            <input type="time" class="w-100 px-3" id="start" formControlName="startHour">
+                            <input type="time" class="w-100 px-3" id="start" formControlName="startHour" [class.error]="errorMsg == 'invalidRange'">
                           </div>
                           <div class="col-lg-6 my-2">
                             <label for="end">Vége:</label>
-                            <input type="time" class="w-100 px-3" id="end" formControlName="endHour">
+                            <input type="time" class="w-100 px-3" id="end" formControlName="endHour" [class.error]="errorMsg == 'invalidRange'">
                           </div>
                         </div>
                         <div class="row">
@@ -92,9 +92,9 @@
                 </div>
               </div>
             }@else {
-              <div class="container-fluid">
+              <div class="container-fluid h-100 d-flex flex-column justify-content-between">
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-12 mt-4">
                     <h1 class="text-center">Időpont létrehozása</h1>
                   </div>
                 </div>
@@ -105,35 +105,35 @@
                       <form class="container-fluid" [formGroup]="editForm">
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="title">Cim:</label>
+                            <label for="title" class="fw-bold">Cim:</label>
                             <input type="text" class="w-100 px-3" id="title" placeholder="Cím" formControlName="title">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="date">Dátum:</label>
-                            <input type="date" class="w-100 px-3" id="date" formControlName="date">
+                            <label for="date" class="fw-bold">Dátum:</label>
+                            <input type="date" class="w-100 px-3" id="date" formControlName="date" [valueAsDate]="selected()">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-6 my-2">
-                            <label for="start">Kezdés:</label>
+                            <label for="start" class="fw-bold">Kezdés:</label>
                             <input type="time" class="w-100 px-3" id="start" formControlName="startHour">
                           </div>
                           <div class="col-lg-6 my-2">
-                            <label for="end">Vége:</label>
+                            <label for="end" class="fw-bold">Vége:</label>
                             <input type="time" class="w-100 px-3" id="end" formControlName="endHour">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="capacity">Férőhely:</label>
+                            <label for="capacity" class="fw-bold">Férőhely:</label>
                             <input type="number" class="w-100 px-3" id="capacity" placeholder="Férőhely" formControlName="capacity">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-12 my-2">
-                            <label for="worker">Előadó:</label><br>
+                            <label for="worker" class="fw-bold">Előadó:</label><br>
                             <select id="worker" class="w-100 px-3" formControlName="workerId">
                               <option value="" selected disabled>Válaszd ki az előadód</option>
                               @for (worker of workers; track $index) {
@@ -145,34 +145,32 @@
                         <div class="row">
                           <div class="col-lg-12 d-flex justify-content-start align-items-center">
                             <input type="radio" id="isOnline" [checked]="isOnline" (change)="isOnline = !isOnline">
-                            <label for="isOnline" class="mx-2">Online lesz</label>
+                            <label for="isOnline" class="mx-2 fw-bold">Online lesz</label>
                           </div>
                         </div>
                       </form>
                     }
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-lg-12">
-
-                  <button (click)="showFormForCreate()"> {{isShowForm ? "Mentés" : "Létrehozás"}} </button>
-
+                <!--  -->
+                <div class="row">
+                  <div class="col-lg-12 mb-4 d-flex justify-content-center align-items-center">
+                    <button (click)="showFormForCreate()" [disabled]="isShowForm && editForm.invalid"> {{isShowForm ? "Mentés" : "Létrehozás"}} </button>
+                  </div>
                 </div>
               </div>
+
             }
           </div>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div style="width: 450px;">
-        <mat-card class="demo-inline-calendar-card">
-          <mat-calendar [(selected)]="selected" (selectedChange)="getAppointmentByDate()"></mat-calendar>
-        </mat-card>
-      </div>
+    <div class="col-lg-6 mt-lg-0 mt-5 order-lg-1 order-0 d-flex justify-content-center align-items-center">
+      <mat-card class="demo-inline-calendar-card">
+        <mat-calendar [(selected)]="selected" (selectedChange)="getAppointmentByDate()"></mat-calendar>
+      </mat-card>
     </div>
   </div>
 </div>

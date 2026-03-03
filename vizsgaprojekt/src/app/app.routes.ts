@@ -13,17 +13,18 @@ import { EventManagerPage } from './component/admin-page/event-manager-page/even
 import { AuthGuard } from './component/routeGuard/authGuard';
 import { RoleAuthGuard } from './component/routeGuard/roleAuthGuard';
 
+
 export const routes: Routes = [
-  { path: "homePage", component: Home, },
+  { path: "homePage", component: Home },
   { path: "", pathMatch: "full", redirectTo: "homePage" },
   { path: "login", component: Login },
   { path: "register", component: Register },
   { path: "appointmentReservation", component: AppointmentSelector, canMatch: [AuthGuard] },
   { path: "universitySearch", component: UniversitySearch },
-  { path: "adminPage", component: AdminPage },
-  { path: "universities", component: UniversityList, canMatch: [RoleAuthGuard] },
-  { path: "users", component: UserList, canMatch: [RoleAuthGuard] },
-  { path: "eventManager", component: EventManagerPage, canMatch: [RoleAuthGuard, RoleAuthGuard] },
+  { path: "adminPage", component: AdminPage, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]}},
+  { path: "universities", component: UniversityList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },
+  { path: "users", component: UserList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },
+  { path: "eventManager", component: EventManagerPage, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin", "ROLE_worker"]} },
   { path: "unauthorized", component: Unauthorized },
   { path: "**", component: NotFound }
 ];

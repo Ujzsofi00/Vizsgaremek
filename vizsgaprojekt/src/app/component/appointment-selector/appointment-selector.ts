@@ -32,19 +32,21 @@ export class AppointmentSelector implements OnInit{
     const formattedDate = this.selectedDate().toLocaleDateString("Hu-hu").replace(". ", "-").replace(". ", "-").replace(".", "")
     this.appointMentService.getAppointmentByDate(formattedDate).subscribe({
       next: response => {
+        console.log("")
         this.selectedAppointment = response
+        // this.selectedAppointment.reserverUsers = []
       },
       complete: () => {
-        this.isShowBookButton = this.selectedAppointment!.reserverUsers.map(u => u.id).includes(this.userService.loggedUser?.id!)
-        console.log(this.selectedAppointment!.reserverUsers.map(u => u.id))
-        console.log(this.selectedAppointment!.reserverUsers.map(u => u.id).includes(this.userService.loggedUser?.id!))
+        this.isShowBookButton = this.selectedAppointment?.reserverUsers.map(u => u.id).includes(this.userService.loggedUser?.id!)!
       }
     })
   }
 
   bookAppointment() {
     this.appointMentService.bookAppointment(this.selectedAppointment?.id!, this.userService.loggedUser?.id!).subscribe({
-      next: response => console.log(response)
+      next: response => {
+        this.isShowBookButton = true
+      }
     })
   }
 }

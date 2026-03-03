@@ -26,6 +26,8 @@ export class EventManagerPage implements OnInit {
   workers: User[] = []
   isOnline: boolean = false
 
+  errorMsg: string = ""
+
   ngOnInit(): void {
     this.selected.set(new Date())
     this.getAppointmentByDate()
@@ -55,6 +57,14 @@ export class EventManagerPage implements OnInit {
         title: new FormControl("", [Validators.required])
       })
     } else {
+      const startTime = new Date(`2026-01-21 ${this.editForm.controls["startHour"].value}`);
+      const endTime = new Date(`2026-01-21 ${this.editForm.controls["endHour"].value}`);
+
+      if (startTime.getTime() >= endTime.getTime()) {
+        this.errorMsg = "invalidRange"
+        return
+      }
+
       this.appointmentService.addAppointment({
         title: this.editForm.controls["title"].value,
         date: this.editForm.controls["date"].value,
@@ -66,7 +76,14 @@ export class EventManagerPage implements OnInit {
       }).subscribe({
         next: response => {
           console.log(response)
-        }
+        }, error: (error) => {
+          if (error.error.statusText === "duplicateDate") {
+            this.errorMsg = "duplicateDate"
+            setTimeout(() => {
+              this.errorMsg = ""
+            }, 3000)
+          }
+        },
       })
     }
 
@@ -75,6 +92,14 @@ export class EventManagerPage implements OnInit {
 
   handleUpdate() {
     if (this.isShowForm) {
+      const startTime = new Date(`2026-01-21 ${this.editForm.controls["startHour"].value}`);
+      const endTime = new Date(`2026-01-21 ${this.editForm.controls["endHour"].value}`);
+
+      if (startTime.getTime() >= endTime.getTime()) {
+        this.errorMsg = "invalidRange"
+        return
+      }
+
       this.appointmentService.updateAppointment(this.selectedAppointment?.id!, {
         title: this.editForm.controls["title"].value,
         date: this.editForm.controls["date"].value,
@@ -86,6 +111,13 @@ export class EventManagerPage implements OnInit {
       }).subscribe({
         next: response => {
           this.selectedAppointment = response
+        }, error: (error) => {
+          if (error.error.statusText === "duplicateDate") {
+            this.errorMsg = "duplicateDate"
+            setTimeout(() => {
+              this.errorMsg = ""
+            }, 3000)
+          }
         },
         complete: () => {
           this.isShowForm = false

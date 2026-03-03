@@ -14,6 +14,7 @@ export class Login implements OnInit {
   router = inject(Router)
   loginForm!: FormGroup;
   isError: boolean = false
+  errorMsg: string = ""
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -25,7 +26,15 @@ export class Login implements OnInit {
   login() {
     this.userService.login(this.loginForm.controls["username"].value, this.loginForm.controls["password"].value).subscribe({
       next: response => this.userService.loggedUser = response,
-      error: error => this.isError = true,
+      error: (error) =>  {
+        if (error.status == 401) {
+          this.isError = true
+          this.errorMsg = "Nincs ilyen felhasználó regisztrálva. Próbáld meg újra!"
+        } else {
+          this.isError = true
+          this.errorMsg = "Hiba történt! Kérlek próbáld újra!"
+        }
+      },
       complete: () => {
         console.log(this.userService.loggedUser)
         this.router.navigate(["/homePage"])

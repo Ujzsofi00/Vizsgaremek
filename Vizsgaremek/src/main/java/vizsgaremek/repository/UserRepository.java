@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
     @Procedure(name = "getAllUsers", procedureName = "getAllUsers")
     List<Users> getAllUsers();
 
-    @Procedure(name = "deteteUser", procedureName = "deteteUser")
+    @Procedure(name = "deleteUser", procedureName = "deleteUser")
     void deleteUser(@Param("idIN") Integer id);
 
     @Procedure(name = "getAllWorker", procedureName = "getAllWorker")

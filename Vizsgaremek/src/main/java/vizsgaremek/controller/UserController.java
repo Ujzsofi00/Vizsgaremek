@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody JsonNode requestBody) {
-        return userService.login(requestBody.get("username").asString(null), requestBody.get("password").asText(null));
+        return userService.login(requestBody.get("username").asString(null), requestBody.get("password").asString(null));
     }
 
     @GetMapping("")

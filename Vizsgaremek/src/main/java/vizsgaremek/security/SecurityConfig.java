@@ -61,7 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/user/*").hasRole("admin")
                         .requestMatchers(HttpMethod.GET, "/university/*").permitAll()
                         .requestMatchers("/university").hasRole("admin")
-                        .requestMatchers("/university/*").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE,"/university/*").hasRole("admin")
                         .requestMatchers("/faculty").hasRole("admin")
                         .requestMatchers(HttpMethod.GET, "/appointment/*").authenticated()
                         .requestMatchers("/appointment/*/book").authenticated()
@@ -72,7 +72,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(jwtGeneratorFilter, BasicAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
-                //.formLogin(Customizer.withDefaults());
                 .formLogin(f -> f.disable());
         return http.build();
     }

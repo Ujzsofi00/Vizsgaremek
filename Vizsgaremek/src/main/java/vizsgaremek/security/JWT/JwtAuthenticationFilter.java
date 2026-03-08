@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,6 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/user/login");
+        ArrayList<String> allowedPaths = new ArrayList<String>(Arrays.asList("/user/login", "/user/register"));
+
+        return allowedPaths.contains(request.getServletPath());
     }
 }

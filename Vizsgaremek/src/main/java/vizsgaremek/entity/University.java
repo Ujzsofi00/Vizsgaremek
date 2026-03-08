@@ -16,7 +16,7 @@ import java.util.*;
         @NamedStoredProcedureQuery(name = "getUniversityByName", procedureName = "getUniversityByName", parameters = {
                 @StoredProcedureParameter(name = "nameIN", mode = ParameterMode.IN, type = String.class),
         }, resultClasses = University.class),
-        @NamedStoredProcedureQuery(name = "getAllUniversities", procedureName = "getAllUniversities", resultClasses = University.class),
+        @NamedStoredProcedureQuery(name= "getAllUniversities", procedureName = "getAllUniversities", resultClasses = University.class),
         @NamedStoredProcedureQuery(name = "deleteUniversity", procedureName = "deleteUniversity", parameters = {
                 @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
         })

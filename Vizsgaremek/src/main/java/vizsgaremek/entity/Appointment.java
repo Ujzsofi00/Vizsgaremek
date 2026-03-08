@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-//@AllArgsConstructor
 @Table(name = "appointment")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getAppointmentByDate", procedureName = "getAppointmentByDate", parameters = {

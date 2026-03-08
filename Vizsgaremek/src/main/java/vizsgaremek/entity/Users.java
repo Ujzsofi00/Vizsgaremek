@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "user")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getAllUsers", procedureName = "getAllUsers", resultClasses = Users.class),
-        @NamedStoredProcedureQuery(name = "deleteUser", procedureName = "deteteUser", parameters = {
+        @NamedStoredProcedureQuery(name = "deleteUser", procedureName = "deleteUser", parameters = {
                 @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
         }),
         @NamedStoredProcedureQuery(name = "getAllWorker", procedureName = "getAllWorker", resultClasses = Users.class),

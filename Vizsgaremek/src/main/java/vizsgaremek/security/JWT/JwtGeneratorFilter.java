@@ -35,7 +35,6 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
                     .withIssuer("universityTeam")
                     .sign(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf"));
 
-            System.out.println("jwt: " + jwt);
             response.setHeader("Bearer ", jwt);
         }
 
@@ -44,7 +43,6 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        System.out.println(request.getServletPath());
         return !request.getServletPath().equals("/user/login");
     }
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,21 +25,30 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication givenAuthentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("ASD");
-        if (givenAuthentication != null) {
+
+        if (givenAuthentication != null && !(givenAuthentication instanceof AnonymousAuthenticationToken)) {
             System.out.println("givenAuthentication != null");
+
             UserDetails details = (UserDetails) givenAuthentication.getPrincipal();
 
             String jwt = JWT.create()
                     .withSubject(details.getUsername())
                     .withArrayClaim("auth", details.getAuthorities().stream().map(GrantedAuthority::getAuthority).toArray(String[]::new))
-                    .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(7200000)))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(2)))
                     .withIssuer("universityTeam")
                     .sign(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf"));
 
-            response.setHeader("Bearer ", jwt);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"token\": \"" + jwt + "\"}");
+            response.getWriter().flush();
+
+            return;
         }
 
-        filterChain.doFilter(request, response);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"Invalid credentials\"}");
+        response.getWriter().flush();
     }
 
     @Override

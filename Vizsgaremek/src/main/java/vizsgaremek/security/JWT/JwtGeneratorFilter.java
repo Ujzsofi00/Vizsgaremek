@@ -38,6 +38,7 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
                     .withIssuer("universityTeam")
                     .sign(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf"));
 
+            response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             response.getWriter().write("{\"token\": \"" + jwt + "\"}");
             response.getWriter().flush();

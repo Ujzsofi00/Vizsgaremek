@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 03, 2026 at 07:58 PM
--- Server version: 5.7.24
--- PHP Version: 8.1.0
+-- Gép: localhost:3306
+-- Létrehozás ideje: 2026. Már 30. 14:54
+-- Kiszolgáló verziója: 5.7.24
+-- PHP verzió: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vizsgaremek`
+-- Adatbázis: `vizsgaremek`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Eljárások
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAppointment` (IN `idIN` INT(11))   BEGIN
 	UPDATE `appointment` SET `is_deleted`=1, `deleted_at`=CURRENT_DATE() WHERE `appointment`.`appointment_id` = idIN;
@@ -86,7 +86,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFaculty` (IN `id` INT(11))   BEG
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacultyByUniversityId` (IN `universityIdIN` INT(11))   BEGIN
-	SELECT * FROM universityxfaculty WHERE universityxfaculty.university_id = universityIdIN;
+	SELECT * FROM universityxfaculty WHERE universityxfaculty.university_id = universityIdIN     ORDER BY `faculty_id`;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversity` (IN `idIN` INT(11))   BEGIN
@@ -94,7 +94,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversity` (IN `idIN` INT(11)) 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversityByFacultyId` (IN `facultyIdIN` INT(11))   BEGIN
-	SELECT * FROM universityxfaculty WHERE universityxfaculty.faculty_id = facultyId;
+	SELECT * FROM universityxfaculty WHERE universityxfaculty.faculty_id = facultyIdIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversityByName` (IN `nameIN` VARCHAR(255))   BEGIN 
@@ -157,7 +157,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `appointment`
+-- Tábla szerkezet ehhez a táblához `appointment`
 --
 
 CREATE TABLE `appointment` (
@@ -175,7 +175,7 @@ CREATE TABLE `appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `appointment`
+-- A tábla adatainak kiíratása `appointment`
 --
 
 INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end_time`, `capacity`, `Is_full`, `is_online`, `worker_id`, `is_deleted`, `deleted_at`) VALUES
@@ -187,7 +187,7 @@ INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end
 -- --------------------------------------------------------
 
 --
--- Table structure for table `faculty`
+-- Tábla szerkezet ehhez a táblához `faculty`
 --
 
 CREATE TABLE `faculty` (
@@ -199,7 +199,7 @@ CREATE TABLE `faculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `faculty`
+-- A tábla adatainak kiíratása `faculty`
 --
 
 INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `deleted_at`) VALUES
@@ -231,20 +231,20 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (26, 'Egészségügyi Közszolgálati', '', 0, NULL),
 (27, 'Társadalomtudományi', '', 0, NULL),
 (28, 'Pedagógusképző', '', 0, NULL),
-(29, 'Gazdaságtudományi', '', 0, NULL),
+(29, 'képzőművészet-elmélet', '', 0, NULL),
 (30, 'Általános Orvos', '', 0, NULL),
 (31, 'romológia', '', 0, NULL),
-(32, 'műszaki', '', 0, NULL),
-(33, 'agrár', '', 0, NULL),
-(34, 'művészeti', '', 0, NULL),
+(32, 'koreográfus', '', 0, NULL),
+(33, 'fotográfia', '', 0, NULL),
+(34, 'látványtervezés', '', 0, NULL),
 (35, 'művészetközvetítési', '', 0, NULL),
-(36, 'Közgazdaságtudományi', '', 0, NULL),
+(36, 'mezőgazdasági és élelmiszeripari gépészmérnöki', '', 0, NULL),
 (37, 'Kultúratudományi', '', 0, NULL),
 (38, 'Vidékfejlesztési', '', 0, NULL),
 (39, 'cirkuszművészet', '', 0, NULL),
-(40, 'táncművész [kortárstánc]', '', 0, NULL),
+(40, 'táncművész', '', 0, NULL),
 (41, 'táncos és próbavezető', '', 0, NULL),
-(42, 'általános orvosi', '', 0, NULL),
+(42, 'katolikus szociális munka', '', 0, NULL),
 (43, 'orvosi diagnosztikai analitikus', '', 0, NULL),
 (44, 'egészségügyi szervező', '', 0, NULL),
 (45, 'ápolás és betegellátás', '', 0, NULL),
@@ -340,12 +340,60 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 (135, 'szőlész-borász mérnöki', '', 0, NULL),
 (136, 'református teológia', '', 0, NULL),
 (137, 'tanári', '', 0, NULL),
-(138, 'állattenyésztő mérnöki', '', 0, NULL);
+(138, 'állattenyésztő mérnöki', '', 0, NULL),
+(139, 'tájrendező és kertépítő mérnöki', '', 0, NULL),
+(140, 'személyügyi, munkaügyi és szociális igazgatási', '', 0, NULL),
+(141, 'kulturális antropológia', '', 0, NULL),
+(142, 'közgazdasági adatelemzés', '', 0, NULL),
+(143, 'műszaki földtudományi', '', 0, NULL),
+(144, 'tárgyalkotás', '', 0, NULL),
+(145, 'közigazgatás-szervező', '', 0, NULL),
+(146, 'nemzetközi igazgatási', '', 0, NULL),
+(147, 'állami légiközlekedési', '', 0, NULL),
+(148, 'katonai infokommunikáció', '', 0, NULL),
+(149, 'katonai logisztika', '', 0, NULL),
+(150, 'katonai vezetői', '', 0, NULL),
+(151, 'nemzetközi biztonság- és védelempolitikai', '', 0, NULL),
+(152, 'büntetés-végrehajtási', '', 0, NULL),
+(153, 'bűnügyi', '', 0, NULL),
+(154, 'bűnügyi igazgatási', '', 0, NULL),
+(155, 'katasztrófavédelem', '', 0, NULL),
+(156, 'magánbiztonsági', '', 0, NULL),
+(157, 'pénzügyi rendészeti', '', 0, NULL),
+(158, 'polgári nemzetbiztonsági', '', 0, NULL),
+(159, 'rendészeti', '', 0, NULL),
+(160, 'rendészeti igazgatási', '', 0, NULL),
+(161, 'tűzvédelmi mérnöki', '', 0, NULL),
+(162, 'vízügyi üzemeltetési mérnöki', '', 0, NULL),
+(163, 'földmérő és földrendező mérnöki', '', 0, NULL),
+(164, 'biztonságtechnikai mérnöki', '', 0, NULL),
+(165, 'kiberbiztonsági mérnöki', '', 0, NULL),
+(166, 'villamos-üzemmérnöki', '', 0, NULL),
+(167, 'könnyűipari mérnöki', '', 0, NULL),
+(168, 'egyházi/felekezeti közösségszervező', '', 0, NULL),
+(169, 'felekezeti szociális munkás', '', 0, NULL),
+(170, 'judaisztika', '', 0, NULL),
+(171, 'rabbi', '', 0, NULL),
+(172, 'zsidó kultúratörténet', '', 0, NULL),
+(173, 'tesztmérnöki', '', 0, NULL),
+(174, 'fenntartható és körforgásos turizmus', '', 0, NULL),
+(175, 'katolikus kánonjogász', '', 0, NULL),
+(176, 'katolikus közösségszervező', '', 0, NULL),
+(177, 'katolikus teológus', '', 0, NULL),
+(178, 'molekuláris bionika mérnöki', '', 0, NULL),
+(179, 'fogorvos', '', 0, NULL),
+(180, 'pasztorális tanácsadás és szervezetfejlesztés', '', 0, NULL),
+(181, 'diakónia', '', 0, NULL),
+(182, 'református közösségszervező', '', 0, NULL),
+(183, 'faipari mérnöki', '', 0, NULL),
+(184, 'keresztény egyház- és művelődéstörténet', '', 0, NULL),
+(185, 'összehasonlító vallástörténet - alkalmazott kulturális tanulmányok', '', 0, NULL),
+(186, 'drámainstruktor', '', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Tábla szerkezet ehhez a táblához `role`
 --
 
 CREATE TABLE `role` (
@@ -354,7 +402,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `role`
+-- A tábla adatainak kiíratása `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -365,7 +413,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `university`
+-- Tábla szerkezet ehhez a táblához `university`
 --
 
 CREATE TABLE `university` (
@@ -380,7 +428,7 @@ CREATE TABLE `university` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `university`
+-- A tábla adatainak kiíratása `university`
 --
 
 INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `google_maps_link`, `page_link`, `is_deleted`, `deleted_at`) VALUES
@@ -392,7 +440,7 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (6, 'Budapesti Gazdasági Egyetem', 'A Budapesti Gazdaságtudományi Egyetem (BGE) Magyarország legnagyobb gazdaságtudományi egyeteme és Magyarország 4. legnagyobb egyeteme, ahol közel 20.000 diák tanul jelenleg.  \r\n\r\n A BGE az összes gazdasági alapszakján piacvezető, itt végzett a hazai közgazdászok legnagyobb része, emellett ide nyernek a legtöbben felvételt gazdaságinformatikus, valamint kommunikáció és médiatudomány alapszakokra is, és a nemzetközi tanulmányok szak létszámában is a második legnagyobb képzés a BGE-é. ', 'Budapest, Markó u. 29-31, 1055', 'https://www.google.com/maps/place/Budapesti+Gazdas%C3%A1gi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3!4m10!1m2!2m1!1sBudapesti+Gazdas%C3%A1gi+Egyetem!3m6!1s0x4741dc127f42ee99:0xb8631187d54fedd6!8m2!3d47.5088043!4d19.0540419!15sChxCdWRhcGVzdGkgR2F6ZGFzw6FnaSBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11g6nkx5g2?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.uni-bge.hu', 0, NULL),
 (7, 'Budapesti Műszaki és Gazdaságtudományi Egyetem', 'A Műegyetem elsődleges feladata műszaki, informatikai, természettudományi, valamint gazdasági, üzleti és menedzsment szakemberek képzése. A BME oktatástól elválaszthatatlan küldetése a tudományos kutatás, amely átfogja az innovációs láncot alkotó alap- és alkalmazott kutatást, a műszaki termék- és szolgáltatásfejlesztést, valamint az eredmények hasznosítását. ', 'Budapest, Műegyetem rkp. 3, 1111', 'https://www.google.com/maps/search/Budapesti+M%C5%B1szaki+%C3%A9s+Gazdas%C3%A1gtudom%C3%A1nyi+Egyetem/@47.5088043,18.9683027,15008m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.bme.hu', 0, NULL),
 (8, 'Debreceni Egyetem (Debrecen)', 'A Debreceni Egyetem a hazai felsőoktatás egyik kiemelkedő intézményeként - az európai egyetemek Magna Charta-jának szellemében - a legmagasabb szintű, sokoldalú, multidiszciplináris képzéssel, kutatással és fejlesztéssel járul hozzá az egyetemes tudomány és a magyar társadalom fejlődéséhez. Ezt a küldetést az egyetem oktatói, dolgozói és hallgatói közösen, a minőségügy elkötelezettjeként, hazai és nemzetközi partnerekkel együttműködve teljesítik.', 'Debrecen, Egyetem tér 1, 4032', 'google.com/maps/place/Debreceni+Egyetem/@47.5512318,21.5961877,7498m/data=!3m1!1e3!4m10!1m2!2m1!1sDebreceni+Egyetem!3m6!1s0x47470df39a92233b:0x158b32cc387080a5!8m2!3d47.5536257!4d21.6215102!15sChFEZWJyZWNlbmkgRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16zL20vMDhzbWpx?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://www.unideb.hu', 0, NULL),
-(9, 'Pécsi Tudományegyetem', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Pécs, Boszorkány út 2, 7624 ', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+M%C5%B1szaki+%C3%A9s+Informatikai+Kar/@46.0805525,17.6350114,61647m/data=!3m1!1e3!4m10!1m2!2m1!1zcHRlIHDDqWNz!3m6!1s0x4742b1bef45122bb:0xb5277a173d87a05b!8m2!3d46.0805525!4d18.2117936!15sCglwdGUgcMOpY3NaCyIJcHRlIHDDqWNzkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSbWRIRkhPRGxSUlJBQuABAPoBBAgAEB4!16s%2Fg%2F11xy39_h7?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.pte.hu', 0, NULL),
+(9, 'Pécsi Tudományegyetem (Pécs)', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Pécs, Boszorkány út 2, 7624 ', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+M%C5%B1szaki+%C3%A9s+Informatikai+Kar/@46.0805525,17.6350114,61647m/data=!3m1!1e3!4m10!1m2!2m1!1zcHRlIHDDqWNz!3m6!1s0x4742b1bef45122bb:0xb5277a173d87a05b!8m2!3d46.0805525!4d18.2117936!15sCglwdGUgcMOpY3NaCyIJcHRlIHDDqWNzkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSbWRIRkhPRGxSUlJBQuABAPoBBAgAEB4!16s%2Fg%2F11xy39_h7?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.pte.hu', 0, NULL),
 (10, 'Budapest Cirkuszművészeti és Kortárstánc Főiskola', 'A Budapest Cirkuszművészeti és Kortárstánc Főiskola az időben zajló, mozdulatalapú előadóművészetek tanulására, tanítására, kutatására és fejlesztésére szervezett tér és közösség. A Főiskola célja a tehetségek felkutatása, támogatása és olyan előadóművészek és pedagógusok képzése, akiknek a diplomája a világ bármely pontján egyet jelent a korszerű gyakorlati- és elméleti tudással és kreativitással. Küldetésünknek tekintjük, hogy a Főiskola művészetpedagógiai tevékenysége, valamint az itt végzett diákok a művészet eszköztárával alapértékeket jelenítsenek meg az élet kulturális és társadalmi színtereiben hazai és nemzetközi szinten egyaránt.', 'Budapest, Perc u. 2, 1036', 'https://www.google.com/maps/place/Budapest+Cirkuszm%C5%B1v%C3%A9szeti+%C3%A9s+Kort%C3%A1rst%C3%A1nc+F%C5%91iskola+-+Sz%C3%A9khely/@47.5358829,19.0404411,394m/data=!3m1!1e3!4m6!3m5!1s0x4741d9592c921463:0xc50511cf9dd9a8b9!8m2!3d47.5357446!4d19.0426993!16s%2Fg%2F12372h_x?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'https://bcdc.hu/', 0, NULL),
 (11, 'Eötvös Loránd Tudományegyetem (Szombathely)', 'Az Egyetemen oktatási és kutatási feladatot ellátó, szolgáltató, működést támogató szervezeti egységek és köznevelési intézmények is működnek. Az Egyetemen az oktatási és a szakképzési tevékenység, a tudományos munka elsősorban a karokon folyik, valamint működnek kari szervezeten kívüli sajátos oktatási-kutatási tevékenységet ellátó egységek is.', 'Szombathely, Károlyi Gáspár tér 4, 9700', 'https://www.google.com/maps/place/ELTE+Savaria+Egyetemi+K%C3%B6zpont/@47.2300098,16.6089827,561m/data=!3m2!1e3!5s0x476eb9b19fc57dd3:0x33858e2982d877c0!4m15!1m8!3m7!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!2sELTE+Savaria+Egyetemi+K%C3%B6zpont!8m2!3d47.2304519!4d16.6117225!10e3!16s%2Fg%2F12qf5mc7t!3m5!1s0x476eb9b10d89423d:0x5db61ddbc6acbfe4!8m2!3d47.2304519!4d16.6117225!16s%2Fg%2F12qf5mc7t?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', 'http://www.elte.hu', 0, NULL),
 (12, 'A Tan Kapuja Buddhista Főiskola', 'A Főiskola magáénak vallja a nagy magyar keletkutatók szellemi örökségét. Legfőbb szellemi előfutárunknak és példaképünknek Kőrösi Csoma Sándort tekintjük, akit a buddhizmus hívei világszerte bódhiszattvaként – szent törekvőként – tisztelnek, s úgy emlegetnek, mint „nyugati tanítvány”-t.', 'Budapest, Börzsöny u. 11, 1098', 'https://www.google.com/maps/place/A+Tan+Kapuja+Buddhista+F%C5%91iskola/@47.4631837,19.1099096,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dd2b7d99ca3f:0x47f4d1baa5ce0f46!8m2!3d47.4631837!4d19.1124845!16s%2Fg%2F11b7fvfmym?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.tkbf.hu', 0, NULL),
@@ -429,12 +477,12 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (43, 'Magyar Képzőművészeti Egyetem', 'A Magyar Képzőművészeti Egyetem 1871-es alapítása óta a magyarországi képzőművészeti oktatás legjelentősebb intézménye, amely ápolja a művészeti hagyományokat és befogadja a kortárs törekvéseket. Tanszékei – Festő, Grafika, Intermédia, Képzőművészet-elmélet, Látványtervező, Restaurátor, Szobrász, Tanárképző, Vizuális Művészet – és Doktori Iskolája magas szintű elméleti és gyakorlati tudást közvetít. Az Egyetem több kiállítótere – köztük a „régi Műcsarnok”, a másfél évszázados múlttal rendelkező Barcsay terem –, könyvtára és gyűjteménye egész évben látogatható. Az Andrássy úti főépület mellett az egyetemi oktatás helyszíneként szolgál az Epreskert műteremház-együttese, a Kmety utcai Feszty-ház és a tihanyi Somogyi József Művésztelep is.', 'Budapest, Andrássy út 69-71, 1062', 'https://www.google.com/maps/place/Magyar+K%C3%A9pz%C5%91m%C5%B1v%C3%A9szeti+Egyetem/@47.5074344,19.064477,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc71dcbacf47:0x1fbe91c8069d634f!8m2!3d47.5074344!4d19.0670519!16s%2Fm%2F02843_2?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.mke.hu/', 0, NULL),
 (44, 'Magyar Táncművészeti Egyetem', '1950 szeptemberében nyílt meg az Állami Balett Intézet, amely 1990. július 1-től a Magyar Táncművészeti Főiskola 2017. február 1-től a Magyar Táncművészeti Egyetem nevet viseli. Az 1983-ban főiskolává átszervezett, alapításától kezdve saját általános iskolát és (utóbb nyolcosztályos) gimnáziumot, továbbá középiskolai kollégiumot fenntartó intézmény a hazai művészeti felsőoktatásban egyedülálló modellt honosított meg. A megszerezhető végzettségi szintek folyamatosan emelkedtek: 1950-től középfokú, 1975-től felsőoktatási jellegű intézmény, 1983-tól főiskola, 2006-tól alap- és mesterképzést folytató főiskola, 2017-től alap- és mesterképzést folytató egyetem.', 'Budapest, Amerikai út 96, 1145', 'https://www.google.com/maps/place/Magyar+T%C3%A1ncm%C5%B1v%C3%A9szeti+Egyetem/@47.5202217,19.0896763,469m/data=!3m1!1e3!4m10!1m2!2m1!1zTWFneWFyIFTDoW5jbcWxdsOpc3pldGkgRWd5ZXRlbQ!3m6!1s0x4741db31558145b9:0x578de2266d248f87!8m2!3d47.5203274!4d19.0941586!15sCh9NYWd5YXIgVMOhbmNtxbF2w6lzemV0aSBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11f5dtn8yw?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.mte.eu/', 0, NULL),
 (45, 'Milton Friedman Egyetem', '2000 október – a Zsigmond Király Főiskola megalapítása. Az induló szakokon (Nemzetközi kapcsolatok, Humán erőforrás menedzser, Művelődésszervező szakos kommunikáció) a hangsúly az általános és speciális közgazdasági ismeretek oktatásán. Elindul a több szintű képzés és a főiskola specialitása, a  nemzetközi tanulmányok szak oktatása is.', 'Budapest, Kelta u. 2, 1039', 'https://www.google.com/maps/place/Milton+Friedman+Egyetem/@47.6010676,19.061297,468m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741d75fc483fcb5:0x69844aa373aec864!8m2!3d47.6010676!4d19.0638719!16s%2Fg%2F11c2kvlrnf?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-milton.hu', 0, NULL),
-(46, 'Miskolci Egyetem', 'A Miskolci Egyetem jogelődje a Selmecbányán 1735-ben alapított bányászati-kohászati tanintézet (Bergschule), ahol a világon elsőként oktattak felsőfokú bányászati-kohászati ismereteket. A később akadémiai rangra emelt selmeci iskola úttörő példaként szolgált az európai műszaki főiskolák létrehozásánál is. Hasonló képzés csak évtizedekkel később valósult meg: 1765-től Freibergben, 1770-től Berlinben, 1773-tól pedig Szentpéterváron. A Párizsi Műszaki Egyetem 1794-ben a selmeci laboroktatás alapján szervezte meg képzését.', 'Miskolc, Egyetem út 1, 3515', 'https://www.google.com/maps/place/Miskolci+Egyetem/@48.0814275,20.761564,464m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47409f84ee990555:0x5f1a1e1d57dd9208!8m2!3d48.0814275!4d20.7641389!16zL20vMDVwems0?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-miskolc.hu', 0, NULL),
+(46, 'Miskolci Egyetem (Miskolc)', 'A Miskolci Egyetem jogelődje a Selmecbányán 1735-ben alapított bányászati-kohászati tanintézet (Bergschule), ahol a világon elsőként oktattak felsőfokú bányászati-kohászati ismereteket. A később akadémiai rangra emelt selmeci iskola úttörő példaként szolgált az európai műszaki főiskolák létrehozásánál is. Hasonló képzés csak évtizedekkel később valósult meg: 1765-től Freibergben, 1770-től Berlinben, 1773-tól pedig Szentpéterváron. A Párizsi Műszaki Egyetem 1794-ben a selmeci laboroktatás alapján szervezte meg képzését.', 'Miskolc, Egyetem út 1, 3515', 'https://www.google.com/maps/place/Miskolci+Egyetem/@48.0814275,20.761564,464m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47409f84ee990555:0x5f1a1e1d57dd9208!8m2!3d48.0814275!4d20.7641389!16zL20vMDVwems0?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-miskolc.hu', 0, NULL),
 (47, 'Moholy-Nagy Művészeti Egyetem', '145 éve nyitotta meg kapuit egyetemünk legkorábbi jogelődje, az Országos Magyar Királyi Iparművészeti Tanoda műfaragászati tanműhelye az Andrássy úton. A történelmi pillanat és jeles évforduló alkalmából bemutatjuk az utat a tanodától a Moholy-Nagy Művészeti Egyetemig.', 'Budapest, Zugligeti út 9, 1121', 'https://www.google.com/maps/place/Moholy-Nagy+M%C5%B1v%C3%A9szeti+Egyetem/@47.5166892,18.9885516,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dec4dd3c5fa1:0x6efcbad40e3e2191!8m2!3d47.5166892!4d18.9911265!16zL20vMGJkc2ww?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.mome.hu/', 0, NULL),
 (48, 'Neumann János Egyetem', 'A Neumann János Egyetem alkalmazott tudományok egyetemeként emberközpontú, egész életen át tartó kötődést és tanulást biztosító intézmény, amely hazai és nemzetközi versenyképességét a legkorszerűbb eszközök és módszerek alkalmazására építi, harmonikusan együtt él társadalmi és gazdasági környezetével.\r\n\r\nA hallgató intézményünk legnagyobb értéke. Az itt végzettek szakmai felkészültsége, emberi tulajdonságai biztosítják egyetemünk jó hírét. Az intézmény küldetése ezért a gazdasági és társadalmi élet változásaihoz igazodó, folyamatosan megújuló, versenyképes képzés megvalósítása, hallgatói számára ösztönző tanulási környezet megteremtése képességeik fejlesztésére, egyéniségük sokoldalú kibontakoztatására.', 'Budapest, Ludovika tér 2, 1083', 'https://www.google.com/maps/place/Nemzeti+K%C3%B6zszolg%C3%A1lati+Egyetem/@47.481786,19.0827991,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcbe76677753:0x66a48e8f47eefe59!8m2!3d47.481786!4d19.085374!16s%2Fg%2F11bbmzzp4s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.nje.hu', 0, NULL),
-(49, 'Nyíregyházi Egyetem', 'A Nyíregyházi Egyetem jelenleg a legnagyobb felsőoktatási intézmény Szabolcs-Szatmár-Bereg vármegyében, Nyíregyháza városában. A mezőgazdasági és műszaki szakképzés helyi előzményei az 1930-as évektől eredeztethetők. A pedagógusképzés múltja a jogelőd intézményekben már 1914 óta jelen van a városban. A 2000-ben megvalósult szervezeti integráció során a Bessenyei György Tanárképző Főiskola és a Gödöllői Agrártudományi Egyetem Mezőgazdasági Főiskolai Karának egyesüléséből, illetve a belső strukturális átalakításból jött létre a Nyíregyházi Főiskola, amely 2016. január 1-jétől Nyíregyházi Egyetem néven, mint alkalmazott tudományok egyetemeként működik.', 'Nyíregyháza, Sóstói út 31/B, 4400', 'https://www.google.com/maps/place/Ny%C3%ADregyh%C3%A1zi+Egyetem/@47.9729444,21.7101752,465m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47389f77e6fc50c5:0x4ca55d4be2a5d21a!8m2!3d47.9729444!4d21.7127501!16s%2Fg%2F121_43vz?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.nyf.hu', 0, NULL),
-(50, 'Óbudai Egyetem', 'Budán van, pontoA Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsabban Óbudán, de az is buda, úgyhogy olyan szar nem lehet.', 'Budapest, Bécsi út 96/B, 1034', 'https://www.google.com/maps/place/%C3%93budai+Egyetem/@47.5338887,19.0318137,469m/data=!3m3!1e3!4b1!5s0x476a08557957781f:0xd2a040190bb767d9!4m6!3m5!1s0x4741d95a5e06c845:0x335116a5f1e32819!8m2!3d47.5338887!4d19.0343886!16s%2Fm%2F0b6gb7y?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
-(51, 'Nemzeti Közszolgálati Egyetem', 'A Zrínyi Miklós Nemzetvédelmi Egyetem, a Budapesti Corvinus Egyetemből kiváló Közigazgatás-tudományi Kar és a Rendőrtiszti Főiskola átalakulásával létrejött intézményünket a Nemzeti Közszolgálati Egyetemről, valamint a közigazgatási, rendészeti és katonai felsőoktatásról szóló 2011. évi CXXXII. törvény hívta életre. A 2012. január 1-jétől működő Egyetem célja, hogy a magyar közszolgálat legfontosabb oktatási és tudományos intézményeként a hazai és nemzetközi közigazgatási szféra, a Magyar Honvédség, valamint a rendvédelmi szervek számára képezzen szakembereket. 2017-ben létrejött az Egyetem Víztudományi Kara is a bajai Eötvös József Főiskola vízügyi képzéseinek átvételével. A vízstratégia, vízpolitika, vízgazdálkodás egyre fontosabb kérdéseket vet fel, így a vízügyi szakemberképzés integrálása az Egyetem oktatási profiljába hasznos és releváns lépés volt.  A Nemeskürty István Tanárképző Kar 2024-es megalapításával tovább bővült a Nemzeti Közszolgálati Egyetem portfóliója a tanári és a bölcsészettudományi hivatás iránt elkötelezett hallgatók képzésével. Meggyőződésünk, hogy az eljövendő nemzedékek tanárainak képzése a többi, egyetem által oktatott hivatáshoz hasonlóan, a magyar állam működtetésében legfontosabb szerepet vállaló szakemberek képzését jelenti.', 'Budapest, Ludovika tér 2, 1083', 'https://www.google.com/maps/place/Nemzeti+K%C3%B6zszolg%C3%A1lati+Egyetem/@47.481786,19.085374,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcbe76677753:0x66a48e8f47eefe59!8m2!3d47.481786!4d19.085374!16s%2Fg%2F11bbmzzp4s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.uni-nke.hu/', 0, NULL),
+(49, 'Nyíregyházi Egyetem (Nyíregyháza)', 'A Nyíregyházi Egyetem jelenleg a legnagyobb felsőoktatási intézmény Szabolcs-Szatmár-Bereg vármegyében, Nyíregyháza városában. A mezőgazdasági és műszaki szakképzés helyi előzményei az 1930-as évektől eredeztethetők. A pedagógusképzés múltja a jogelőd intézményekben már 1914 óta jelen van a városban. A 2000-ben megvalósult szervezeti integráció során a Bessenyei György Tanárképző Főiskola és a Gödöllői Agrártudományi Egyetem Mezőgazdasági Főiskolai Karának egyesüléséből, illetve a belső strukturális átalakításból jött létre a Nyíregyházi Főiskola, amely 2016. január 1-jétől Nyíregyházi Egyetem néven, mint alkalmazott tudományok egyetemeként működik.', 'Nyíregyháza, Sóstói út 31/B, 4400', 'https://www.google.com/maps/place/Ny%C3%ADregyh%C3%A1zi+Egyetem/@47.9729444,21.7101752,465m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47389f77e6fc50c5:0x4ca55d4be2a5d21a!8m2!3d47.9729444!4d21.7127501!16s%2Fg%2F121_43vz?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.nyf.hu', 0, NULL),
+(50, 'Óbudai Egyetem (Budapest)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Budapest, Bécsi út 96/B, 1034', 'https://www.google.com/maps/place/%C3%93budai+Egyetem/@47.5338887,19.0318137,469m/data=!3m3!1e3!4b1!5s0x476a08557957781f:0xd2a040190bb767d9!4m6!3m5!1s0x4741d95a5e06c845:0x335116a5f1e32819!8m2!3d47.5338887!4d19.0343886!16s%2Fm%2F0b6gb7y?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
+(51, 'Nemzeti Közszolgálati Egyetem (Budapest)', 'A Zrínyi Miklós Nemzetvédelmi Egyetem, a Budapesti Corvinus Egyetemből kiváló Közigazgatás-tudományi Kar és a Rendőrtiszti Főiskola átalakulásával létrejött intézményünket a Nemzeti Közszolgálati Egyetemről, valamint a közigazgatási, rendészeti és katonai felsőoktatásról szóló 2011. évi CXXXII. törvény hívta életre. A 2012. január 1-jétől működő Egyetem célja, hogy a magyar közszolgálat legfontosabb oktatási és tudományos intézményeként a hazai és nemzetközi közigazgatási szféra, a Magyar Honvédség, valamint a rendvédelmi szervek számára képezzen szakembereket. 2017-ben létrejött az Egyetem Víztudományi Kara is a bajai Eötvös József Főiskola vízügyi képzéseinek átvételével. A vízstratégia, vízpolitika, vízgazdálkodás egyre fontosabb kérdéseket vet fel, így a vízügyi szakemberképzés integrálása az Egyetem oktatási profiljába hasznos és releváns lépés volt.  A Nemeskürty István Tanárképző Kar 2024-es megalapításával tovább bővült a Nemzeti Közszolgálati Egyetem portfóliója a tanári és a bölcsészettudományi hivatás iránt elkötelezett hallgatók képzésével. Meggyőződésünk, hogy az eljövendő nemzedékek tanárainak képzése a többi, egyetem által oktatott hivatáshoz hasonlóan, a magyar állam működtetésében legfontosabb szerepet vállaló szakemberek képzését jelenti.', 'Budapest, Ludovika tér 2, 1083', 'https://www.google.com/maps/place/Nemzeti+K%C3%B6zszolg%C3%A1lati+Egyetem/@47.481786,19.085374,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcbe76677753:0x66a48e8f47eefe59!8m2!3d47.481786!4d19.085374!16s%2Fg%2F11bbmzzp4s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.uni-nke.hu/', 0, NULL),
 (52, 'Országos Rabbiképző - Zsidó Egyetem', 'Az Országos Rabbiképző – Zsidó Egyetem (OR-ZSE) jogelődje 1877-ben nyitotta meg kapuit; az intézmény a kontinens legrégebben működő rabbiképzője. Ma államilag elismert egyetemként működik, amely a zsidó vallási, oktatási és közösségi szakemberek képzése mellett tudományos oktatási és kutatási tevékenységet folytat.\r\n\r\nAz Egyetem oktatási tevékenysége kiterjed a zsidó hagyomány vallási, közösségi és társadalmi összefüggéseire, valamint az ezekhez kapcsolódó oktatási és szociális szakmai területekre, hazai és nemzetközi tudományos kontextusban. Az OR-ZSE a zsidó hagyománnyal, kultúrával és gondolkodással foglalkozó tudományos kutatás fontos hazai központja; kutatási tevékenysége nemzetközi tudományos kapcsolatokra épül.', 'Budapest, Scheiber Sándor utca 2, 1084', 'https://www.google.com/maps/place/Orsz%C3%A1gos+Rabbik%C3%A9pz%C5%91+%E2%80%93+Zsid%C3%B3+Egyetem/@47.4934906,19.0675681,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc5e7f01e5d5:0x24c0b17afc750c8f!8m2!3d47.4934906!4d19.070143!16zL20vMGRqZDRs?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.or-zse.hu', 0, NULL),
 (53, 'Pannon Egyetem (Veszprém)', 'Alapításának 75. évfordulóját ünnepli a Pannon Egyetem. A Pannon Egyetem széles körű képzési lehetőséget kínál, a természettudományoktól a humántudományokig, a műszaki tudományoktól a gazdasági tudományokig. A Pannon Egyetem 75 éves évfordulója alkalmából számos rendezvényt tartunk az egyetemen és a képzési helyszíneinken, amelyekről felületeinken olvashat bővebb információt.', 'Veszprém, Egyetem u. 10, 8200', 'https://www.google.com/maps/place/Pannon+Egyetem/@47.0879453,15.6009259,242046m/data=!3m1!1e3!4m10!1m2!2m1!1sPannon+Egyetem!3m6!1s0x47699a6d01b066bd:0x848dc73247d42b80!8m2!3d47.0879453!4d17.9080548!15sCg5QYW5ub24gRWd5ZXRlbSIDiAEBWhAiDnBhbm5vbiBlZ3lldGVtkgEKdW5pdmVyc2l0eZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VOZk9WcDZZVXRSRUFF4AEA-gEECBAQNg!16zL20vMGRjd2px?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-pannon.hu', 0, NULL),
 (54, 'Pannon Egyetem (Nagykanizsa)', 'Alapításának 75. évfordulóját ünnepli a Pannon Egyetem. A Pannon Egyetem széles körű képzési lehetőséget kínál, a természettudományoktól a humántudományokig, a műszaki tudományoktól a gazdasági tudományokig. A Pannon Egyetem 75 éves évfordulója alkalmából számos rendezvényt tartunk az egyetemen és a képzési helyszíneinken, amelyekről felületeinken olvashat bővebb információt.', 'Nagykanizsa, Zrínyi Miklós u. 18, 8800', 'https://www.google.com/maps/place/Pannon+Egyetem/@47.0879453,15.6009259,242046m/data=!3m1!1e3!4m10!1m2!2m1!1sPannon+Egyetem!3m6!1s0x4768937427a5cfb7:0x15250036185d9f14!8m2!3d46.4533457!4d16.9851886!15sCg5QYW5ub24gRWd5ZXRlbSIDiAEBWhAiDnBhbm5vbiBlZ3lldGVtkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VNdE5HOUxVVGgzUlJBQuABAPoBBAgAEA0!16s%2Fg%2F1tfm5g1h?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-pannon.hu', 0, NULL);
@@ -446,13 +494,13 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (59, 'Pannon Egyetem (Pápa)', 'Alapításának 75. évfordulóját ünnepli a Pannon Egyetem. A Pannon Egyetem széles körű képzési lehetőséget kínál, a természettudományoktól a humántudományokig, a műszaki tudományoktól a gazdasági tudományokig. A Pannon Egyetem 75 éves évfordulója alkalmából számos rendezvényt tartunk az egyetemen és a képzési helyszíneinken, amelyekről felületeinken olvashat bővebb információt.', 'Pápa, Nagysallói u. 2, 8500', 'https://www.google.com/maps/place/Pannon+Egyetem/@46.7852469,16.3333058,204690m/data=!3m1!1e3!4m10!1m2!2m1!1sPannon+Egyetem!3m6!1s0x47696142d26d1fbf:0xab28341e62ae04fd!8m2!3d47.309764!4d17.4818347!15sCg5QYW5ub24gRWd5ZXRlbSIDiAEBkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11fn6szp_n?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-pannon.hu', 0, NULL),
 (60, 'Pannon Egyetem (Kaposvár)', 'Alapításának 75. évfordulóját ünnepli a Pannon Egyetem. A Pannon Egyetem széles körű képzési lehetőséget kínál, a természettudományoktól a humántudományokig, a műszaki tudományoktól a gazdasági tudományokig. A Pannon Egyetem 75 éves évfordulója alkalmából számos rendezvényt tartunk az egyetemen és a képzési helyszíneinken, amelyekről felületeinken olvashat bővebb információt.', 'Kaposvár, Guba Sándor u. 40, 7400', 'https://www.google.com/maps/place/Pannon+Lovasakad%C3%A9mia/@46.7852469,16.3333058,204690m/data=!3m1!1e3!4m10!1m2!2m1!1sPannon+Egyetem!3m6!1s0x47683ddbdfd4c043:0x1d7c1d3bfb4ca2e9!8m2!3d46.3849018!4d17.8232711!15sCg5QYW5ub24gRWd5ZXRlbSIDiAEBWhAiDnBhbm5vbiBlZ3lldGVtkgEPZXF1ZXN0cmlhbl9jbHVimgEkQ2hkRFNVaE5NRzluUzBWSlEwRm5TVVJhT1haeVgyNVJSUkFC4AEA-gEECAAQPQ!16s%2Fg%2F11gdtz6785?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-pannon.hu', 0, NULL),
 (61, 'Pannon Egyetem (Dunaújváros)', 'Alapításának 75. évfordulóját ünnepli a Pannon Egyetem. A Pannon Egyetem széles körű képzési lehetőséget kínál, a természettudományoktól a humántudományokig, a műszaki tudományoktól a gazdasági tudományokig. A Pannon Egyetem 75 éves évfordulója alkalmából számos rendezvényt tartunk az egyetemen és a képzési helyszíneinken, amelyekről felületeinken olvashat bővebb információt.', 'Dunaújváros, Pannon kert 1, 2400', 'https://www.google.com/maps/place/Pannon+Oktat%C3%A1si+K%C3%B6zpont/@46.7852469,16.3333058,204690m/data=!3m1!1e3!4m10!1m2!2m1!1sPannon+Egyetem!3m6!1s0x4742176e9510fded:0xf075b499c980a38d!8m2!3d46.9609668!4d18.9238325!15sCg5QYW5ub24gRWd5ZXRlbSIDiAEBWhAiDnBhbm5vbiBlZ3lldGVtkgEQZWR1Y2F0aW9uX2NlbnRlcpoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VRMWNVcDJhakpCUlJBQuABAPoBBAgAEBU!16s%2Fg%2F1tftd2v7?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-pannon.hu', 0, NULL),
-(62, 'Pázmány Péter Katolikus Egyetem', 'Emberközpontú minőségi oktatás, klasszikus tudás és innováció - ezt kínálja hallgatóinak a Pázmány Péter Katolikus Egyetem. Az intézmény 1635-ös nagyszombati alapítása, majd 1992-es újraalapítása, Magyarország legrégebb óta folyamatosan működő egyetemének sarokköveit jelentik. Sokrétű képzési rendszerével egyaránt szolgálja a teljes emberi személyiség kibontakoztatásához szükséges hagyományos ismeretek és értékek közvetítését, valamint az információs társadalom formálását, az emberi kiteljesedéshez történő igazítását.', 'Budapest, Szentkirályi u. 28, 1088', 'https://www.google.com/maps/place/P%C3%A1zm%C3%A1ny+P%C3%A9ter+Katolikus+Egyetem/@46.3005426,5.2005213,3929624m/data=!3m1!1e3!4m10!1m2!2m1!1sP%C3%A1zm%C3%A1ny+P%C3%A9ter+Katolikus+Egyetem!3m6!1s0x4741dc5c77be66d7:0x87a50b9cf530305b!8m2!3d47.4915855!4d19.0659823!15sCiJQw6F6bcOhbnkgUMOpdGVyIEthdG9saWt1cyBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16zL20vMDgxOGNr?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.ppke.hu', 0, NULL),
+(62, 'Pázmány Péter Katolikus Egyetem (Budapest)', 'Emberközpontú minőségi oktatás, klasszikus tudás és innováció - ezt kínálja hallgatóinak a Pázmány Péter Katolikus Egyetem. Az intézmény 1635-ös nagyszombati alapítása, majd 1992-es újraalapítása, Magyarország legrégebb óta folyamatosan működő egyetemének sarokköveit jelentik. Sokrétű képzési rendszerével egyaránt szolgálja a teljes emberi személyiség kibontakoztatásához szükséges hagyományos ismeretek és értékek közvetítését, valamint az információs társadalom formálását, az emberi kiteljesedéshez történő igazítását.', 'Budapest, Szentkirályi u. 28, 1088', 'https://www.google.com/maps/place/P%C3%A1zm%C3%A1ny+P%C3%A9ter+Katolikus+Egyetem/@46.3005426,5.2005213,3929624m/data=!3m1!1e3!4m10!1m2!2m1!1sP%C3%A1zm%C3%A1ny+P%C3%A9ter+Katolikus+Egyetem!3m6!1s0x4741dc5c77be66d7:0x87a50b9cf530305b!8m2!3d47.4915855!4d19.0659823!15sCiJQw6F6bcOhbnkgUMOpdGVyIEthdG9saWt1cyBFZ3lldGVtkgEKdW5pdmVyc2l0eeABAA!16zL20vMDgxOGNr?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.ppke.hu', 0, NULL),
 (63, 'Pécsi Püspöki Hittudományi Főiskola', 'A Pécsi Püspöki Hittudományi Főiskola vezetésének célja, hogy a Főiskola a régióban olyan meghatározó szellemi központtá váljon, amelyet a keresztény értékrend, a minőségtudat, a társadalmi felelősség értékrendje és az azt megtestesítő tevékenység és aktivitás jellemez.\r\n\r\nA főiskola képzése alapvetően hitéleti célú, amelynek keretében a katolikus teológiai ágakat, a keresztény bölcseletet és társadalomtudományokat oktatja.', 'Pécs, Hunyadi János u. 11, 7625', 'https://www.google.com/maps/place/P%C3%A9csi+P%C3%BCsp%C3%B6ki+Hittudom%C3%A1nyi+F%C5%91iskola/@46.0792829,18.2271612,482m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4742b1a3c2475a5d:0x56b8b8dfcf39315a!8m2!3d46.0792829!4d18.2271612!16s%2Fg%2F12384_m0?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.pphf.hu', 0, NULL),
 (64, 'Pünkösdi Teológiai Főiskola', '1991 októberében az Evangéliumi Pünkösdi Közösség főiskolát indított abból a célból, hogy pünkösdi környezetben neveljen és képezzen fiatalokat az Úrnak való szolgálatra. Az EPK Bibliai Főiskolájának első évfolyama a délnyugat-magyarországi Kadarkút nevű községben indult. A következő évben a főiskola Budapestre költözött. 1992 és 1997 között az Evangéliumi Pünkösdi Közösség központi épületében tartotta óráit. A kezdeti időkben nagy segítséget jelentett, hogy az ICI Alapítvány – Nemzetközi Levelező Intézet hozzájárult tananyaga ingyenes használatához.', 'Budapest, Gyömrői út 89, 1183', 'https://www.google.com/maps/place/P%C3%BCnk%C3%B6sdi+Teol%C3%B3giai+F%C5%91iskola/@47.455414,19.185099,469m/data=!3m3!1e3!4b1!5s0x4741c24d526d1baf:0xaf5b59e79b845738!4m6!3m5!1s0x4741c24d526da5a7:0x6f7af6b1f842f06d!8m2!3d47.455414!4d19.185099!16s%2Fm%2F0cp3kxl?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.ptf.hu', 0, NULL),
 (65, 'Sapientia Szerzetesi Hittudományi Főiskola', 'A Sapientia Szerzetesi Hittudományi Főiskola több szerzetesrend integrált képzési intézménye, melynek szándéka, hogy a magyarországi szerzetesség teológiai képzési központja legyen. A Főiskola legfőbb célja, hogy: a katolikus hit és erkölcs alapján, az egyházi és az állami szabályok betartása mellett, az oktatásban részt vevő szerzetesrendek lelkiségéből táplálkozva - magas színvonalú teológiai képzést nyújtson, illetve teret adjon a szerzetesi teológia kutatásának is.', 'Budapest, Piarista köz 1, 1052', 'https://www.google.com/maps/place/Sapientia+Szerzetesi+Hittudom%C3%A1nyi+F%C5%91iskola/@47.4925607,19.0530092,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dc46bf63e02b:0xba185c7a519f8f59!8m2!3d47.4925607!4d19.0530092!16s%2Fg%2F122bfs11?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.sapientia.hu', 0, NULL),
 (66, 'Sárospataki Református Hittudományi Egyetem', 'A Sárospataki Református Hittudományi Egyetem a Sárospataki Református Kollégium egyik oktatási intézményeként őrzi és továbbviszi a Kollégium sajátos körülmények között kialakult, több évszázados, a református hitvallásokra és a magyar nemzet iránti elkötelezettségre épülő szellemi és lelki örökségét.\r\n\r\nAz Egyetem célja a református lelkipásztorok, valamint a református egyház igényei szerinti munkások képzése és továbbképzése, a teológiai tudományok legmagasabb szintű művelése. Történelmi örökségéből adódóan felelősséget hordoz nemcsak a fenntartó Egyházkerületért, hanem a Kárpát-medence ezen régiójának magyar református egyházaiért is.', 'Sárospatak, Rákóczi út, 1', 'https://www.google.com/maps/place/S%C3%A1rospataki+Reform%C3%A1tus+Hittudom%C3%A1nyi+Egyetem/@48.3231392,21.5713207,462m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4738cb004f05f335:0x4341134ad38fead5!8m2!3d48.3231392!4d21.5713207!16s%2Fg%2F11y4n60225?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.srhe.hu/', 0, NULL),
 (67, 'Sola Scriptura Teológiai Főiskola', 'Főiskolánk egyéni színt képvisel a magyarországi teológiai főiskolák sorában. Sola Scriptura (egyedül az Írás) Teológiai Főiskola, neve utal arra, hogy intézményünk a Biblia-tudomány, a biblikus teológia kutatását, fejlesztését és oktatását tekinti küldetésének. A bibliai iratgyűjtemény önmagában hatalmas irodalom, ezenkívül a bibliai történelem mintegy két évezredet ölel fel, amely számos ponton összekapcsolódik a világi történelemmel. A Biblia hatástörténete szintén monumentális tematika, minthogy sok szállal kötődik az egyetemes művelődéstörténethez, egészen korunkig terjedően. A hallgatók a Biblia hatástörténetével is ismerkednek tanulmányaik során, különösképpen a Biblia és a művészetek kapcsolatával.', 'Biatorbágy, Patak u. 34/a, 2051', 'https://www.google.com/maps/place/Sola+Scriptura+Teol%C3%B3giai+F%C5%91iskola/@47.4682359,18.829004,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741df211881b52f:0xea3209f857eebe53!8m2!3d47.4682359!4d18.829004!16s%2Fm%2F0cpdv_6?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.sola.hu', 0, NULL),
-(68, 'Soproni Egyetem', 'Az Erdőmérnöki Kar jogelődje a Selmecbányán III. Károly által 1735-ben alapított Bányatisztképző Iskola, melyet Mária Terézia 1762-ben akadémiai rangra emelt. Az intézmény neve 1904-ben Magyar Királyi Bányászati és Erdészeti Főiskolára változott. 1919-ben, miután Selmecbánya a megalakuló Csehszlovákiához került, a főiskola Sopronba települt át. 1934-1949 között a József Nádor Műszaki és Gazdaságtudományi Egyetem Bánya-, Kohó- és Erdőmérnöki Karán folyt az erdőmérnök képzés. Az önálló Erdőmérnöki Főiskola 1952-ben jött létre. Az Erdőmérnöki Főiskolán belül 1957-ben elindult a faipari mérnökök képzése, majd az önálló Faipari Mérnöki Kar létrehozásával 1962-ben megalakult az Erdészeti és Faipari Egyetem.', 'Sopron, Bajcsy-Zsilinszky u. 4, 9400', 'https://www.google.com/maps/place/Soproni+Egyetem/@47.1006264,14.2573478,575549m/data=!3m1!1e3!4m10!1m2!2m1!1sSoproni+Egyetem!3m6!1s0x476c3ca61fb78a5b:0x8994a005403a417c!8m2!3d47.680273!4d16.5771423!15sCg9Tb3Byb25pIEVneWV0ZW1aESIPc29wcm9uaSBlZ3lldGVtkgEKdW5pdmVyc2l0eZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSRU1uTnVNRmhCRUFF4AEA-gEECAAQNQ!16zL20vMDhscTRt?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-sopron.hu', 0, NULL),
+(68, 'Soproni Egyetem (Sopron)', 'Az Erdőmérnöki Kar jogelődje a Selmecbányán III. Károly által 1735-ben alapított Bányatisztképző Iskola, melyet Mária Terézia 1762-ben akadémiai rangra emelt. Az intézmény neve 1904-ben Magyar Királyi Bányászati és Erdészeti Főiskolára változott. 1919-ben, miután Selmecbánya a megalakuló Csehszlovákiához került, a főiskola Sopronba települt át. 1934-1949 között a József Nádor Műszaki és Gazdaságtudományi Egyetem Bánya-, Kohó- és Erdőmérnöki Karán folyt az erdőmérnök képzés. Az önálló Erdőmérnöki Főiskola 1952-ben jött létre. Az Erdőmérnöki Főiskolán belül 1957-ben elindult a faipari mérnökök képzése, majd az önálló Faipari Mérnöki Kar létrehozásával 1962-ben megalakult az Erdészeti és Faipari Egyetem.', 'Sopron, Bajcsy-Zsilinszky u. 4, 9400', 'https://www.google.com/maps/place/Soproni+Egyetem/@47.1006264,14.2573478,575549m/data=!3m1!1e3!4m10!1m2!2m1!1sSoproni+Egyetem!3m6!1s0x476c3ca61fb78a5b:0x8994a005403a417c!8m2!3d47.680273!4d16.5771423!15sCg9Tb3Byb25pIEVneWV0ZW1aESIPc29wcm9uaSBlZ3lldGVtkgEKdW5pdmVyc2l0eZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSRU1uTnVNRmhCRUFF4AEA-gEECAAQNQ!16zL20vMDhscTRt?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-sopron.hu', 0, NULL),
 (69, 'Széchenyi István Egyetem (Győr)', 'Egyetemünk arra vállalkozott, hogy felépítse az átalakuló magyar felsőoktatás mintaértékű modelljét. Ehhez kiváló partnerekre, igazi társakra találtunk: az egyetemét szerető Győr városára, a lendületes térségi iparra, benne a társadalomért, a közösségért elkötelezett Audi Hungariára, az egyetemükre büszke, azért aktívan cselekvő hallgatóinkra.', 'Győr, Egyetem tér 1, 9026', 'https://www.google.com/maps/place/Sz%C3%A9chenyi+Istv%C3%A1n+Egyetem/@47.7201618,16.4415529,239159m/data=!3m1!1e3!4m11!1m3!2m2!1sSz%C3%A9chenyi+Istv%C3%A1n+Egyetem!6e2!3m6!1s0x476bbfdfda327c3b:0xd0538eef80041623!8m2!3d47.6933064!4d17.6275327!15sChpTesOpY2hlbnlpIElzdHbDoW4gRWd5ZXRlbZIBCnVuaXZlcnNpdHngAQA!16s%2Fm%2F09gmw59?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.sze.hu', 0, NULL),
 (70, 'Széchenyi István Egyetem (Mosonmagyaróvár)', 'Egyetemünk arra vállalkozott, hogy felépítse az átalakuló magyar felsőoktatás mintaértékű modelljét. Ehhez kiváló partnerekre, igazi társakra találtunk: az egyetemét szerető Győr városára, a lendületes térségi iparra, benne a társadalomért, a közösségért elkötelezett Audi Hungariára, az egyetemükre büszke, azért aktívan cselekvő hallgatóinkra.', 'Mosonmagyaróvár, Vár tér 2, 9200', 'https://www.google.com/maps/place/Sz%C3%A9chenyi+Istv%C3%A1n+Egyetem,+Albert+K%C3%A1zm%C3%A9r+Mosonmagyar%C3%B3v%C3%A1ri+Kar/@47.7201618,16.4415529,239159m/data=!3m1!1e3!4m11!1m3!2m2!1sSz%C3%A9chenyi+Istv%C3%A1n+Egyetem!6e2!3m6!1s0x476c77e2ee553633:0xc416e33aca1d0bdd!8m2!3d47.8790636!4d17.2747233!15sChpTesOpY2hlbnlpIElzdHbDoW4gRWd5ZXRlbZIBB2NvbGxlZ2XgAQA!16s%2Fg%2F120xv34b?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.sze.hu', 0, NULL),
 (71, 'Szegedi Tudományegyetem (Szeged)', 'A Szegedi Tudományegyetem olyan gazdag hagyományokkal rendelkező, a magyar felsőoktatás magas presztízsű felsőoktatási intézménye, amely hivatásának tekinti a minőségi oktatási tevékenység folytatását. A felvételi jelentkezések számát tekintve évek óta az élbolyba tartozó intézmény mintegy 21 000 hallgatójának, köztük több mint 4000 külföldi diákjának, garantál minőségi tudást és piacképes diplomát.', 'Szeged, Dugonics tér 13, 6720', 'https://www.google.com/maps/place/Szegedi+Tudom%C3%A1nyegyetem/@46.154902,19.7206898,123127m/data=!3m1!1e3!4m10!1m2!2m1!1sSzegedi+Tudom%C3%A1nyegyetem!3m6!1s0x4744886ff749d09b:0x3c136b11e025c582!8m2!3d46.2499492!4d20.14641!15sChhTemVnZWRpIFR1ZG9tw6FueWVneWV0ZW1aGiIYc3plZ2VkaSB0dWRvbcOhbnllZ3lldGVtkgEKdW5pdmVyc2l0eZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSdWNFNHlNRE5SUlJBQuABAPoBBAgkEEI!16zL20vMDQ1cTl4?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.u-szeged.hu', 0, NULL),
@@ -461,7 +509,7 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (74, 'Szent Pál Akadémia', 'A Szent Pál Akadémia működésének célja a teljes Szentírás bölcsességének, tanításának megismerése és megértése, valamint bibliai szellemiség, életmód, erkölcs inspirálása, a hit törvényének gyakorlatban történő megvalósítása. A Szent Pál Akadémia Teológia osztatlan mesterképzési szakja a Biblia ismeretében elmélyedni vágyó és az egyházi szolgálatban aktívan részt vállaló/részt vállalni kívánó, bibliai értelemben újjászületett és Szent Szellemmel betöltött keresztények képzését szolgálja. A teológia egységes, osztatlan mesterképzés nappali és levelező tagozaton egyaránt öt éves. A tanulmányok befejeztével okleveles teológusi diplomát kapnak a végzettek, ami mesterfokozatot (korábbi egyetemi végzettség) jelent, angol megfelelője: MA in Theology, Theologist.', 'Budapest, Gyömrői út 69, 1103', 'https://www.google.com/maps/place/Szent+P%C3%A1l+Akad%C3%A9mia/@47.4694564,19.1489862,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741c3185de1c907:0x970d0305c80139bc!8m2!3d47.4694564!4d19.1515611!16s%2Fg%2F121hftn1?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.szpa.hu/', 0, NULL),
 (75, 'Színház- és Filmművészeti Egyetem', 'A Színház- és Filmművészeti Egyetem az ország egyetlen olyan egyetemi besorolású felsőoktatási intézménye, amely kizárólag a színház, a film és a televízió leendő alkotóművészeinek nyújt egyetemi diplomát. Figyelembe véve azonban, hogy számos más felsőoktatási intézmény, magániskola és sok különböző stúdió kínál a színház, a film, a televízió, a videó és a média iránt vonzódó fiataloknak tanulási lehetőséget, a Színház- és Filmművészeti Egyetem olyan képzési feltételeket és programokat igyekszik kialakítani, amelyek minden tekintetben a minőségnek kedveznek, a legmagasabb színvonalat tudják biztosítani. Az egyetemen az elismert alkotóművészek, a szakma kiválóságai oktatnak. Az egyetem feladatának tekinti, hogy a drámai művészetek és intézményeik, a színház, a film, a televízió, a rádió számára ígéretes tehetségű, művelt, az egyetemes és a nemzeti kultúra értékeit ismerő, megalapozott szaktudású művészeket, és művészeti szakembereket képezzen, és tovább képezzen. Célja továbbá, hogy felkészítse hallgatóit a színházi és mozgóképi kultúra ismereteinek elsajátítására, alkalmazására és fejlesztésére, művészeti alkotások létrehozására, új szakmai teljesítmények elérésére, a színház- és mozgóképtudomány művelésére.', 'Budapest, Szentkirályi u. 32, 1088', 'https://www.google.com/maps/place/Sz%C3%ADnh%C3%A1z-+%C3%A9s+Filmm%C5%B1v%C3%A9szeti+Egyetem/@47.4998449,18.9969423,7505m/data=!3m1!1e3!4m10!1m2!2m1!1zU3rDrW5ow6F6LSDDqXMgRmlsbW3FsXbDqXN6ZXRpIEVneWV0ZW0!3m6!1s0x4741dc5b8dad3543:0x6519ccdb71cf02ae!8m2!3d47.4910512!4d19.0660874!15sCiZTesOtbmjDoXotIMOpcyBGaWxtbcWxdsOpc3pldGkgRWd5ZXRlbZIBCnVuaXZlcnNpdHngAQA!16s%2Fg%2F11btwk1sdj?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.szfe.hu', 0, NULL),
 (76, 'Tokaj-Hegyalja Egyetem', 'A Tokaj-Hegyalja Egyetem feladatai és minőségfejlesztési céljai teljesítése érdekében minőségbiztosítási rendszert működtet. E rendszer középpontjában mindenekelőtt a tanulás áll, prioritásaink és feladataink szem előtt tartása, mindennapi tevékenységeink folyamatos fejlesztése érdekében. A rendszer célja továbbá a működési kiválóság biztosítása, a működés, a működtetés racionális, hatékony, flexibilis és zökkenőmentes megvalósításának támogatása. Minőségfejlesztési munkánk során mind a szervezeti egységeink, mind egyetemünk számára alapvető értékként jelentkezik az adatalapúság, az önértékelés, a tervezés, a fejlesztés és visszacsatolás varratmentes implementációja, a jó gyakorlatok nyitott keresése és azonnali alkalmazása.', 'Sárospatak, Eötvös út 7, 3950', 'https://www.google.com/maps/place/Tokaj-Hegyalja+Egyetem/@48.3212342,21.5666857,462m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6dc96986b9c1dd73:0x51a5a32ce20534d9!8m2!3d48.3212342!4d21.5666857!16s%2Fg%2F12qhl04ks?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.unithe.hu', 0, NULL),
-(77, 'Tomori Pál Főiskola', 'Intézményünk fennállása óta igyekszik minden tanulni vágyó jelentkezőt felvenni, és a képzés alatt mindent megtenni, hogy a hallgatóink megszerezzék a kellő szaktudást, magabiztosabbak legyenek, és hogy a képzés végén sikeres záróvizsgát tegyenek.', 'Budapest, Művelődés u. 21, 1223', 'https://www.google.com/maps/place/Tomori+P%C3%A1l+F%C5%91iskola/@47.4106203,19.010967,470m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741e7042a4574a3:0xca16f10d54ba6538!8m2!3d47.4106203!4d19.0135419!16s%2Fm%2F0cpbjfh?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://tpfk.hu/', 0, NULL),
+(77, 'Tomori Pál Főiskola (Budapest)', 'Intézményünk fennállása óta igyekszik minden tanulni vágyó jelentkezőt felvenni, és a képzés alatt mindent megtenni, hogy a hallgatóink megszerezzék a kellő szaktudást, magabiztosabbak legyenek, és hogy a képzés végén sikeres záróvizsgát tegyenek.', 'Budapest, Művelődés u. 21, 1223', 'https://www.google.com/maps/place/Tomori+P%C3%A1l+F%C5%91iskola/@47.4106203,19.010967,470m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741e7042a4574a3:0xca16f10d54ba6538!8m2!3d47.4106203!4d19.0135419!16s%2Fm%2F0cpbjfh?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://tpfk.hu/', 0, NULL),
 (78, 'Veszprémi Érseki Főiskola', 'A Veszprémi Érseki Főiskola 2024 júliusában került hivatalosan nyilvántartásba, mint felnőttképző intézmény. A felnőttképzés célja, hogy a Főiskola hagyományaira és értékeire építve, a társadalom aktuális igényeire válaszolva kínáljon gyakorlatorientált, a mindennapi életben is jól hasznosítható programokat, amelyek a közösségépítést is szolgálják.', 'Veszprém, Jutasi út 18/2, 8200', 'https://www.google.com/maps/place/Veszpr%C3%A9mi+%C3%89rseki+F%C5%91iskola/@47.1092508,17.9074094,473m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47699a61b8044ee1:0x7ca6706e1062bd30!8m2!3d47.1092508!4d17.9099843!16s%2Fm%2F0cpbf2s?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://ersekifoiskola.hu', 0, NULL),
 (79, 'Wekerle Sándor Nemzetközi Egyetem', 'Wekerle Sándor 1848. november 15-én született Móron. Jog- és államtudományokat tanult, majd a doktori oklevél megszerzése után hosszabb külföldi tanulmányútra indult. Hazatérése után a pénzügyminisztériumba került, ahol rövid időn belül fény derült tehetségére és kiváló pénzügyi szakismereteire. Miközben ritka gyorsasággal haladt a pályáján, a pénzügy és közigazgatási jog magántanárává habilitáltatta magát. Abban a hírben állott, hogy a minisztériumnak úgy az elméleti kérdésekben, mint a folyó hivatalos ügyekben legtájékozottabb hivatalnoka. 1886-ban megválasztották az országos bank igazgatójává, de ezt az állást nem fogadta el, ugyanakkor Tisza Kálmán pénzügyminisztersége idején pénzügyi államtitkár lett. Képviselői mandátumot is szerzett, a Parlamentben pedig, mint kitűnő szónok és erős vitázó vált ismertté. 1889-ben pénzügyminiszternek nevezték ki, mely tisztséget a Tisza-kabinet bukása után is megtartotta. Amikor Szapáry Gyula gróf lemondott a miniszterelnökségről Wekerle lett az utóda, de továbbra is ő irányította a pénzügyi tárcát. Az ő miniszterelnökségéhez kötődik az államháztartás egyensúlyának végleges helyreállítása és a költségvetési deficit eltüntetése, a valutának az aranyvalutára áttéréssel való rendezésének megkezdése, a dualista állam adórendszerének és a pénzügyi közigazgatás újjászervezése. Nevéhez fűződik továbbá, a cukor-, szesz- és fogyasztási adók, a dohányjövedék, a regálemegváltás, az államadósságok konverziójáról szóló törvények megalkotása.', 'Budapest, Jázmin u. 10, 1083', 'https://www.google.com/maps/place/Wekerle+S%C3%A1ndor+Nemzetk%C3%B6zi+Egyetem/@47.4857465,19.0785423,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf4644ded29:0xd2c66c65ed03e83c!8m2!3d47.4857465!4d19.0811172!16s%2Fm%2F0vsgpdt?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'https://www.wsne.hu', 0, NULL),
 (80, 'Wesley János Lelkészképző Főiskola', 'A Wesley János Lelkészképző Főiskola egy magyarországi egyházi fenntartású felsőoktatási intézmény, melynek székhelye Budapest. Fenntartója a Magyarországi Evangéliumi Testvérközösség, rektora Dr. Iványi Gábor. Bölcsészettudományi, társadalomtudományi és természettudományi képzéseket indít.', 'Budapest, Dankó u. 11, 1086', 'https://www.google.com/maps/place/Wesley+J%C3%A1nos+Lelk%C3%A9szk%C3%A9pz%C5%91+F%C5%91iskola/@47.490954,19.0793737,469m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4741dcf0e7d9fe13:0xbd68724315b2e554!8m2!3d47.490954!4d19.0819486!16s%2Fg%2F11bzx32zmp?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.wesley.hu', 0, NULL),
@@ -473,12 +521,36 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 (86, 'Gál Ferenc Egyetem (Budapest)', 'A Gál Ferenc Egyetem a Szeged-Csanádi Egyházmegye szívében, a szegedi Dóm téren várja azokat a katolikus fiatalokat vagy már diplomásokat, akik elkötelezettek a teológiai tanulmányok, az egyházi hivatások, a pedagógusi pálya, a tudományok művelése és a közösségek szolgálata iránt.', 'Budapest, Szív u. 65, 1063', 'https://www.google.com/maps/place/G%C3%A1l+Ferenc/@47.4611782,18.6701126,35728m/data=!3m1!1e3!4m10!1m2!2m1!1sg%C3%A1l+ferenc+egyetem+budapest!3m6!1s0x4741dc7387460c91:0x4a491588218b9ac!8m2!3d47.5119463!4d19.064957!15sChxnw6FsIGZlcmVuYyBlZ3lldGVtIGJ1ZGFwZXN04AEA!16s%2Fg%2F1vgw_jc7?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.gfe.hu', 0, NULL),
 (87, 'Károli Gáspár Református Egyetem (Kecskemét)', 'Megjelent a HVG Diploma 2026 felsőoktatási rangsor, mely alapján a Károli Gáspár Református Egyetem – tavalyi helyezésén javítva  – a 6. legjobb* a 27 rangsorolt magyarországi felsőoktatási intézmény közül.\r\n\r\nA frissen megjelent kiadványban többek között olyan szempontok alapján rangsorolták a magyar felsőoktatási intézményeket, mint az elsőhelyes jelentkezők száma, a felvett hallgatók pontátlaga, a nyelvvizsgával felvettek aránya, a középiskolai versenyeken szerzett helyezések száma, valamint az oktatói kiválóság, publikációk aránya. ', 'Kecskemét, Kaszap u. 6-14, 6000', 'https://www.google.com/maps/place/K%C3%A1roli+G%C3%A1sp%C3%A1r+Reform%C3%A1tus+Egyetem+Pedag%C3%B3giai+Kar/@46.9132266,19.6919967,474m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4743da1bc86d387f:0xba59cbcbdfa1b2d2!8m2!3d46.9132266!4d19.6945716!16s%2Fg%2F1q62ksyq6?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.kre.hu', 0, NULL),
 (88, 'Károli Gáspár Református Egyetem (Nagykőrös)', 'Megjelent a HVG Diploma 2026 felsőoktatási rangsor, mely alapján a Károli Gáspár Református Egyetem – tavalyi helyezésén javítva  – a 6. legjobb* a 27 rangsorolt magyarországi felsőoktatási intézmény közül.\r\n\r\nA frissen megjelent kiadványban többek között olyan szempontok alapján rangsorolták a magyar felsőoktatási intézményeket, mint az elsőhelyes jelentkezők száma, a felvett hallgatók pontátlaga, a nyelvvizsgával felvettek aránya, a középiskolai versenyeken szerzett helyezések száma, valamint az oktatói kiválóság, publikációk aránya. ', 'Nagykőrös, Hősök tere 5, 2750', 'https://www.google.com/maps/place/K%C3%A1roli+G%C3%A1sp%C3%A1r+Reform%C3%A1tus+Egyetem,+Pedag%C3%B3giai+Kar/@47.0327898,19.7764093,946m/data=!3m1!1e3!4m10!1m2!2m1!1za8Ohcm9saSBnw6FzcMOhciByZWZvcm3DoXR1cyBlZ3lldGVtIG5hZ3lrxZFyw7Zz!3m6!1s0x474163234533def7:0x50067875e55f14d6!8m2!3d47.0349392!4d19.7849392!15sCjBrw6Fyb2xpIGfDoXNww6FyIHJlZm9ybcOhdHVzIGVneWV0ZW0gbmFneWvFkXLDtnOSAQdjb2xsZWdl4AEA!16s%2Fg%2F1tj31xdl?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.kre.hu', 0, NULL),
-(89, 'Kodolányi János Egyetem (Budapest)', 'A Kodolányi János Egyetem (röviden: KJE vagy Kodolányi) 1992-ben székesfehérvári székhellyel alapított Kodolányi János íróról elnevezett alapítványi egyetem, Budapesten és egykor Orosházán is működő államilag akkreditált felsőoktatási intézmény. Székhelyét 2017. február 1-jén áthelyezték Orosházára, majd 2021. február 1-je óta ismét Székesfehérváron található az egyetem székhelye. Az intézmény 1992 és 2018 között főiskolaként működött, majd 2018. augusztus 1-jével egyetemi rangot kapott.', 'Budapest, Prielle Kornélia u. 47-49, 1117', 'https://www.google.com/maps/place/Kodol%C3%A1nyi+J%C3%A1nos+Egyetem+-+Budapesti+Oktat%C3%A1si+K%C3%B6zpont/@47.4672292,19.0495616,395m/data=!3m1!1e3!4m10!1m2!2m1!1skodol%C3%A1nyi+j%C3%A1nos+egyetem+budapest!3m6!1s0x4741dc2446d33655:0x71e05e5157e78395!8m2!3d47.4677265!4d19.0519168!15sCiJrb2RvbMOhbnlpIGrDoW5vcyBlZ3lldGVtIGJ1ZGFwZXN0kgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F1tdshkhj?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.kodolanyi.hu', 0, NULL);
+(89, 'Kodolányi János Egyetem (Budapest)', 'A Kodolányi János Egyetem (röviden: KJE vagy Kodolányi) 1992-ben székesfehérvári székhellyel alapított Kodolányi János íróról elnevezett alapítványi egyetem, Budapesten és egykor Orosházán is működő államilag akkreditált felsőoktatási intézmény. Székhelyét 2017. február 1-jén áthelyezték Orosházára, majd 2021. február 1-je óta ismét Székesfehérváron található az egyetem székhelye. Az intézmény 1992 és 2018 között főiskolaként működött, majd 2018. augusztus 1-jével egyetemi rangot kapott.', 'Budapest, Prielle Kornélia u. 47-49, 1117', 'https://www.google.com/maps/place/Kodol%C3%A1nyi+J%C3%A1nos+Egyetem+-+Budapesti+Oktat%C3%A1si+K%C3%B6zpont/@47.4672292,19.0495616,395m/data=!3m1!1e3!4m10!1m2!2m1!1skodol%C3%A1nyi+j%C3%A1nos+egyetem+budapest!3m6!1s0x4741dc2446d33655:0x71e05e5157e78395!8m2!3d47.4677265!4d19.0519168!15sCiJrb2RvbMOhbnlpIGrDoW5vcyBlZ3lldGVtIGJ1ZGFwZXN0kgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F1tdshkhj?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.kodolanyi.hu', 0, NULL),
+(90, 'Magyar Agrár- és Élettudományi Egyetem (Szarvas)', 'A Magyar Agrár- és Élettudományi Egyetem megalakulásától kezdve vállalja a jogelőd Szent István Egyetem hagyományainak továbbvitelét, a történeti múlt megismerését és egyben megismertetését.\r\n\r\nAz Egyetem minden campusának nagy múltja, gazdag története van.', 'Szarvas, Szabadság út 1-3, 5540', 'https://www.google.com/maps/place/Magyar+Agr%C3%A1r-+%C3%A9s+%C3%89lettudom%C3%A1nyi+Egyetem+K%C3%96TI+%C3%96MT/@46.8631698,20.4926976,5371m/data=!3m1!1e3!4m10!1m2!2m1!1smate+szarvas!3m6!1s0x4746a836f8845c39:0x960e545fa84868ed!8m2!3d46.8636822!4d20.5412273!15sCgxtYXRlIHN6YXJ2YXNaDiIMbWF0ZSBzemFydmFzkgEKdW5pdmVyc2l0eZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSNGRUVjZUMFpCRUFF4AEA-gEECAAQPQ!16s%2Fg%2F113dsvpgf?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D', 'https://uni-mate.hu/', 0, NULL),
+(91, 'Magyar Agrár- és Élettudományi Egyetem (Gyöngyös)', 'A Magyar Agrár- és Élettudományi Egyetem megalakulásától kezdve vállalja a jogelőd Szent István Egyetem hagyományainak továbbvitelét, a történeti múlt megismerését és egyben megismertetését.\r\n\r\nAz Egyetem minden campusának nagy múltja, gazdag története van.', 'Gyöngyös, Mátrai út 36, 3200', 'https://www.google.com/maps/place/MAGYAR+AGR%C3%81R-+%C3%89S+%C3%89LETTUDOM%C3%81NYI+EGYETEM+K%C3%A1roly+R%C3%B3bert+Campus/@47.7906783,19.9335572,466m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47405a199b806dfb:0xc1e93501d5ca00d3!8m2!3d47.7906783!4d19.9361321!16s%2Fg%2F121bwmrw?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D', 'https://uni-mate.hu/', 0, NULL),
+(92, 'Miskolci Egyetem (Ózd)', 'A Miskolci Egyetem jogelődje a Selmecbányán 1735-ben alapított bányászati-kohászati tanintézet (Bergschule), ahol a világon elsőként oktattak felsőfokú bányászati-kohászati ismereteket. A később akadémiai rangra emelt selmeci iskola úttörő példaként szolgált az európai műszaki főiskolák létrehozásánál is. Hasonló képzés csak évtizedekkel később valósult meg: 1765-től Freibergben, 1770-től Berlinben, 1773-tól pedig Szentpéterváron. A Párizsi Műszaki Egyetem 1794-ben a selmeci laboroktatás alapján szervezte meg képzését.', 'Ózd, Gyár u. 2, 3600', 'https://www.google.com/maps/place/Zr%C3%ADnyi+Mikl%C3%B3s+Nemzetv%C3%A9delmi+Egyetem+B%C3%B3lyai+J%C3%A1nos+Katonai+M%C5%B1szaki+Kar/@48.2174256,20.2932706,19z/data=!4m10!1m2!2m1!1sMiskolci+Egyetem+%C3%B3zd!3m6!1s0x473f809600758b9d:0x67a4f61754df4a0c!8m2!3d48.217267!4d20.293311!15sChVNaXNrb2xjaSBFZ3lldGVtIMOzemSSAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F11clzfxs51?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-miskolc.hu', 0, NULL),
+(93, 'Miskolci Egyetem (Kazincbarcika)', 'A Miskolci Egyetem jogelődje a Selmecbányán 1735-ben alapított bányászati-kohászati tanintézet (Bergschule), ahol a világon elsőként oktattak felsőfokú bányászati-kohászati ismereteket. A később akadémiai rangra emelt selmeci iskola úttörő példaként szolgált az európai műszaki főiskolák létrehozásánál is. Hasonló képzés csak évtizedekkel később valósult meg: 1765-től Freibergben, 1770-től Berlinben, 1773-tól pedig Szentpéterváron. A Párizsi Műszaki Egyetem 1794-ben a selmeci laboroktatás alapján szervezte meg képzését.', 'Miskolc, Egyetem út 1, 3515', 'https://www.google.com/maps/place/Miskolci+Egyetem/@48.0814275,20.72809,14z/data=!4m10!1m2!2m1!1sMiskolci+Egyetem+kazincbarcika!3m6!1s0x47409f84ee990555:0x5f1a1e1d57dd9208!8m2!3d48.0814275!4d20.7641389!15sCh5NaXNrb2xjaSBFZ3lldGVtIGthemluY2JhcmNpa2FaICIebWlza29sY2kgZWd5ZXRlbSBrYXppbmNiYXJjaWthkgEKdW5pdmVyc2l0eZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSbE9YSTNSa3QzRUFF4AEA-gEECAAQNw!16zL20vMDVwems0?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-miskolc.hu', 0, NULL),
+(94, 'Miskolci Egyetem (Budapest)', 'A Miskolci Egyetem jogelődje a Selmecbányán 1735-ben alapított bányászati-kohászati tanintézet (Bergschule), ahol a világon elsőként oktattak felsőfokú bányászati-kohászati ismereteket. A később akadémiai rangra emelt selmeci iskola úttörő példaként szolgált az európai műszaki főiskolák létrehozásánál is. Hasonló képzés csak évtizedekkel később valósult meg: 1765-től Freibergben, 1770-től Berlinben, 1773-tól pedig Szentpéterváron. A Párizsi Műszaki Egyetem 1794-ben a selmeci laboroktatás alapján szervezte meg képzését.', 'Budapest, ??? ? ??, 1???', '???????', 'http://www.uni-miskolc.hu', 0, NULL),
+(95, 'Miskolci Egyetem (Sátoraljaújhely)', 'https://www.google.com/maps/place/Miskolci+Egyetem+Eg%C3%A9szs%C3%A9g%C3%BCgyi+Kar+-+kihelyezett+k%C3%A9pz%C3%A9s/@48.4005223,21.6548593,17z/data=!3m1!4b1!4m6!3m5!1s0x4738cb0e10b3dc7d:0xd7d0fcd88fba8c97!8m2!3d48.4005223!4d21.6574342!16s%2Fg%2F11h_ccjyh7?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'Sátoraljaújhely, Deák u. 10, 3980', 'https://www.google.com/maps/place/Miskolci+Egyetem+Eg%C3%A9szs%C3%A9g%C3%BCgyi+Kar+-+kihelyezett+k%C3%A9pz%C3%A9s/@48.4005223,21.6548593,17z/data=!3m1!4b1!4m6!3m5!1s0x4738cb0e10b3dc7d:0xd7d0fcd88fba8c97!8m2!3d48.4005223!4d21.6574342!16s%2Fg%2F11h_ccjyh7?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-miskolc.hu', 0, NULL),
+(96, 'Nemzeti Közszolgálati Egyetem (Baja)', 'A Zrínyi Miklós Nemzetvédelmi Egyetem, a Budapesti Corvinus Egyetemből kiváló Közigazgatás-tudományi Kar és a Rendőrtiszti Főiskola átalakulásával létrejött intézményünket a Nemzeti Közszolgálati Egyetemről, valamint a közigazgatási, rendészeti és katonai felsőoktatásról szóló 2011. évi CXXXII. törvény hívta életre. A 2012. január 1-jétől működő Egyetem célja, hogy a magyar közszolgálat legfontosabb oktatási és tudományos intézményeként a hazai és nemzetközi közigazgatási szféra, a Magyar Honvédség, valamint a rendvédelmi szervek számára képezzen szakembereket. 2017-ben létrejött az Egyetem Víztudományi Kara is a bajai Eötvös József Főiskola vízügyi képzéseinek átvételével. A vízstratégia, vízpolitika, vízgazdálkodás egyre fontosabb kérdéseket vet fel, így a vízügyi szakemberképzés integrálása az Egyetem oktatási profiljába hasznos és releváns lépés volt.  A Nemeskürty István Tanárképző Kar 2024-es megalapításával tovább bővült a Nemzeti Közszolgálati Egyetem portfóliója a tanári és a bölcsészettudományi hivatás iránt elkötelezett hallgatók képzésével. Meggyőződésünk, hogy az eljövendő nemzedékek tanárainak képzése a többi, egyetem által oktatott hivatáshoz hasonlóan, a magyar állam működtetésében legfontosabb szerepet vállaló szakemberek képzését jelenti.', 'Baja, Bajcsy-Zsilinszky u. 12-14, 6500', 'https://www.google.com/maps/place/Nemzeti+K%C3%B6zszolg%C3%A1lati+Egyetem+V%C3%ADztudom%C3%A1nyi+Kar/@46.1809529,18.9373195,17z/data=!3m1!4b1!4m6!3m5!1s0x47431ffafe8a7091:0x66de6ded70bf9ca5!8m2!3d46.1809529!4d18.9398944!16s%2Fg%2F1v1tlwb8?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'https://www.uni-nke.hu/', 0, NULL),
+(97, 'Nyíregyházi Egyetem (Mátészalka)', 'A Nyíregyházi Egyetem jelenleg a legnagyobb felsőoktatási intézmény Szabolcs-Szatmár-Bereg vármegyében, Nyíregyháza városában. A mezőgazdasági és műszaki szakképzés helyi előzményei az 1930-as évektől eredeztethetők. A pedagógusképzés múltja a jogelőd intézményekben már 1914 óta jelen van a városban. A 2000-ben megvalósult szervezeti integráció során a Bessenyei György Tanárképző Főiskola és a Gödöllői Agrártudományi Egyetem Mezőgazdasági Főiskolai Karának egyesüléséből, illetve a belső strukturális átalakításból jött létre a Nyíregyházi Főiskola, amely 2016. január 1-jétől Nyíregyházi Egyetem néven, mint alkalmazott tudományok egyetemeként működik.', 'Mátészalka, ???? ? ??, 72??', '????????????????', 'http://www.nyf.hu', 0, NULL),
+(98, 'Nyíregyházi Egyetem (Kisvárda)', 'A Nyíregyházi Egyetem jelenleg a legnagyobb felsőoktatási intézmény Szabolcs-Szatmár-Bereg vármegyében, Nyíregyháza városában. A mezőgazdasági és műszaki szakképzés helyi előzményei az 1930-as évektől eredeztethetők. A pedagógusképzés múltja a jogelőd intézményekben már 1914 óta jelen van a városban. A 2000-ben megvalósult szervezeti integráció során a Bessenyei György Tanárképző Főiskola és a Gödöllői Agrártudományi Egyetem Mezőgazdasági Főiskolai Karának egyesüléséből, illetve a belső strukturális átalakításból jött létre a Nyíregyházi Főiskola, amely 2016. január 1-jétől Nyíregyházi Egyetem néven, mint alkalmazott tudományok egyetemeként működik.\r\n\r\n(Végleg bezárt Google szerint)', 'Kisvárda, Szent László u. 18, 4600', 'https://www.google.com/maps/place/Kisv%C3%A1rda+K%C3%B6z%C3%B6ss%C3%A9gi+Fels%C5%91oktat%C3%A1si+K%C3%A9pz%C3%A9si+K%C3%B6zpont/@48.2681781,20.915815,8.75z/data=!4m10!1m2!2m1!1zbnnDrXJlZ3low6F6aSBlZ3lldGVtIGtpc3bDoXJkYQ!3m6!1s0x4738ecfaff921ca1:0x958e363db662ac0b!8m2!3d48.2230708!4d22.078932!15sCh9uecOtcmVneWjDoXppIGVneWV0ZW0ga2lzdsOhcmRhkgEKdW5pdmVyc2l0eeABAA!16s%2Fg%2F11flzf346b?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.nyf.hu', 0, NULL),
+(99, 'Óbudai Egyetem (Székesfehérvár)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Székesfehérvár, Pirosalma u. 1-3, 8000', 'https://www.google.com/maps/place/%C3%93budai+Egyetem+Alba+Regia+Kar/@47.1889038,18.3624511,13.25z/data=!4m10!1m2!2m1!1zw7NidWRhaSBlZ3lldGVtIHN6w6lrZXNmZWjDqXJ2w6Fy!3m6!1s0x4769f7bdc13ba709:0x63c0004d40192cdb!8m2!3d47.1928432!4d18.4294577!15sCiHDs2J1ZGFpIGVneWV0ZW0gc3rDqWtlc2ZlaMOpcnbDoXIiA4gBAZIBCnVuaXZlcnNpdHngAQA!16s%2Fg%2F11xbmwlxn?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
+(100, 'Óbudai Egyetem (Jászberény)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Budapest, Népszínház u. 8, 1081', 'https://www.google.com/maps/place/%C3%93budai+Egyetem+-+B%C3%A1nki+Don%C3%A1t+G%C3%A9p%C3%A9sz+%C3%A9s+Biztons%C3%A1gtechnikai+M%C3%A9rn%C3%B6ki+Kar/@47.4960438,19.0694425,17z/data=!3m1!4b1!4m6!3m5!1s0x4741dc6752f502cd:0xc09b3414c365fef7!8m2!3d47.4960438!4d19.0720174!16s%2Fg%2F11y1zc776?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
+(101, 'Óbudai Egyetem (Salgótarján)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Salgótarján, Rákóczi út 180, 3100', 'https://www.google.com/maps/place/%C3%93budai+Egyetem+Salg%C3%B3tarj%C3%A1ni+K%C3%A9pz%C3%A9si+K%C3%B6zpont+%C3%A9s+Kutat%C3%B3hely/@48.0818298,19.7912698,17z/data=!3m1!4b1!4m6!3m5!1s0x474013d4ce0ecd35:0x44ae10d57bc6df79!8m2!3d48.0818298!4d19.7938447!16s%2Fg%2F11k48p0jfx?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
+(102, 'Óbudai Egyetem (Kaposvár)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Kaposvár, ??? ? ??, 7400', '??????', 'http://www.uni-obuda.hu', 0, NULL),
+(103, 'Óbudai Egyetem (Cegléd)', 'A Budapesti Műszaki Főiskola Szenátusa 2009. szeptember 7-ei ülésének határozatában rögzítette, hogy az intézmény teljesítette az egyetem megnevezés használatának törvényi kritériumait. A Budapesti Műszaki Főiskola vezetése a fentiek alapján – a Gazdasági Tanács és a Szenátus támogatásával – kezdeményezte az Oktatási és kulturális miniszter útján a Magyar Országgyűlésnél – az Ftv. 18. §-a alapján – az intézmény egyetemmé nyilvánításátsa.', 'Cegléd, Kossuth Ferenc u. 32, 2700', 'https://www.google.com/maps/place/%C3%93budai+Egyetem+cegl%C3%A9di+k%C3%A9pz%C3%A9si+helysz%C3%ADne/@47.1770365,19.797495,17z/data=!3m1!4b1!4m6!3m5!1s0x474171004e230ddb:0xda7ff1fceff609f1!8m2!3d47.1770365!4d19.8000699!16s%2Fg%2F11y2bv55_7?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.uni-obuda.hu', 0, NULL),
+(104, 'Pázmány Péter Katolikus Egyetem (Esztergom)', 'Emberközpontú minőségi oktatás, klasszikus tudás és innováció - ezt kínálja hallgatóinak a Pázmány Péter Katolikus Egyetem. Az intézmény 1635-ös nagyszombati alapítása, majd 1992-es újraalapítása, Magyarország legrégebb óta folyamatosan működő egyetemének sarokköveit jelentik. Sokrétű képzési rendszerével egyaránt szolgálja a teljes emberi személyiség kibontakoztatásához szükséges hagyományos ismeretek és értékek közvetítését, valamint az információs társadalom formálását, az emberi kiteljesedéshez történő igazítását.', 'Esztergom, Majer István út 1-3, 2500', 'https://www.google.com/maps/place/P%C3%A1zm%C3%A1ny+P%C3%A9ter+Katolikus+Egyetem+B%C3%B6lcs%C3%A9szet-+%C3%A9s+T%C3%A1rsadalomtudom%C3%A1nyi+Kar+Vit%C3%A9z+J%C3%A1nos+Tan%C3%A1rk%C3%A9pz%C5%91+K%C3%B6zpont/@47.7977821,18.73674,17z/data=!3m1!4b1!4m6!3m5!1s0x476a61f2c00a56d9:0x8d85a45531d0dd5e!8m2!3d47.7977821!4d18.7393149!16s%2Fg%2F12q4qxm1c?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.ppke.hu', 0, NULL),
+(105, 'Pécsi Tudományegyetem (Szombathely)', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Szombathely, Jókai Mór u. 14, 9700', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+Eg%C3%A9szs%C3%A9gtudom%C3%A1nyi+Kar+Szombathelyi+K%C3%A9pz%C3%A9si+K%C3%B6zpont/@47.2277147,16.6028787,17z/data=!3m1!4b1!4m6!3m5!1s0x476eb9ad988836b7:0x4762c0abcdb5ecc9!8m2!3d47.2277147!4d16.6054536!16s%2Fg%2F1x6q0ktm?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.pte.hu', 0, NULL);
+INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `google_maps_link`, `page_link`, `is_deleted`, `deleted_at`) VALUES
+(106, 'Pécsi Tudományegyetem (Zalaegerszeg)', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Zalaegerszeg, Landorhegyi út 33, 8900', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+Eg%C3%A9szs%C3%A9gtudom%C3%A1nyi+Kar+Zalaegerszegi+K%C3%A9pz%C3%A9si+K%C3%B6zpont+(33)/@46.8350022,16.8247602,17z/data=!3m1!4b1!4m6!3m5!1s0x476928212ddbf023:0x10ad015f4a09e01c!8m2!3d46.8350022!4d16.8273351!16s%2Fg%2F1v2pn_v7?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.pte.hu', 0, NULL),
+(107, 'Pécsi Tudományegyetem (Kaposvár)', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Kaposvár, Szent Imre u. 14/b, 7400', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+Eg%C3%A9szs%C3%A9gtudom%C3%A1nyi+Kar+Kaposv%C3%A1ri+K%C3%A9pz%C3%A9si+K%C3%B6zpont/@46.3845245,17.8270397,17z/data=!3m1!4b1!4m6!3m5!1s0x47683e0209cf2fe5:0x5d0fbc04fe8e1c35!8m2!3d46.3845245!4d17.8296146!16s%2Fg%2F1thfd6sf?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.pte.hu', 0, NULL),
+(108, 'Pécsi Tudományegyetem (Szekszárd)', 'A pécsi felsőoktatás története 1367-ig nyúlik vissza, amikor Nagy Lajos királyunk a püspöki székvárosban, Pécsett egyetem létrehozását kezdeményezte. Egy többlépcsős integrációs folyamat eredményeképpen létrejött a Pécsi Tudományegyetem, amely mára az ország egyik legnevesebb, regionális vezető szereppel bíró egyetemévé vált, ahol tíz karon a felsőoktatás teljes spektrumán magas színvonalú képzés folyik.', 'Szekszárd, Rákóczi u. 1, 7100', 'https://www.google.com/maps/place/P%C3%A9csi+Tudom%C3%A1nyegyetem+Kult%C3%BAratudom%C3%A1nyi,+Pedag%C3%B3gusk%C3%A9pz%C5%91+%C3%A9s+Vid%C3%A9kfejleszt%C3%A9si+Kar/@46.3522224,18.7003369,17z/data=!3m1!4b1!4m6!3m5!1s0x4742ee7553a9ebdd:0xfa97f7134109503f!8m2!3d46.3522224!4d18.7029118!16s%2Fg%2F1tk9pk2h?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D', 'http://www.pte.hu', 0, NULL),
+(109, 'Soproni Egyetem (Tata)', 'Az Erdőmérnöki Kar jogelődje a Selmecbányán III. Károly által 1735-ben alapított Bányatisztképző Iskola, melyet Mária Terézia 1762-ben akadémiai rangra emelt. Az intézmény neve 1904-ben Magyar Királyi Bányászati és Erdészeti Főiskolára változott. 1919-ben, miután Selmecbánya a megalakuló Csehszlovákiához került, a főiskola Sopronba települt át. 1934-1949 között a József Nádor Műszaki és Gazdaságtudományi Egyetem Bánya-, Kohó- és Erdőmérnöki Karán folyt az erdőmérnök képzés. Az önálló Erdőmérnöki Főiskola 1952-ben jött létre. Az Erdőmérnöki Főiskolán belül 1957-ben elindult a faipari mérnökök képzése, majd az önálló Faipari Mérnöki Kar létrehozásával 1962-ben megalakult az Erdészeti és Faipari Egyetem.', 'Tata, ??? ? ??, 2890', '?????', 'http://www.uni-sopron.hu', 0, NULL),
+(110, 'Szegedi Tudományegyetem (Békéscsaba)', 'A Szegedi Tudományegyetem olyan gazdag hagyományokkal rendelkező, a magyar felsőoktatás magas presztízsű felsőoktatási intézménye, amely hivatásának tekinti a minőségi oktatási tevékenység folytatását. A felvételi jelentkezések számát tekintve évek óta az élbolyba tartozó intézmény mintegy 21 000 hallgatójának, köztük több mint 4000 külföldi diákjának, garantál minőségi tudást és piacképes diplomát.', 'Békéscsaba, ??? ? ??, 5600', '???', 'http://www.u-szeged.hu', 0, NULL),
+(111, 'Szegedi Tudományegyetem (Orosháza)', 'A Szegedi Tudományegyetem olyan gazdag hagyományokkal rendelkező, a magyar felsőoktatás magas presztízsű felsőoktatási intézménye, amely hivatásának tekinti a minőségi oktatási tevékenység folytatását. A felvételi jelentkezések számát tekintve évek óta az élbolyba tartozó intézmény mintegy 21 000 hallgatójának, köztük több mint 4000 külföldi diákjának, garantál minőségi tudást és piacképes diplomát.', 'Orosháza, ??? ? ??, 5900', '????', 'http://www.u-szeged.hu', 0, NULL),
+(112, 'Tomori Pál Főiskola (Kecskemét)', 'Intézményünk fennállása óta igyekszik minden tanulni vágyó jelentkezőt felvenni, és a képzés alatt mindent megtenni, hogy a hallgatóink megszerezzék a kellő szaktudást, magabiztosabbak legyenek, és hogy a képzés végén sikeres záróvizsgát tegyenek.', 'Kecskemét, Árpád krt. 4, 6000', 'https://www.google.com/maps/place/Tomori+P%C3%A1l+F%C5%91iskola/@46.9016391,19.6829788,17z/data=!3m1!4b1!4m6!3m5!1s0x4743da6ccdc7ddab:0x9d8420aab8cae5be!8m2!3d46.9016391!4d19.6855537!16s%2Fg%2F11j48hcq2g?entry=ttu&g_ep=EgoyMDI2MDMyMy4xIKXMDSoASAFQAw%3D%3D', 'https://tpfk.hu/', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `universityxfaculty`
+-- Tábla szerkezet ehhez a táblához `universityxfaculty`
 --
 
 CREATE TABLE `universityxfaculty` (
@@ -488,7 +560,7 @@ CREATE TABLE `universityxfaculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `universityxfaculty`
+-- A tábla adatainak kiíratása `universityxfaculty`
 --
 
 INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `faculty_id`) VALUES
@@ -496,19 +568,19 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (2, 5, 13),
 (3, 5, 51),
 (4, 5, 52),
-(5, 1, 42),
+(5, 1, 30),
 (6, 1, 6),
 (7, 1, 7),
-(8, 1, 58),
+(8, 1, 1),
 (9, 2, 100),
 (10, 2, 49),
 (11, 2, 9),
-(12, 2, 1),
-(13, 2, 1),
+(12, 45, 75),
+(13, 45, 68),
 (14, 2, 56),
-(15, 6, 1),
-(16, 6, 1),
-(17, 6, 1),
+(15, 45, 102),
+(16, 45, 59),
+(17, 45, 76),
 (18, 7, 17),
 (19, 7, 18),
 (20, 7, 19),
@@ -519,14 +591,14 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (25, 7, 86),
 (26, 7, 91),
 (27, 8, 3),
-(28, 1, 26),
-(29, 2, 1),
-(30, 2, 1),
+(28, 1, 1),
+(29, 45, 70),
+(30, 45, 82),
 (31, 4, 5),
 (32, 4, 74),
 (33, 3, 27),
-(34, 3, 1),
-(35, 3, 1),
+(34, 45, 17),
+(35, 45, 48),
 (36, 7, 68),
 (37, 7, 102),
 (38, 7, 59),
@@ -538,31 +610,31 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (44, 85, 31),
 (45, 8, 7),
 (46, 8, 59),
-(47, 8, 1),
-(48, 8, 1),
-(49, 8, 1),
-(50, 8, 1),
+(47, 45, 122),
+(48, 45, 65),
+(49, 45, 83),
+(50, 45, 56),
 (51, 8, 5),
 (52, 8, 27),
 (53, 8, 23),
-(54, 9, 1),
-(55, 9, 1),
-(56, 9, 1),
-(57, 9, 1),
+(54, 46, 132),
+(55, 46, 9),
+(56, 46, 3),
+(57, 46, 76),
 (58, 9, 3),
-(59, 9, 1),
-(60, 9, 1),
-(61, 9, 1),
+(59, 46, 24),
+(60, 46, 130),
+(61, 46, 131),
 (62, 9, 30),
-(63, 9, 28),
+(63, 9, 66),
 (64, 9, 5),
-(65, 9, 23),
-(66, 9, 27),
-(67, 9, 1),
-(68, 9, 1),
-(69, 9, 1),
-(70, 9, 37),
-(71, 9, 1),
+(65, 64, 71),
+(66, 1, 179),
+(67, 46, 49),
+(68, 46, 140),
+(69, 46, 126),
+(70, 9, 45),
+(71, 92, 24),
 (72, 10, 39),
 (73, 10, 40),
 (74, 10, 41),
@@ -647,9 +719,9 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (153, 18, 98),
 (154, 18, 99),
 (155, 19, 100),
-(156, 10, 1),
-(157, 10, 1),
-(158, 10, 1),
+(156, 46, 51),
+(157, 46, 59),
+(158, 93, 126),
 (159, 3, 81),
 (160, 3, 101),
 (161, 3, 68),
@@ -934,12 +1006,591 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 (442, 42, 138),
 (447, 39, 10),
 (448, 40, 10),
-(449, 41, 8);
+(449, 41, 8),
+(450, 40, 8),
+(451, 42, 8),
+(452, 39, 14),
+(453, 41, 14),
+(454, 42, 14),
+(455, 41, 15),
+(456, 40, 15),
+(457, 41, 16),
+(458, 40, 16),
+(459, 42, 16),
+(460, 90, 16),
+(461, 39, 135),
+(462, 39, 139),
+(463, 41, 75),
+(464, 91, 75),
+(465, 41, 68),
+(466, 39, 68),
+(467, 41, 69),
+(468, 39, 69),
+(469, 91, 69),
+(470, 40, 69),
+(471, 91, 17),
+(472, 40, 17),
+(473, 41, 84),
+(474, 91, 84),
+(475, 42, 84),
+(476, 41, 85),
+(477, 41, 125),
+(478, 41, 11),
+(479, 41, 22),
+(480, 42, 22),
+(481, 41, 23),
+(482, 91, 2),
+(483, 40, 2),
+(493, 39, 124),
+(494, 91, 102),
+(495, 40, 102),
+(496, 41, 21),
+(497, 40, 21),
+(498, 90, 21),
+(499, 41, 118),
+(500, 40, 118),
+(501, 41, 36),
+(502, 41, 72),
+(503, 40, 33),
+(504, 40, 53),
+(505, 40, 109),
+(506, 40, 34),
+(507, 40, 111),
+(508, 40, 112),
+(509, 40, 50),
+(510, 40, 9),
+(511, 40, 54),
+(512, 40, 56),
+(513, 43, 29),
+(514, 43, 34),
+(515, 43, 134),
+(516, 44, 32),
+(517, 44, 40),
+(518, 44, 41),
+(519, 46, 3),
+(520, 46, 140),
+(521, 92, 24),
+(522, 92, 24),
+(523, 93, 126),
+(524, 46, 126),
+(525, 46, 130),
+(526, 46, 131),
+(527, 94, 132),
+(528, 46, 49),
+(529, 46, 51),
+(530, 46, 9),
+(531, 46, 59),
+(532, 46, 76),
+(533, 46, 141),
+(534, 46, 60),
+(535, 46, 82),
+(536, 46, 48),
+(537, 46, 64),
+(538, 46, 65),
+(539, 46, 71),
+(540, 46, 83),
+(541, 46, 56),
+(542, 46, 57),
+(543, 46, 45),
+(544, 95, 45),
+(545, 46, 46),
+(546, 95, 46),
+(547, 46, 44),
+(548, 46, 43),
+(549, 46, 75),
+(550, 46, 68),
+(551, 46, 69),
+(552, 46, 142),
+(553, 46, 70),
+(554, 46, 17),
+(555, 46, 80),
+(556, 46, 84),
+(557, 46, 116),
+(558, 46, 102),
+(559, 46, 21),
+(560, 46, 117),
+(561, 46, 119),
+(562, 46, 121),
+(563, 46, 118),
+(564, 46, 127),
+(565, 46, 72),
+(566, 46, 73),
+(567, 46, 128),
+(568, 46, 129),
+(569, 46, 18),
+(570, 46, 87),
+(571, 46, 125),
+(572, 46, 143),
+(573, 47, 105),
+(574, 47, 106),
+(575, 47, 107),
+(576, 47, 108),
+(577, 47, 33),
+(578, 47, 111),
+(579, 47, 144),
+(580, 47, 114),
+(581, 47, 115),
+(582, 51, 145),
+(583, 51, 146),
+(584, 51, 147),
+(585, 51, 148),
+(586, 51, 149),
+(587, 51, 150),
+(588, 51, 151),
+(589, 51, 49),
+(590, 51, 59),
+(591, 51, 60),
+(592, 51, 54),
+(593, 51, 56),
+(594, 51, 57),
+(595, 51, 152),
+(596, 51, 153),
+(597, 51, 154),
+(598, 51, 155),
+(599, 51, 156),
+(600, 51, 157),
+(601, 51, 158),
+(602, 51, 159),
+(603, 51, 160),
+(604, 51, 161),
+(605, 96, 19),
+(606, 96, 125),
+(607, 96, 162),
+(608, 48, 21),
+(609, 48, 119),
+(610, 48, 121),
+(611, 48, 127),
+(612, 48, 128),
+(613, 48, 129),
+(614, 48, 68),
+(615, 48, 69),
+(616, 48, 70),
+(617, 48, 17),
+(618, 48, 84),
+(619, 48, 8),
+(620, 48, 14),
+(621, 48, 16),
+(622, 49, 49),
+(623, 49, 85),
+(624, 49, 50),
+(625, 97, 50),
+(626, 49, 74),
+(627, 98, 74),
+(628, 49, 87),
+(629, 49, 68),
+(630, 98, 68),
+(631, 49, 102),
+(632, 97, 102),
+(633, 49, 21),
+(634, 97, 21),
+(635, 49, 58),
+(636, 49, 119),
+(637, 49, 89),
+(638, 49, 53),
+(639, 49, 120),
+(640, 49, 76),
+(641, 49, 127),
+(642, 49, 36),
+(643, 49, 16),
+(644, 49, 72),
+(645, 49, 54),
+(646, 49, 73),
+(647, 49, 122),
+(648, 97, 72),
+(649, 49, 80),
+(650, 98, 80),
+(651, 49, 55),
+(652, 49, 96),
+(653, 49, 56),
+(654, 49, 84),
+(655, 99, 163),
+(656, 99, 68),
+(657, 99, 21),
+(658, 99, 118),
+(659, 99, 127),
+(660, 99, 72),
+(661, 99, 129),
+(662, 50, 164),
+(663, 50, 21),
+(664, 100, 21),
+(665, 50, 165),
+(666, 50, 118),
+(667, 50, 116),
+(668, 50, 104),
+(669, 50, 166),
+(670, 101, 166),
+(671, 50, 129),
+(672, 102, 129),
+(673, 50, 68),
+(674, 103, 68),
+(675, 101, 68),
+(676, 50, 102),
+(677, 50, 69),
+(678, 103, 69),
+(679, 101, 69),
+(680, 50, 72),
+(681, 50, 127),
+(682, 101, 127),
+(683, 50, 128),
+(684, 50, 117),
+(685, 50, 167),
+(686, 50, 125),
+(687, 50, 18),
+(688, 50, 19),
+(689, 52, 168),
+(690, 52, 169),
+(691, 52, 170),
+(692, 52, 171),
+(693, 52, 172),
+(694, 56, 68),
+(695, 56, 17),
+(696, 53, 75),
+(697, 53, 68),
+(698, 53, 69),
+(699, 54, 69),
+(700, 53, 72),
+(701, 56, 72),
+(702, 53, 70),
+(703, 53, 17),
+(704, 53, 84),
+(705, 53, 103),
+(706, 53, 49),
+(707, 53, 51),
+(708, 53, 59),
+(709, 53, 76),
+(710, 53, 60),
+(711, 53, 54),
+(712, 53, 77),
+(713, 53, 48),
+(714, 53, 78),
+(715, 53, 56),
+(716, 53, 24),
+(717, 53, 124),
+(718, 53, 21),
+(719, 56, 21),
+(720, 53, 89),
+(721, 53, 125),
+(722, 53, 90),
+(723, 53, 118),
+(724, 56, 118),
+(725, 53, 173),
+(726, 56, 173),
+(727, 53, 126),
+(728, 54, 162),
+(729, 53, 102),
+(730, 56, 102),
+(731, 53, 127),
+(732, 54, 127),
+(733, 53, 73),
+(734, 53, 128),
+(735, 54, 128),
+(736, 53, 129),
+(737, 54, 174),
+(738, 57, 133),
+(739, 57, 93),
+(740, 62, 49),
+(741, 62, 101),
+(742, 62, 68),
+(743, 62, 9),
+(744, 62, 52),
+(745, 62, 59),
+(746, 62, 60),
+(747, 62, 82),
+(748, 62, 63),
+(749, 62, 54),
+(750, 104, 54),
+(751, 62, 48),
+(752, 62, 78),
+(753, 104, 78),
+(754, 62, 64),
+(755, 62, 65),
+(756, 62, 55),
+(757, 62, 96),
+(758, 62, 83),
+(759, 62, 56),
+(760, 104, 56),
+(761, 62, 57),
+(762, 62, 66),
+(763, 62, 133),
+(764, 62, 175),
+(765, 62, 176),
+(766, 62, 177),
+(767, 62, 100),
+(768, 62, 137),
+(769, 62, 127),
+(770, 62, 178),
+(771, 62, 3),
+(772, 63, 100),
+(776, 9, 179),
+(777, 9, 49),
+(778, 9, 51),
+(779, 9, 58),
+(780, 9, 59),
+(781, 9, 76),
+(782, 9, 60),
+(783, 9, 82),
+(784, 9, 62),
+(785, 9, 63),
+(786, 9, 77),
+(787, 9, 48),
+(788, 9, 78),
+(789, 9, 64),
+(790, 9, 31),
+(791, 9, 65),
+(792, 9, 55),
+(793, 9, 71),
+(794, 9, 83),
+(795, 9, 57),
+(796, 9, 45),
+(797, 105, 45),
+(798, 106, 45),
+(799, 9, 46),
+(800, 107, 46),
+(801, 105, 46),
+(802, 9, 44),
+(803, 106, 44),
+(804, 107, 43),
+(805, 9, 79),
+(806, 9, 25),
+(807, 9, 68),
+(808, 9, 69),
+(809, 9, 17),
+(810, 9, 84),
+(811, 9, 50),
+(812, 108, 50),
+(813, 108, 8),
+(814, 108, 9),
+(815, 108, 110),
+(816, 108, 54),
+(817, 9, 54),
+(818, 108, 104),
+(819, 108, 96),
+(820, 108, 56),
+(821, 9, 56),
+(822, 9, 18),
+(823, 9, 19),
+(824, 9, 107),
+(825, 9, 21),
+(826, 9, 117),
+(827, 9, 125),
+(828, 9, 127),
+(829, 9, 129),
+(830, 9, 130),
+(831, 9, 131),
+(832, 9, 33),
+(833, 9, 144),
+(834, 9, 85),
+(835, 9, 74),
+(836, 9, 86),
+(837, 9, 87),
+(839, 9, 88),
+(840, 9, 102),
+(841, 9, 89),
+(842, 9, 91),
+(843, 9, 73),
+(844, 9, 80),
+(845, 9, 135),
+(846, 65, 100),
+(847, 65, 133),
+(848, 65, 180),
+(849, 65, 137),
+(850, 65, 93),
+(851, 64, 93),
+(852, 66, 71),
+(853, 66, 181),
+(854, 66, 168),
+(855, 66, 133),
+(856, 66, 182),
+(857, 66, 93),
+(858, 67, 93),
+(859, 68, 50),
+(860, 109, 50),
+(861, 68, 9),
+(862, 109, 9),
+(863, 68, 54),
+(864, 109, 54),
+(865, 68, 79),
+(866, 68, 80),
+(867, 68, 104),
+(868, 68, 96),
+(869, 68, 56),
+(870, 68, 163),
+(871, 68, 22),
+(872, 68, 23),
+(873, 68, 19),
+(874, 68, 183),
+(875, 68, 108),
+(876, 68, 102),
+(877, 68, 117),
+(878, 68, 59),
+(879, 68, 114),
+(880, 68, 68),
+(881, 68, 69),
+(882, 68, 70),
+(883, 68, 17),
+(884, 68, 84),
+(885, 70, 2),
+(886, 70, 138),
+(887, 70, 10),
+(888, 70, 8),
+(889, 69, 125),
+(890, 70, 36),
+(891, 70, 16),
+(892, 70, 11),
+(893, 69, 9),
+(894, 69, 76),
+(895, 69, 82),
+(896, 69, 79),
+(897, 69, 104),
+(898, 69, 71),
+(899, 69, 96),
+(900, 69, 83),
+(901, 69, 56),
+(902, 69, 21),
+(903, 69, 119),
+(904, 69, 3),
+(905, 69, 140),
+(906, 69, 45),
+(907, 69, 46),
+(908, 69, 44),
+(909, 69, 18),
+(910, 69, 19),
+(911, 69, 120),
+(912, 69, 121),
+(913, 69, 72),
+(914, 69, 102),
+(915, 69, 118),
+(916, 69, 127),
+(917, 69, 73),
+(918, 69, 129),
+(919, 69, 68),
+(920, 69, 69),
+(921, 69, 70),
+(922, 69, 84),
+(923, 69, 131),
+(924, 69, 107),
+(925, 69, 108),
+(926, 69, 114),
+(927, 71, 3),
+(928, 71, 82),
+(929, 71, 48),
+(930, 71, 140),
+(931, 71, 131),
+(932, 71, 49),
+(933, 71, 51),
+(934, 71, 58),
+(935, 71, 52),
+(936, 71, 59),
+(937, 71, 60),
+(938, 71, 62),
+(939, 71, 63),
+(940, 71, 77),
+(941, 71, 78),
+(942, 71, 64),
+(943, 71, 65),
+(944, 71, 55),
+(945, 71, 83),
+(946, 71, 57),
+(949, 71, 66),
+(950, 71, 45),
+(951, 71, 46),
+(952, 71, 71),
+(953, 71, 179),
+(954, 71, 68),
+(955, 71, 69),
+(956, 71, 17),
+(957, 71, 84),
+(958, 71, 7),
+(959, 71, 74),
+(960, 71, 9),
+(961, 71, 53),
+(962, 71, 76),
+(963, 71, 112),
+(964, 71, 54),
+(965, 71, 79),
+(966, 71, 104),
+(967, 71, 96),
+(968, 71, 56),
+(969, 71, 67),
+(970, 71, 10),
+(971, 71, 21),
+(972, 110, 21),
+(973, 111, 21),
+(974, 71, 117),
+(975, 71, 118),
+(976, 110, 118),
+(977, 71, 36),
+(978, 71, 72),
+(979, 72, 2),
+(980, 72, 8),
+(981, 72, 16),
+(982, 72, 23),
+(983, 71, 30),
+(984, 71, 85),
+(985, 71, 124),
+(986, 71, 86),
+(987, 71, 123),
+(988, 71, 87),
+(989, 71, 88),
+(990, 71, 102),
+(991, 71, 89),
+(992, 71, 125),
+(993, 71, 91),
+(994, 71, 127),
+(995, 71, 178),
+(996, 71, 73),
+(997, 71, 128),
+(998, 71, 126),
+(999, 71, 129),
+(1000, 73, 100),
+(1001, 73, 168),
+(1002, 73, 97),
+(1003, 73, 133),
+(1004, 73, 42),
+(1005, 73, 184),
+(1006, 73, 185),
+(1007, 73, 180),
+(1008, 73, 137),
+(1009, 73, 93),
+(1010, 74, 93),
+(1011, 75, 186),
+(1012, 75, 61),
+(1013, 75, 113),
+(1014, 76, 50),
+(1015, 76, 68),
+(1016, 76, 9),
+(1017, 76, 54),
+(1018, 76, 73),
+(1019, 76, 135),
+(1020, 76, 56),
+(1021, 76, 84),
+(1022, 77, 68),
+(1023, 112, 68),
+(1024, 77, 70),
+(1025, 77, 82),
+(1026, 77, 17),
+(1027, 112, 17),
+(1028, 77, 65),
+(1029, 78, 45),
+(1030, 78, 50),
+(1031, 78, 71),
+(1032, 78, 96),
+(1033, 79, 75),
+(1034, 79, 68),
+(1035, 79, 102),
+(1036, 79, 69),
+(1037, 79, 70),
+(1038, 79, 17),
+(1039, 80, 90),
+(1040, 80, 77),
+(1041, 80, 71),
+(1042, 80, 100),
+(1043, 80, 93);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Tábla szerkezet ehhez a táblához `user`
 --
 
 CREATE TABLE `user` (
@@ -955,7 +1606,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- A tábla adatainak kiíratása `user`
 --
 
 INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `username`, `email`, `password`, `role_id`, `is_deleted`, `deleted_at`) VALUES
@@ -970,7 +1621,7 @@ INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `username`, `email`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `userxappointment`
+-- Tábla szerkezet ehhez a táblához `userxappointment`
 --
 
 CREATE TABLE `userxappointment` (
@@ -980,7 +1631,7 @@ CREATE TABLE `userxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `userxappointment`
+-- A tábla adatainak kiíratása `userxappointment`
 --
 
 INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_id`) VALUES
@@ -992,7 +1643,7 @@ INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `workerxappointment`
+-- Tábla szerkezet ehhez a táblához `workerxappointment`
 --
 
 CREATE TABLE `workerxappointment` (
@@ -1002,7 +1653,7 @@ CREATE TABLE `workerxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `workerxappointment`
+-- A tábla adatainak kiíratása `workerxappointment`
 --
 
 INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `worker_id`) VALUES
@@ -1012,11 +1663,11 @@ INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `wo
 (4, 4, 5);
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `appointment`
+-- A tábla indexei `appointment`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointment_id`),
@@ -1024,7 +1675,7 @@ ALTER TABLE `appointment`
   ADD KEY `user` (`worker_id`);
 
 --
--- Indexes for table `faculty`
+-- A tábla indexei `faculty`
 --
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`faculty_id`),
@@ -1032,13 +1683,13 @@ ALTER TABLE `faculty`
   ADD UNIQUE KEY `name_2` (`name`);
 
 --
--- Indexes for table `role`
+-- A tábla indexei `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `university`
+-- A tábla indexei `university`
 --
 ALTER TABLE `university`
   ADD PRIMARY KEY (`university_id`),
@@ -1046,7 +1697,7 @@ ALTER TABLE `university`
   ADD UNIQUE KEY `google_maps_link` (`google_maps_link`);
 
 --
--- Indexes for table `universityxfaculty`
+-- A tábla indexei `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD PRIMARY KEY (`universityxfaculty_id`),
@@ -1054,7 +1705,7 @@ ALTER TABLE `universityxfaculty`
   ADD KEY `karId` (`faculty_id`);
 
 --
--- Indexes for table `user`
+-- A tábla indexei `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
@@ -1063,7 +1714,7 @@ ALTER TABLE `user`
   ADD KEY `role_id` (`role_id`);
 
 --
--- Indexes for table `userxappointment`
+-- A tábla indexei `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD PRIMARY KEY (`userXappointment_id`),
@@ -1071,96 +1722,96 @@ ALTER TABLE `userxappointment`
   ADD KEY `UserId` (`user_id`);
 
 --
--- Indexes for table `workerxappointment`
+-- A tábla indexei `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD PRIMARY KEY (`workerXappointment_id`),
   ADD KEY `AppointmentId` (`appointment_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `appointment`
+-- AUTO_INCREMENT a táblához `appointment`
 --
 ALTER TABLE `appointment`
   MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `faculty`
+-- AUTO_INCREMENT a táblához `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
--- AUTO_INCREMENT for table `role`
+-- AUTO_INCREMENT a táblához `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `university`
+-- AUTO_INCREMENT a táblához `university`
 --
 ALTER TABLE `university`
-  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
--- AUTO_INCREMENT for table `universityxfaculty`
+-- AUTO_INCREMENT a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
-  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
+  MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `userxappointment`
+-- AUTO_INCREMENT a táblához `userxappointment`
 --
 ALTER TABLE `userxappointment`
   MODIFY `userXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `workerxappointment`
+-- AUTO_INCREMENT a táblához `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   MODIFY `workerXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Megkötések a kiírt táblákhoz
 --
 
 --
--- Constraints for table `appointment`
+-- Megkötések a táblához `appointment`
 --
 ALTER TABLE `appointment`
   ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `user` (`user_id`);
 
 --
--- Constraints for table `universityxfaculty`
+-- Megkötések a táblához `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD CONSTRAINT `universityxfaculty_ibfk_1` FOREIGN KEY (`university_id`) REFERENCES `university` (`university_id`),
   ADD CONSTRAINT `universityxfaculty_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`faculty_id`);
 
 --
--- Constraints for table `user`
+-- Megkötések a táblához `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 --
--- Constraints for table `userxappointment`
+-- Megkötések a táblához `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD CONSTRAINT `userxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`),
   ADD CONSTRAINT `userxappointment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Constraints for table `workerxappointment`
+-- Megkötések a táblához `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD CONSTRAINT `workerxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`);

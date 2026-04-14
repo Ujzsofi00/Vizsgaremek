@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CanMatch, RedirectCommand, Route, Router, UrlSegment } from '@angular/router';
-import { UserService } from '../../service/user-service';
+import { UserService } from '../service/user-service';
 @Injectable({
   providedIn: "root"
 })

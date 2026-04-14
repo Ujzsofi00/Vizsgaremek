@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 p-0">
-      <app-navbar (showSideBar)="isShowSideBar = !isShowSideBar" style="" />
+      <app-navbar (showSideBar)="isShowSideBar = !isShowSideBar" />
       @if (isShowSideBar) {
         <app-side-bar (close)="isShowSideBar = false"/>
       }

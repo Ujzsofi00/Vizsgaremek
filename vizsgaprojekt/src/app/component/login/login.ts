@@ -29,7 +29,7 @@ export class Login implements OnInit {
       error: (error) =>  {
         if (error.status == 401) {
           this.isError = true
-          this.errorMsg = "Nincs ilyen felhasználó regisztrálva. Próbáld meg újra!"
+          this.errorMsg = "Helytelen felhasználónév vagy jelszó! Próbáld újra!"
         } else {
           this.isError = true
           this.errorMsg = "Hiba történt! Kérlek próbáld újra!"

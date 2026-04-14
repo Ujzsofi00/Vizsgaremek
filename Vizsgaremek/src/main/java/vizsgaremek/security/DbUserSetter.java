@@ -27,6 +27,6 @@ public class DbUserSetter implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users loggedUser = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("userNotFound"));
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(loggedUser.getRole().getName()));
-        return new User(loggedUser.getEmail(), loggedUser.getPassword(), authorities);
+        return new User(loggedUser.getUsername(), loggedUser.getPassword(), authorities);
     }
 }

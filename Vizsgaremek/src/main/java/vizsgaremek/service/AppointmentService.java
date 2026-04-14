@@ -79,7 +79,7 @@ public class AppointmentService {
                 return ResponseEntity.notFound().build();
             } else {
                 appointmentRepository.deleteAppointment(appointmentId);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok().body(appointmentRepository.findById(appointmentId).get());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,5 +138,15 @@ public class AppointmentService {
         } catch (ParseException e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Object> getAppointmentByUser(Integer userId) {
+        Users searchedUser = userRepository.findById(userId).orElse(null);
+        if (searchedUser == null || searchedUser.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(searchedUser.getBookedAppointments());
     }
 }

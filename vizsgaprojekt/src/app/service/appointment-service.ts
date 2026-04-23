@@ -43,4 +43,9 @@ export class AppointmentService {
    getAppointmentsByUserId(userId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.baseUrl}/user/${userId}`)
   }
+
+
+  cancelReservation(appointmentId: number, userId: number) {
+    return this.http.delete(`${this.baseUrl}/cancel?appointmentId=${appointmentId}&userId=${userId}`)
+  }
 }

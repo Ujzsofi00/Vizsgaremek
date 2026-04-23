@@ -13,6 +13,7 @@ import { EventManagerPage } from './component/admin-page/event-manager-page/even
 import { AuthGuard } from './routeGuard/authGuard';
 import { RoleAuthGuard } from './routeGuard/roleAuthGuard';
 import { ProfilPage } from './component/profil-page/profil-page';
+import { PasswordReset } from './component/password-reset/password-reset';
 
 
 export const routes: Routes = [
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: "register", component: Register },
   { path: "appointmentReservation", component: AppointmentSelector, canMatch: [AuthGuard] },
   { path: "universitySearch", component: UniversitySearch },
+  { path: "passwordReset", component: PasswordReset},
   { path: "adminPage", component: AdminPage, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]}},
   { path: "universities", component: UniversityList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },
   { path: "users", component: UserList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },

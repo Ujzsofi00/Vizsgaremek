@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from '../models/User.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,5 +33,21 @@ export class UserService {
 
   getAllWorker(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/worker`)
+  }
+
+   updateUser(id: number, requestBody: {username: string, firstName: string, lastName: string, email: string}): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, requestBody)
+  }
+
+   getVerificationCode(email: string) {
+    return this.http.get(`${this.baseUrl}/getVerificationCode`, { params: new HttpParams().set("email", email) })
+  }
+
+  checkVerificationCode(userVCode: string, email: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/checkVerificationCode`, { vCode: userVCode, email: email })
+  }
+
+  passwordReset(email: string, newPassword: string, vCode: string) {
+    return this.http.patch(`${this.baseUrl}/passwordReset`, { email: email, newPassword: newPassword, vCode: vCode })
   }
 }

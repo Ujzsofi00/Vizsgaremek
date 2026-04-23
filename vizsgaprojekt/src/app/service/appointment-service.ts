@@ -38,5 +38,9 @@ export class AppointmentService {
 
   addAppointment(newAppointment: appointmentDto) {
     return this.http.post(`${this.baseUrl}`, newAppointment)
+  } 
+
+   getAppointmentsByUserId(userId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/user/${userId}`)
   }
 }

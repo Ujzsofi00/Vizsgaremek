@@ -10,8 +10,9 @@ import { Unauthorized } from './component/unauthorized/unauthorized';
 import { UniversityList } from './component/admin-page/university-list/university-list';
 import { UserList } from './component/admin-page/user-list/user-list';
 import { EventManagerPage } from './component/admin-page/event-manager-page/event-manager-page';
-import { AuthGuard } from './component/routeGuard/authGuard';
-import { RoleAuthGuard } from './component/routeGuard/roleAuthGuard';
+import { AuthGuard } from './routeGuard/authGuard';
+import { RoleAuthGuard } from './routeGuard/roleAuthGuard';
+import { ProfilPage } from './component/profil-page/profil-page';
 
 
 export const routes: Routes = [
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: "universities", component: UniversityList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },
   { path: "users", component: UserList, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin"]} },
   { path: "eventManager", component: EventManagerPage, canMatch: [RoleAuthGuard], data: {roles: ["ROLE_admin", "ROLE_worker"]} },
+  { path: 'profilPage', component: ProfilPage, canMatch: [AuthGuard] },
   { path: "unauthorized", component: Unauthorized },
   { path: "**", component: NotFound }
 ];

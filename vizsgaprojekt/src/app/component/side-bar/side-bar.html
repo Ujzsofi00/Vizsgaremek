@@ -41,11 +41,15 @@
     </div>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-lg-12 d-flex justify-content-center">
+   <div class="row mb-3">
+    <div class="col-lg-12 d-flex justify-content-center align-items-center" [class.flex-column]="userService.loggedUser != null">
       @if (userService.loggedUser == null) {
         <button (click)="navigate('/login')" class=" spanText" id="loginButton">Bejelentkezés</button>
       } @else {
+        <li (click)="navigate('/profilPage')" class="d-flex justify-content-lg-start justify-content-center align-items-center mb-4">
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="spanText">Profilom</span>
+        </li>
         <button class="fw-bold" id="logoutButton" (click)="logout()">Kijelentkezés</button>
       }
     </div>

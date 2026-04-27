@@ -46,6 +46,9 @@ export class AppointmentSelector implements OnInit{
     this.appointMentService.bookAppointment(this.selectedAppointment?.id!, this.userService.loggedUser?.id!).subscribe({
       next: response => {
         this.isShowBookButton = true
+      },
+      complete: () => {
+        this.selectedAppointment = null
       }
     })
   }

@@ -1,0 +1,13 @@
+<div class="container-fluid mt-3" id="cardContainer">
+  <div class="row h-100">
+    <div class="col-lg-10 h-100 d-flex flex-column justify-content-center align-items-start">
+      <h3>{{appointment().title}}</h3>
+      <h6>{{appointment().date}}</h6>
+      <p>Előadó: {{appointment().worker.lastName}} {{appointment().worker.firstName}}</p>
+    </div>
+
+    <div class="col-lg-2 h-100 d-flex justify-content-center align-items-center">
+      <button (click)="cancelReservation()">Foglalás lemondása</button>
+    </div>
+  </div>
+</div>

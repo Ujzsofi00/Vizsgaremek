@@ -12,6 +12,7 @@
 
 #appointmentContainer {
   width: 1150px;
+  overflow-y: auto;
 }
 
 .contentContainer {
@@ -42,4 +43,40 @@ button {
   color: white;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+li {
+  font-size: 20px;
+  line-height: 35px;
+}
+
+input {
+  border: none;
+  background-color: #beb2f6;
+  border-radius: 8px;
+}
+
+#confirmationContainer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#confirmPopupContainer {
+  width: 450px;
+  height: 150px;
+  background-color: #e3e5fd;
+  border-radius: 12px;
+}
+
+.confirmBtn {
+  background-color: #beb2f6;
+  border: none;
+  width: 100px;
+  height: 40px;
+  border-radius: 8px;
 }

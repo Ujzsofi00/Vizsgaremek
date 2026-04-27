@@ -1,48 +1,81 @@
-<div class="container-fluid" style="height: 86vh;">
+<div class="container-fluid" style="height: 86vh">
   <div class="row h-100">
     <div class="col-lg-4 h-100 d-flex justify-content-center align-items-center">
-      <div class="container-fluid d-flex flex-column justify-content-between contentContainer" id="profilContainer">
-
+      <div
+        class="container-fluid d-flex flex-column justify-content-between contentContainer"
+        id="profilContainer"
+      >
         <div class="row">
           <div class="col-lg-12">
-            <img src="" alt="">
-          </div>
-        </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <h1 class="w-100 text-center my-3">Adataim:</h1>
+              <button (click)="handleUpdate()">Szerk.</button>
+            </div>
 
-        <div class="row">
-          <div class="col-lg-12">
-            <ul>
-              <li>Teljes név:</li>
-              <li>E-mail cím:</li>
-              <li>Felhasználónév:</li>
+            <ul class="list-unstyled">
+              <form [formGroup]="updateForm">
+                <li class="d-flex justify-content-between my-2">
+                  <span>Vezetéknév:</span>
+                  @if(showInputs) {
+                    <input type="text" placeholder="Keresztnév" formControlName="firstName">
+                  } @else {
+                    <span>{{ userService.loggedUser?.lastName }}</span>
+                  }
+                </li>
+                <li class="d-flex justify-content-between my-2">
+                  <span>Keresztnév:</span>
+                  @if(showInputs) {
+                    <input type="text" placeholder="Vezetéknév" formControlName="lastName">
+                  } @else {
+                    <span>{{ userService.loggedUser?.firstName }}</span>
+                  }
+                </li>
+                <li class="d-flex justify-content-between my-2">
+                  <span>E-mail cím:</span>
+                  @if(showInputs) {
+                    <input type="email" placeholder="E-mail cím" formControlName="email">
+                  } @else {
+                    <span>{{ userService.loggedUser?.email }}</span>
+                  }
+                </li>
+                <li class="d-flex justify-content-between my-2">
+                  <span>Felhasználónév:</span>
+                  @if(showInputs) {
+                    <input type="text" placeholder="Felhasználónév" formControlName="username">
+                  } @else {
+                    <span>{{ userService.loggedUser?.username }}</span>
+                  }
+                </li>
+              </form>
             </ul>
           </div>
         </div>
 
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
-            <button class="dangerButton mb-3">Profil törlése</button>
+            <button class="dangerButton mb-3" (click)="showConfirmation = true">Profil törlése</button>
           </div>
         </div>
-
       </div>
     </div>
     <div class="col-lg-8 h-100 d-flex justify-content-center align-items-center">
       <div class="container-fluid contentContainer" id="appointmentContainer">
-        @if(appointments.length > 0){<div class="row">
-          <div class="col-lg-12">
-            <h1 class="text-center my-2">Lefoglalt időpontjaim:</h1>
+        @if (appointments.length > 0) {
+          <div class="row">
+            <div class="col-lg-12">
+              <h1 class="text-center my-2">Lefoglalt időpontjaim:</h1>
+            </div>
           </div>
-        </div>}
+        }
 
         <div class="row h-100">
           <div class="col-lg-12 h-100">
             @for (appointment of appointments; track $index) {
-              <app-appointment-card [appointment]="appointment" (startCanelling)="selectedAppointmentId = $event" />
+              <app-appointment-card [appointment]="appointment" (startCanelling)="cancelAppointment($event, $index)" />
             } @empty {
               <div class="d-flex flex-column justify-content-center align-items-center h-100">
                 <h1 class="text-center">Még nem foglaltál időpontot</h1>
-                <button>Időpont foglalása</button>
+                <button routerLink="/appointmentReservation">Időpont foglalása</button>
               </div>
             }
           </div>
@@ -52,6 +85,17 @@
   </div>
 </div>
 
-@if (selectedAppointmentId != null || showConfirmation) {
+@if (showConfirmation) {
+    <div class="container-fluid" id="confirmationContainer">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+      <div class="col-lg-12 d-flex flex-column justify-content-between py-3" id="confirmPopupContainer">
+        <h2 class="text-center">Biztosan törlöd a fiókodat?</h2>
 
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="confirmBtn mx-2" (click)="deleteUser()" >Igen</button>
+          <button class="confirmBtn mx-2" (click)="showConfirmation = false">Nem</button>
+        </div>
+      </div>
+    </div>
+  </div>
 }

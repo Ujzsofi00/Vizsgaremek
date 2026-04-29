@@ -28,9 +28,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
-            String jwt = header.substring(7);
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf")).withIssuer("universityTeam").build().verify(jwt);
-            UserDetails details = new User(decodedJWT.getSubject(), "asd", decodedJWT.getClaim("auth").asList(String.class).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+            String jwtToken = header.substring(7);
+
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf")).withIssuer("universityTeam").build().verify(jwtToken);
+            UserDetails details = new User(jwt.getSubject(), "dummy", jwt.getClaim("AUTH").asList(String.class).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -42,8 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        ArrayList<String> allowedPaths = new ArrayList<String>(Arrays.asList("/user/login", "/user/register"));
+        ArrayList<String> allowedPaths = new ArrayList<String>(Arrays.asList("/user/login", "/user/register", "/user/getVerificationCode", "/user/checkVerificationCode", "/user/passwordReset"));
 
-        return allowedPaths.contains(request.getServletPath());
+        System.out.println(request.getRequestURI());
+        System.out.println(request.getServletPath().contains("/getVerificationCode"));
+        return allowedPaths.contains(request.getServletPath()) || request.getServletPath().contains("/getVerificationCode");
     }
 }

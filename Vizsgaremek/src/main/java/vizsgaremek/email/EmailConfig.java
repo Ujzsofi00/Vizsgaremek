@@ -9,8 +9,8 @@ import java.util.Properties;
 @Configuration
 public class EmailConfig {
 
-    private String email = "";
-    private String password = "";
+    private String email = "universitasSupport@gmail.com";
+    private String password = "xqzgfcopgzxqquhd";
 
     JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

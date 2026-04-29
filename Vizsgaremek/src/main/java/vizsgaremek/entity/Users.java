@@ -49,6 +49,9 @@ public class Users {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Column(name = "v_code")
+    private String vCode;
+
     //
     @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")

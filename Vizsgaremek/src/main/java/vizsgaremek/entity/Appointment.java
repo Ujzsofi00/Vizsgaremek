@@ -27,6 +27,10 @@ import java.util.Set;
         @NamedStoredProcedureQuery(name = "deleteAppointment", procedureName = "deleteAppointment", parameters = {
                 @StoredProcedureParameter(name = "idIN", type = Integer.class, mode = ParameterMode.IN)
         }),
+        @NamedStoredProcedureQuery(name = "cancelAppointment", procedureName = "cancelAppointment", parameters = {
+                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "appointmentIdIN", type = Integer.class, mode = ParameterMode.IN)
+        }),
 })
 public class Appointment {
 

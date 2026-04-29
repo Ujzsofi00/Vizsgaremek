@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1 style="text-align: center">Sikeres foglalás</h1>
+    <h4 style="text-align: center">
+        Tissztelt <span th:text="${name}"></span>
+    </h4>
+    <p>
+        Örömmel értesítjük, hogy sikeresen foglalt a
+        <span style="font-weight: bolder" th:text="${title}"></span> cimű,
+        <span th:text="${appointmentDate}"></span>
+        <span th:text="${start}"></span>-kor kezdődő előadásra helyet.
+    </p>
+
+    <p style="text-align: center">
+        Ha a konzultáció online, akkor a foglalt időpont előtt 15 perccel lehet
+        bejelentkezni.
+    </p>
+
+    <p style="text-align: center">
+        Ha a konzultáció személyesen történik, akkor pedig a Universitas
+        Stúdióba jelenjen meg a foglalt időpont előtt 15 perccel.
+    </p>
+    <p style="text-align: center">
+        Amennyiben mégsem tud megjelenni a konzultáción kérjük ezen az e-mail
+        címen jelezze.
+    </p>
+
+    <p style="text-align: center">
+        Kellemes időtöltést kívánunk az oldalunkon!
+    </p>
+    <p style="text-align: center">Üdvözlettel: Universitas Studio.</p>
+</div>
+</body>
+</html>

@@ -6,50 +6,48 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import vizsgaremek.entity.Users;
+import vizsgaremek.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@RequiredArgsConstructor
 public class JwtGeneratorFilter extends OncePerRequestFilter {
+
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication givenAuthentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("ASD");
 
-        if (givenAuthentication != null && !(givenAuthentication instanceof AnonymousAuthenticationToken)) {
-            System.out.println("givenAuthentication != null");
+        if (givenAuthentication != null) {
+            UserDetails principal = (UserDetails) givenAuthentication.getPrincipal();
 
-            UserDetails details = (UserDetails) givenAuthentication.getPrincipal();
-
+            Users loggedUsers = userRepository.findByUsername(principal.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
             String jwt = JWT.create()
-                    .withSubject(details.getUsername())
-                    .withArrayClaim("auth", details.getAuthorities().stream().map(GrantedAuthority::getAuthority).toArray(String[]::new))
-                    .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(2)))
+                    .withSubject(loggedUsers.getEmail())
+                    .withArrayClaim("AUTH", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toArray(String[]::new))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 7200000))
                     .withIssuer("universityTeam")
                     .sign(Algorithm.HMAC256("cbfb19aeab8b95b39eb3f190f6ce305445b1eaf0ea19c417ceae59f887b723cf"));
-
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"token\": \"" + jwt + "\"}");
-            response.getWriter().flush();
-
-            return;
+            System.out.println(jwt);
+            response.setHeader("Bearer ", jwt);
         }
 
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"Invalid credentials\"}");
-        response.getWriter().flush();
+        filterChain.doFilter(request, response);
     }
 
     @Override

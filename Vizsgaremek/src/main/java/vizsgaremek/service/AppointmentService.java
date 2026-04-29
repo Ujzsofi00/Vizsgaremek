@@ -1,5 +1,6 @@
 package vizsgaremek.service;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vizsgaremek.dto.AppointmentDto;
+import vizsgaremek.email.EmailSender;
 import vizsgaremek.entity.Appointment;
 import vizsgaremek.entity.Users;
 import vizsgaremek.repository.AppointmentRepository;
@@ -28,6 +30,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
+    private final EmailSender emailSender;
 
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Object> getAppointmentByDate(String date) {
@@ -63,6 +66,10 @@ public class AppointmentService {
             appointmentList.add(searchedAppointment);
             searchedUser.setBookedAppointments(appointmentList);
             userRepository.save(searchedUser);
+
+            try {
+                emailSender.sendEmailAfterReservation(searchedUser.getEmail(), searchedAppointment, searchedUser.getFirstName() + " " + searchedUser.getLastName() + " " + searchedUser.getLastName());
+            } catch (MessagingException e) {}
 
             return ResponseEntity.ok().body(appointmentRepository.findById(appointmentId).get());
         } catch (Exception e) {
@@ -148,5 +155,26 @@ public class AppointmentService {
         }
 
         return ResponseEntity.ok().body(searchedUser.getBookedAppointments());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Object> cancelAppointment(Integer userId, Integer appointmentId) {
+        Users searchedUser = userRepository.findById(userId).orElse(null);
+        Appointment searchedAppointment = appointmentRepository.findById(appointmentId).orElse(null);
+        if (searchedUser == null || searchedUser.getIsDeleted()) {
+            return ResponseEntity.status(404).body("userNotFound");
+        } else if  (searchedAppointment == null || searchedAppointment.getIsDeleted()) {
+            return ResponseEntity.status(404).body("appointmentNotFound");
+        }
+
+        try {
+            emailSender.sendEmailAfterReservationCancelling(searchedUser.getEmail(), searchedAppointment, searchedUser.getFirstName() + " " + searchedUser.getLastName() + " " + searchedUser.getLastName());
+        } catch (MessagingException e) {}
+
+        appointmentRepository.cancelReservation(userId, appointmentId);
+        searchedAppointment.setCapacity(searchedAppointment.getCapacity() + 1);
+
+        appointmentRepository.save(searchedAppointment);
+        return ResponseEntity.ok().build();
     }
 }

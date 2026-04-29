@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1 style="text-align: center">Sikeres foglalás</h1>
+    <h4 style="text-align: center">
+        Tissztelt <span th:text="${name}"></span>
+    </h4>
+    <p style="text-align: center">
+        Örömmel értesítjük, hogy sikeresen lemondta helyét a
+        <span style="font-weight: bolder" th:text="${title}"></span> cimű,
+        <span th:text="${appointmentDate}"></span>
+        <span th:text="${start}"></span>-kor kezdődő előadásra.
+    </p>
+
+    <p style="text-align: center">
+        Amennyiben mégsem maga volt kérem forduljon az oldal adminsztrátoraihoz.
+    </p>
+    <p style="text-align: center">
+        Kellemes időtöltést kívánunk az oldalunkon!
+    </p>
+    <p style="text-align: center">Üdvözlettel: Universitas Studio.</p>
+</div>
+</body>
+</html>

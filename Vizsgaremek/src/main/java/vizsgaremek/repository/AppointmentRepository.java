@@ -21,5 +21,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Procedure(name = "deleteAppointment", procedureName = "deleteAppointment")
     void deleteAppointment(@Param("idIN") Integer id);
 
-    Object finbd();
+    @Procedure(name = "cancelReservation", procedureName = "cancelReservation")
+    void cancelReservation(@Param("userIdIN") Integer userId, @Param("appointmentIdIN") Integer appointmentId);
 }

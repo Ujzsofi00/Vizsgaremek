@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Gép: localhost:3306
--- Létrehozás ideje: 2026. Már 30. 14:54
--- Kiszolgáló verziója: 5.7.24
--- PHP verzió: 8.1.0
+-- Host: localhost:3306
+-- Generation Time: May 04, 2026 at 04:28 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,18 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `vizsgaremek`
+-- Database: `vizsgaremek`
 --
 
 DELIMITER $$
 --
--- Eljárások
+-- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation` (IN `userIdIN` INT, IN `appointmentIdIN` INT)   BEGIN 
+	DELETE FROM `userxappointment` WHERE userxappointment.user_id = userIdIN AND 
+    userxappointment.appointment_id = appointmentIdIN;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAppointment` (IN `idIN` INT(11))   BEGIN
 	UPDATE `appointment` SET `is_deleted`=1, `deleted_at`=CURRENT_DATE() WHERE `appointment`.`appointment_id` = idIN;
 END$$
@@ -157,7 +162,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `appointment`
+-- Table structure for table `appointment`
 --
 
 CREATE TABLE `appointment` (
@@ -175,7 +180,7 @@ CREATE TABLE `appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `appointment`
+-- Dumping data for table `appointment`
 --
 
 INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end_time`, `capacity`, `Is_full`, `is_online`, `worker_id`, `is_deleted`, `deleted_at`) VALUES
@@ -187,7 +192,7 @@ INSERT INTO `appointment` (`appointment_id`, `title`, `date`, `start_time`, `end
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `faculty`
+-- Table structure for table `faculty`
 --
 
 CREATE TABLE `faculty` (
@@ -199,7 +204,7 @@ CREATE TABLE `faculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `faculty`
+-- Dumping data for table `faculty`
 --
 
 INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `deleted_at`) VALUES
@@ -393,7 +398,7 @@ INSERT INTO `faculty` (`faculty_id`, `name`, `description`, `is_deleted`, `delet
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
@@ -402,7 +407,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -413,7 +418,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `university`
+-- Table structure for table `university`
 --
 
 CREATE TABLE `university` (
@@ -428,7 +433,7 @@ CREATE TABLE `university` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `university`
+-- Dumping data for table `university`
 --
 
 INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `google_maps_link`, `page_link`, `is_deleted`, `deleted_at`) VALUES
@@ -550,7 +555,7 @@ INSERT INTO `university` (`university_id`, `name`, `description`, `address`, `go
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `universityxfaculty`
+-- Table structure for table `universityxfaculty`
 --
 
 CREATE TABLE `universityxfaculty` (
@@ -560,7 +565,7 @@ CREATE TABLE `universityxfaculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `universityxfaculty`
+-- Dumping data for table `universityxfaculty`
 --
 
 INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `faculty_id`) VALUES
@@ -1590,7 +1595,7 @@ INSERT INTO `universityxfaculty` (`universityxfaculty_id`, `university_id`, `fac
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -1602,26 +1607,27 @@ CREATE TABLE `user` (
   `password` longtext NOT NULL,
   `role_id` int(11) NOT NULL DEFAULT '1',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `deleted_at` datetime DEFAULT NULL
+  `deleted_at` datetime DEFAULT NULL,
+  `v_code` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `user`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `username`, `email`, `password`, `role_id`, `is_deleted`, `deleted_at`) VALUES
-(4, 'Kis', 'József', 'Kisjozsef', 'kisjozsef@gmail.com', 'Jelszo', 2, 0, NULL),
-(5, 'Kovács', 'Bence', 'bkovacs', 'bence.kovacs@example.com', 'Passw0rd1', 1, 0, NULL),
-(6, 'Tóth', 'Anna', 'annat', 'anna.toth@example.com', 'Secure123!', 1, 0, NULL),
-(7, 'Szabó', 'Dávid', 'dszabo', 'david.szabo@example.com', 'Qwerty987', 1, 0, NULL),
-(8, 'Farkas', 'Eszter', 'efarkas', 'eszter.farkas@example.com', 'MyPass456', 1, 1, '2025-11-25 00:00:00'),
-(9, 'Nagy', 'Gábor', 'gnagy', 'gabor.nagy@example.com', 'TestUser!23', 1, 0, NULL),
-(10, 'Zsófia', 'Ujsághy', 'UjZsofi', 'ujsaghy.zsofia@gmail.com', '$2a$10$4/w4CzPtjYVl1K5HBAHmJuiLpeld6iQmQA98PF2F39vBvjgnuC2XC', 2, 0, NULL);
+INSERT INTO `user` (`user_id`, `last_name`, `first_name`, `username`, `email`, `password`, `role_id`, `is_deleted`, `deleted_at`, `v_code`) VALUES
+(4, 'Kis', 'József', 'Kisjozsef', 'kisjozsef@gmail.com', 'Jelszo', 2, 0, NULL, NULL),
+(5, 'Kovács', 'Bence', 'bkovacs', 'bence.kovacs@example.com', 'Passw0rd1', 1, 0, NULL, NULL),
+(6, 'Tóth', 'Anna', 'annat', 'anna.toth@example.com', 'Secure123!', 1, 0, NULL, NULL),
+(7, 'Szabó', 'Dávid', 'dszabo', 'david.szabo@example.com', 'Qwerty987', 1, 0, NULL, NULL),
+(8, 'Farkas', 'Eszter', 'efarkas', 'eszter.farkas@example.com', 'MyPass456', 1, 1, '2025-11-25 00:00:00', NULL),
+(9, 'Nagy', 'Gábor', 'gnagy', 'gabor.nagy@example.com', 'TestUser!23', 1, 0, NULL, NULL),
+(10, 'Zsófia', 'Ujsághy', 'UjZsofi', 'ujsaghy.zsofia@gmail.com', '$2a$10$4/w4CzPtjYVl1K5HBAHmJuiLpeld6iQmQA98PF2F39vBvjgnuC2XC', 2, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `userxappointment`
+-- Table structure for table `userxappointment`
 --
 
 CREATE TABLE `userxappointment` (
@@ -1631,7 +1637,7 @@ CREATE TABLE `userxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `userxappointment`
+-- Dumping data for table `userxappointment`
 --
 
 INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_id`) VALUES
@@ -1643,7 +1649,7 @@ INSERT INTO `userxappointment` (`userXappointment_id`, `user_id`, `appointment_i
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `workerxappointment`
+-- Table structure for table `workerxappointment`
 --
 
 CREATE TABLE `workerxappointment` (
@@ -1653,7 +1659,7 @@ CREATE TABLE `workerxappointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `workerxappointment`
+-- Dumping data for table `workerxappointment`
 --
 
 INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `worker_id`) VALUES
@@ -1663,11 +1669,11 @@ INSERT INTO `workerxappointment` (`workerXappointment_id`, `appointment_id`, `wo
 (4, 4, 5);
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `appointment`
+-- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointment_id`),
@@ -1675,7 +1681,7 @@ ALTER TABLE `appointment`
   ADD KEY `user` (`worker_id`);
 
 --
--- A tábla indexei `faculty`
+-- Indexes for table `faculty`
 --
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`faculty_id`),
@@ -1683,13 +1689,13 @@ ALTER TABLE `faculty`
   ADD UNIQUE KEY `name_2` (`name`);
 
 --
--- A tábla indexei `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `university`
+-- Indexes for table `university`
 --
 ALTER TABLE `university`
   ADD PRIMARY KEY (`university_id`),
@@ -1697,7 +1703,7 @@ ALTER TABLE `university`
   ADD UNIQUE KEY `google_maps_link` (`google_maps_link`);
 
 --
--- A tábla indexei `universityxfaculty`
+-- Indexes for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD PRIMARY KEY (`universityxfaculty_id`),
@@ -1705,7 +1711,7 @@ ALTER TABLE `universityxfaculty`
   ADD KEY `karId` (`faculty_id`);
 
 --
--- A tábla indexei `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
@@ -1714,7 +1720,7 @@ ALTER TABLE `user`
   ADD KEY `role_id` (`role_id`);
 
 --
--- A tábla indexei `userxappointment`
+-- Indexes for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD PRIMARY KEY (`userXappointment_id`),
@@ -1722,96 +1728,96 @@ ALTER TABLE `userxappointment`
   ADD KEY `UserId` (`user_id`);
 
 --
--- A tábla indexei `workerxappointment`
+-- Indexes for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD PRIMARY KEY (`workerXappointment_id`),
   ADD KEY `AppointmentId` (`appointment_id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `appointment`
+-- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
   MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT a táblához `faculty`
+-- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
   MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
--- AUTO_INCREMENT a táblához `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `university`
+-- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
   MODIFY `university_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
--- AUTO_INCREMENT a táblához `universityxfaculty`
+-- AUTO_INCREMENT for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   MODIFY `universityxfaculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
 
 --
--- AUTO_INCREMENT a táblához `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `userxappointment`
+-- AUTO_INCREMENT for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   MODIFY `userXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `workerxappointment`
+-- AUTO_INCREMENT for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   MODIFY `workerXappointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `appointment`
+-- Constraints for table `appointment`
 --
 ALTER TABLE `appointment`
   ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `universityxfaculty`
+-- Constraints for table `universityxfaculty`
 --
 ALTER TABLE `universityxfaculty`
   ADD CONSTRAINT `universityxfaculty_ibfk_1` FOREIGN KEY (`university_id`) REFERENCES `university` (`university_id`),
   ADD CONSTRAINT `universityxfaculty_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`faculty_id`);
 
 --
--- Megkötések a táblához `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 --
--- Megkötések a táblához `userxappointment`
+-- Constraints for table `userxappointment`
 --
 ALTER TABLE `userxappointment`
   ADD CONSTRAINT `userxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`),
   ADD CONSTRAINT `userxappointment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Megkötések a táblához `workerxappointment`
+-- Constraints for table `workerxappointment`
 --
 ALTER TABLE `workerxappointment`
   ADD CONSTRAINT `workerxappointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment` (`appointment_id`);
